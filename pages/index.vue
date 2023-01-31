@@ -2,6 +2,7 @@
     <NuxtLayout name="custom">
         <template #topLeft>
             <!-- TOP LEFT -->
+            <Search />
         </template>
         <template #topRight>
             <!-- TOP RIGHT -->
