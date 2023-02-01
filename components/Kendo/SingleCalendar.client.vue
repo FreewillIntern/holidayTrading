@@ -1,63 +1,21 @@
-<!-- <template>
-  <div id="vueapp" class="vue-app">
-    <div class="example-config">
-      <calendar :value="date">
-        <template v-slot:myTemplate="{ props }">
-          <customCell
-            :data-item="props.dataItem"
-            :is-weekend="props.isWeekend"
-            :is-focused="props.isFocused"
-            :is-selected="props.isSelected"
-            :value="props.value"
-            :formatted-value="props.formattedValue"
-            @click="changeHandler"
-          >
-          </customCell>
-        </template>
-      </calendar>
-    </div>
-  </div>
-</template>
-<script>
-import { Calendar } from "@progress/kendo-vue-dateinputs";
-import CellClient from "~~/components/Kendo/Cell.client.vue";
-
-export default {
-  components: {
-    calendar: Calendar,
-    customCell: CellClient,
-  },
-  props: {
-    date: {
-      type: Date,
-      default: "",
-    },
-    month: {
-      type: Number,
-      required: true,
-    },
-  },
-};
-</script> -->
-
 <template>
   <div class="calendar">
     <Calendar
       :cell="'CustomCell'"
-      :value="value"
-      :min="new Date(year, month, 1)"
-      :max="new Date(year, month, 28)"
-      @change="changeHandler"
+      :min="minDate"
+      :max="maxDate"
+      :default-active-view="'month'"
     >
       <template v-slot:CustomCell="{ props }">
         <custom
           :data-item="props.dataItem"
           :is-weekend="props.isWeekend"
           :is-focused="props.isFocused"
-          :is-selected="props.isSelected"
-          :value="props.value"
+          :is-selected="true"
+          :isHoliday="isHoliday(props.formattedValue)"
+          :month="month"
+          :mode="props.mode"
           :formatted-value="props.formattedValue"
-          @clickOnCell="changeHandler"
         />
       </template>
     </Calendar>
@@ -73,10 +31,10 @@ export default {
     custom: Cell,
   },
   props: {
-    // date: {
-    //   type: Date,
-    //   default: new Date(),
-    // },
+    date: {
+      type: Array,
+      default: [new Date(2023, 4, 12), new Date(2023, 2, 1)],
+    },
     month: {
       type: Number,
     },
@@ -84,19 +42,39 @@ export default {
       type: Number,
       default: new Date().getFullYear(),
     },
+    holidays: {
+      type: Array,
+      default: [],
+    },
   },
-  data: function () {
+  data() {
     return {
       value: null,
+      monthlyLeave: [],
     };
   },
-  methods: {
-    changeHandler: function (value) {
-      alert(value);
-      const dayOfWeek = value.getDay();
-      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-        this.value = value;
+  computed: {
+    minDate() {
+      return new Date(this.year, this.month, 1);
+    },
+    maxDate() {
+      return new Date(this.year, this.month + 1, 0);
+    },
+  },
+  mounted() {
+    for (const day of this.holidays) {
+      if (day.getMonth() === this.month) {
+        // console.log(typeof day.getDate());
+        this.monthlyLeave.push(day.getDate().toString());
       }
+    }
+  },
+  methods: {
+    isHoliday(date) {
+      // console.log(`isHoliday m.${this.month}---->${date}:${this.monthlyLeave}`);
+      // console.log(`Result: ${this.monthlyLeave.includes(date)}`);
+      // console.log(typeof this.monthlyLeave);
+      return this.monthlyLeave.includes(date);
     },
   },
 };

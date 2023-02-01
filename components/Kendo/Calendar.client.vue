@@ -1,11 +1,10 @@
 <template>
-  <div>
+  <div class="grid grid-cols-4 gap-10 overflow-auto">
     <calendar
-      class="grid grid-col-4 grid-flow-col gap-4"
       v-for="month in months"
+      :holidays="holidays"
       :key="month"
       :month="month"
-      :date="new Date()"
     />
   </div>
 </template>
@@ -20,7 +19,32 @@ export default {
   data() {
     return {
       months: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      holidays: [],
     };
+  },
+  mounted() {
+    // this.holidays = [
+    //   new Date(2023, 1, 4),
+    //   new Date(2023, 2, 1),
+    //   new Date(2023, 3, 15),
+    //   new Date(2023, 4, 12),
+    // ]; ใช้ได้
+    this.holidays = [
+      new Date(2023, 0, 1),
+      new Date(2023, 0, 2),
+      new Date(2023, 0, 3),
+      new Date(2023, 0, 4),
+      new Date(2023, 0, 5),
+      new Date(2023, 0, 6),
+      new Date(2023, 0, 7),
+      new Date(2023, 0, 8),
+      new Date(2023, 0, 9),
+      new Date(2023, 0, 10),
+      new Date(2023, 1, 1),
+      new Date(2023, 1, 4),
+      new Date(2023, 2, 15),
+      new Date(2023, 3, 12),
+    ];
   },
 };
 </script>
