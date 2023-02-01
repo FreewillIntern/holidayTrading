@@ -41,7 +41,7 @@ export default {
   directives: { maska: vMaska },
   data() {
     return {
-      years: ["2013", "2014", "2015", "2016", "2017","2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
+      years: [],
       markets: [],
       year: "",
       market: "",
@@ -52,6 +52,17 @@ export default {
     const apiMarkets = fetch(`https://10.22.26.103/beam/market`)
       .then((response) => response.json())
       .then((result) => this.markets = result);
+
+    const apiFirst = fetch(`https://10.22.26.103/beam/holiday?mkt=SET&year=2000`)
+      .then((response) => response.json())
+      .then((result) => this.store.holidays = result);
+
+    const setYear = new Date().getFullYear();
+    for (let i = 1; i < 14; i++) {
+      this.years.push(
+        (setYear - (11-i)).toString()
+      );
+    }
   },
   methods: {
     search() {
