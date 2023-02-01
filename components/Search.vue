@@ -21,9 +21,9 @@
           list="markets"
           v-model="market"
           v-maska
-          data-maska="H###"
-          data-maska-tokens="H:[a-zA-Z]"
-          class="ml-2 w-[180px] border-b-2 border-black bg-transparent outline-none uppercase"
+          data-maska="HHHHHHHHHHHHHHHHHHHH"
+          data-maska-tokens="H:[a-zA-Z0-9]"
+          class="ml-2 w-[240px] border-b-2 border-black bg-transparent outline-none uppercase"
         />
         <datalist id="markets">
           <option v-for="(m, i) in markets" :key="i" :value="m"></option>
@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       years: ["2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025"],
-      markets: ["A001", "A002", "A003", "B001", "B002", "B003"],
+      markets: ["AMEX", "ARCA", "ASX", "BATS", "BIST", "BM"],
       year: "",
       market: "",
       // year: new Date().getFullYear().toString(),
