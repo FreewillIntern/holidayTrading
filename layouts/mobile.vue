@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col justify-center items-center w-full h-screen">
+    <div class="flex flex-col justify-start items-center w-full h-screen">
         <!--HEADER START-->
         <div class="flex w-[90%] h-[10%]">
             <!--SEARCH START-->
