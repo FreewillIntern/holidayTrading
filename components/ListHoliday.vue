@@ -1,6 +1,6 @@
 <template>
     <ul class="shadow-[inset_0_0_10px_rgba(0,0,0,0.3)] bg-slate-50 rounded-lg flex flex-col items-center ">
-      <li v-for="item in items" class="grid grid-cols-4 grid-devide-4 w-[fit-content] bg-transparent p-4">
+      <li v-for="item in items" :key="item.date.toISOString()" class="grid grid-cols-4 grid-devide-4 w-[fit-content] bg-transparent p-4">
         <div class="text-ellipsis overflow-hidden">{{item.name}} </div>
         <div class="text-ellipsis overflow-hidden">{{item.date.getDate()+"-"+item.date.getMonth()+"-"+item.date.getFullYear()}} </div>
         <div class="text-ellipsis overflow-hidden">{{item.type}}</div>
@@ -36,7 +36,7 @@ ul {
   counter-reset: index;  
   padding: 0;
   max-width: 100%;
-  height: 59rem;
+  height: 53rem;
   overflow:hidden; 
   overflow-y:auto
 }
