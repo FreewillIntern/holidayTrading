@@ -1,5 +1,5 @@
 <template>
-    <NuxtLayout name="custom">
+    <NuxtLayout :name="window.width > 900 ? 'custom' : 'mobile'">
         <template #topLeft>
             <!-- TOP LEFT -->
             <Search />
@@ -13,9 +13,20 @@
         </template>
         <template #bodyRight>
             <!-- BODY RIGHT -->
-            <div  class="overflow-auto">
-                <ListHoliday />
-            </div>
+            <ListHoliday />
         </template>
     </NuxtLayout>
 </template>
+
+<script>
+import { useWindowSize } from '@vueuse/core'
+
+export default {
+    data(){
+        return {
+            window: useWindowSize()
+        }
+       
+    }
+}
+</script>
