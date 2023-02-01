@@ -1,12 +1,7 @@
 <template>
   <td
     @click="clickHandler"
-    :class="[
-      'k-calendar-td',
-      cellClass,
-      { cellHoliday: isHoliday },
-      { cellWeekend: isWeekend },
-    ]"
+    :class="['k-calendar-td', cellClass]"
     :style="styleCss"
   >
     <span class="k-link">
