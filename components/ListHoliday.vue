@@ -25,6 +25,10 @@ export default {
         {date: new Date() ,name: "SomeHoliday", type: "N" },
         {date: new Date() ,name: "SomeHoliday", type: "N" },
         {date: new Date() ,name: "SomeHoliday", type: "N" },
+        {date: new Date() ,name: "SomeHoliday", type: "N" },
+        {date: new Date() ,name: "SomeHoliday", type: "N" },
+        {date: new Date() ,name: "SomeHoliday", type: "N" },
+        {date: new Date() ,name: "SomeHoliday", type: "N" },
       ]
     }
   },
@@ -36,7 +40,7 @@ ul {
   counter-reset: index;  
   padding: 0;
   max-width: 100%;
-  height: 53rem;
+  height: 78vh;
   overflow:hidden; 
   overflow-y:auto
 }
