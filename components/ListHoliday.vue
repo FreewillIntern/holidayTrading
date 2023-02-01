@@ -1,36 +1,20 @@
 <template>
     <ul class="shadow-[inset_0_0_10px_rgba(0,0,0,0.3)] bg-slate-50 rounded-lg flex flex-col items-center ">
-      <li v-for="item in items" :key="item.date.toISOString()" class="grid grid-cols-4 gap-2 w-[fit-content] bg-transparent py-4">
-        <div class="text-ellipsis overflow-hidden">{{item.name}} </div>
-        <div class="text-ellipsis overflow-hidden">{{item.date.getDate()+"-"+item.date.getMonth()+"-"+item.date.getFullYear()}} </div>
-        <div class="text-ellipsis overflow-hidden">{{item.type}}</div>
+      <li v-for="item in store.holidays" :key="item" class="grid grid-cols-4 gap-2 w-[fit-content] bg-transparent py-4">
+        <div class="text-ellipsis overflow-hidden text-sm">HOLIDAY_NAME</div>
+        <div class="text-ellipsis overflow-hidden text-sm">{{ item.holidaydate }}</div>
+        <div class="text-ellipsis overflow-hidden text-sm">{{ item.cantrade }}</div>
       </li>
     </ul>
 </template>
 
 <script>
+import { useMainStore } from "~~/stores/data";
+
 export default {
-  data() {
-    return {
-      items: [
-        {date: new Date() ,name: "SomeHoliday", type: "N" },
-        {date: new Date() ,name: "SomeHoliday", type: "N" },
-        {date: new Date() ,name: "SomeHoliday", type: "N" },
-        {date: new Date() ,name: "SomeHoliday", type: "N" },
-        {date: new Date() ,name: "SomeHoliday", type: "N" },
-        {date: new Date() ,name: "SomeHoliday", type: "N" },
-        {date: new Date() ,name: "SomeHoliday", type: "N" },
-        {date: new Date() ,name: "SomeHoliday", type: "N" },
-        {date: new Date() ,name: "SomeHoliday", type: "N" },
-        {date: new Date() ,name: "SomeHoliday", type: "N" },
-        {date: new Date() ,name: "SomeHoliday", type: "N" },
-        {date: new Date() ,name: "SomeHoliday", type: "N" },
-        {date: new Date() ,name: "SomeHoliday", type: "N" },
-        {date: new Date() ,name: "SomeHoliday", type: "N" },
-        {date: new Date() ,name: "SomeHoliday", type: "N" },
-        {date: new Date() ,name: "SomeHoliday", type: "N" },
-      ]
-    }
+  setup() {
+    const store = useMainStore()
+    return { store };
   },
 }
 </script>
