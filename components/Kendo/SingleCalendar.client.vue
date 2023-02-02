@@ -2,9 +2,9 @@
   <div class="calendar">
     <Calendar
       :cell="'CustomCell'"
+      :default-active-view="'month'"
       :min="minDate"
       :max="maxDate"
-      :default-active-view="'month'"
     >
       <template v-slot:CustomCell="{ props }">
         <custom
@@ -36,16 +36,11 @@ export default {
       type: Number,
       default: new Date().getFullYear(),
     },
-    holidays: {
+    monthlyLeave: {
       type: Array,
+      required: true,
       default: [],
     },
-  },
-  data() {
-    return {
-      value: null,
-      monthlyLeave: [],
-    };
   },
   computed: {
     minDate() {
@@ -55,16 +50,15 @@ export default {
       return new Date(this.year, this.month + 1, 0);
     },
   },
-  mounted() {
-    for (const day of this.holidays) {
-      if (day.getMonth() === this.month) {
-        this.monthlyLeave.push(day.getDate().toString());
-      }
-    }
-  },
   methods: {
     isHoliday(date) {
-      return this.monthlyLeave.includes(date);
+      if (typeof date === typeof 1) {
+        return this.monthlyLeave.includes(Number(date));
+      } else if (typeof date === typeof "1") {
+        return this.monthlyLeave.includes(Number(date));
+      } else {
+        return false;
+      }
     },
   },
 };
