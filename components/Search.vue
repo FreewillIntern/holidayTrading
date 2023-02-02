@@ -22,7 +22,7 @@
       </div>
 
       <div class="flex">
-        <button @click="search" class="px-[15px] py-[2px] bg-[rgb(120,120,120)] hover:bg-[rgb(84,84,84)] rounded-3xl">
+        <button @click="search" class="px-[15px] py-[2px] bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)] hover:shadow-[0_0_15px_rgba(0,0,0,0.3)] rounded-3xl">
           Search
         </button>
       </div>
