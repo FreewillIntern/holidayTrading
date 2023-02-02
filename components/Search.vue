@@ -73,6 +73,9 @@ export default {
       const apiSearch = fetch(`https://10.22.26.103/beam/holiday?mkt=${this.market}&year=${this.year}`)
         .then((response) => response.json())
         .then((result) => this.store.holidays = result);
+
+      this.store.year = this.year;
+
       this.year = "";
       this.market = "";
     },
