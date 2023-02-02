@@ -46,7 +46,6 @@ export default {
       markets: [],
       year: "",
       market: "",
-      fetchApiBeam: null
     };
   },
   mounted() {
@@ -61,7 +60,7 @@ export default {
     const setYear = new Date().getFullYear();
     for (let i = 1; i < 14; i++) {
       this.years.push(
-        (setYear - (11-i)).toString()
+        (setYear - (11 - i)).toString()
       );
     };
 
@@ -69,22 +68,36 @@ export default {
   },
   methods: {
     search() {
-      if (this.year === "" || this.market === "") {
+      if (this.year != "" && this.market != "" && this.markets.find(mkt => mkt.mktcode === this.market) != undefined) {
+        const apiSearch = fetch(`https://10.22.26.103/beam/holiday?mkt=${this.market}&year=${this.year}`)
+          .then((response) => response.json())
+          .then((result) => this.store.holidays = result);
 
-      };
-      const apiSearch = fetch(`https://10.22.26.103/beam/holiday?mkt=${this.market}&year=${this.year}`)
-        .then((response) => response.json())
-        .then((result) => this.store.holidays = result);
+        this.store.year = this.year;
 
-      this.store.year = this.year;
-
-      this.year = "";
-      this.market = "";
+        this.year = "";
+        this.market = "";
+      }
+      else if (this.year == "" && this.market == "") {
+        alert("Please enter the year and market.");
+      }
+      else if (this.year == "") {
+        alert("Please enter the year.");
+      }
+      else if (this.market == "") {
+        alert("Please enter the market.");
+      }
+      // else if (this.years.includes(this.year) === false) {
+      //   alert("Sorry, the year you selected does not exist.");
+      // }
+      else if (this.markets.find(mkt => mkt.mktcode === this.market) === undefined) {
+        alert("Sorry, the market you selected does not exist.");
+      }
     },
   },
   computed: {
     getMktFullName() {
-      return this.markets.find(market => market.mktcode === this.market) || ""
+      return this.markets.find(mkt => mkt.mktcode === this.market) || ""
     }
   }
 };
