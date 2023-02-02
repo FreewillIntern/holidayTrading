@@ -9,7 +9,6 @@
     <template #bodyLeft>
       <!-- BODY LEFT -->
       <KendoCalendar />
-      <!-- <KendoCalendarNoCell /> -->
     </template>
     <template #bodyRight>
       <!-- BODY RIGHT -->
