@@ -63,7 +63,9 @@ export default {
       this.years.push(
         (setYear - (11-i)).toString()
       );
-    }
+    };
+
+    this.store.year = 2000;
   },
   methods: {
     search() {
