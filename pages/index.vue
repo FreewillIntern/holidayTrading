@@ -10,6 +10,7 @@
         </template>
         <template #bodyLeft>
             <!-- BODY LEFT -->
+            <KendoCalendar />
         </template>
         <template #bodyRight>
             <!-- BODY RIGHT -->
