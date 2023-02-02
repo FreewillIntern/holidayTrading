@@ -52,13 +52,7 @@ export default {
   },
   methods: {
     isHoliday(date) {
-      if (typeof date === typeof 1) {
-        return this.monthlyLeave.includes(Number(date));
-      } else if (typeof date === typeof "1") {
-        return this.monthlyLeave.includes(Number(date));
-      } else {
-        return false;
-      }
+      return this.monthlyLeave.includes(Number(date));
     },
   },
 };
