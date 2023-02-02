@@ -3,5 +3,8 @@ export default defineNuxtConfig({
     modules:[
         "@nuxtjs/tailwindcss",
         "@pinia/nuxt"
-    ]
+    ],
+    css: [
+        '@progress/kendo-theme-default/dist/all.css',
+    ],
 })

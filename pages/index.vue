@@ -13,7 +13,7 @@
         </template>
         <template #bodyRight>
             <!-- BODY RIGHT -->
-            <ListHoliday />
+            <GridBody />
         </template>
     </NuxtLayout>
 </template>
