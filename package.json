@@ -24,7 +24,7 @@
     "@progress/kendo-vue-dropdowns": "^3.8.2",
     "@progress/kendo-vue-grid": "^3.8.2",
     "@progress/kendo-vue-inputs": "^3.8.2",
-    "@progress/kendo-vue-intl": "^3.8.2"
+    "@progress/kendo-vue-intl": "^3.8.2",
     "@nuxtjs/moment": "^1.6.1",
     "@pinia/nuxt": "^0.4.6",
     "@vueuse/nuxt": "^9.12.0",
