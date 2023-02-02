@@ -1,14 +1,21 @@
 <template>
-    <grid
-        :style="{height: '280px'}"
-        :data-items="store.holidays"
-        :cell-render="'myTemplate'"
-        :columns="columns"
-        @custom="customHandler">
-        <template v-slot:myTemplate="{props, listeners}">
-            <td  :class="props.className"><b>{{ getNestedValue(props.field, props.dataItem) }}</b></td>
-        </template>
-    </grid>
+    <div class="h-full rounded-lg p-4" :style="{boxShadow: 'inset 0 0 10px rgba(0,0,0,0.3)'}">
+        <grid
+            :style="{overflow: 'auto',height: '100%',border: '0'}"
+            :data-items="store.holidays"
+            :cell-render="'myTemplate'"
+            :columns="columns"
+            @custom="customHandler">
+            <template v-slot:myTemplate="{props, listeners}">
+                <td 
+                    :style="{border: '0', padding: '0, 10'}" 
+                    :class="props.className">
+                    <b>{{ getNestedValue(props.field, props.dataItem) }}</b>
+                </td>
+            </template>
+        </grid>
+    </div>
+    
 </template>
 <script>
 import { Grid } from '@progress/kendo-vue-grid';
@@ -49,3 +56,9 @@ export default {
 };
 
 </script>
+
+<style>
+.k-cell-inner, .k-table-th, .k-header, .k-grid-header{
+    border: 0;
+}
+</style>

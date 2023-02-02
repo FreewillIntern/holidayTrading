@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[71vw] h-full bg-slate-50 shadow-[inset_0_0_10px_rgba(0,0,0,0.3)] rounded-lg overflow-auto">
+  <div class="w-full h-full bg-slate-50 shadow-[inset_0_0_10px_rgba(0,0,0,0.3)] rounded-lg overflow-auto">
     <div class="h-full w-full flex justify-evenly items-center">
       <div class="flex">
         <h1 class="min-w-fit">Year :</h1>
