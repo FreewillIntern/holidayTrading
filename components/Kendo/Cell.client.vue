@@ -1,5 +1,5 @@
 <template>
-  <td :class="['k-calendar-td', cellClass]" :style="styleCss">
+  <td :class="'k-calendar-td'" :style="styleCss" @click="handleClick">
     <span class="k-link">
       {{ formattedValue }}
     </span>
@@ -12,8 +12,12 @@ export default {
     formattedValue: { type: String, require: true },
     isWeekend: { type: Boolean, require: true },
     isHoliday: { type: Boolean, require: true },
+    value: { type: Date, require: true },
     isFocused: { type: Boolean, default: false, require: false },
     isSelected: { type: Boolean, default: false, require: false },
+  },
+  data() {
+    return { description: "" };
   },
   emits: {
     clickOnCell: null,
@@ -48,11 +52,14 @@ export default {
         color: "black",
       };
     },
-    cellClass() {
-      return {
-        "k-state-selected": this.$props.isSelected,
-        "k-state-focused": this.$props.isFocused,
+  },
+  methods: {
+    handleClick() {
+      const data = {
+        holidayadate: this.value,
+        description: this.description,
       };
+      this.$emit("clickCell", data);
     },
   },
 };

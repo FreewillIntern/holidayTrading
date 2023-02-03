@@ -15,6 +15,7 @@
       :month="month"
       :year="year"
       :key="month"
+      @clickRight="editCell"
     />
   </div>
 </template>
@@ -56,7 +57,7 @@ export default {
       }
     },
     holidays() {
-      if (this.store.yearOld === "") {
+      if (this.store.year === "") {
         return [];
       } else {
         const arrayOfHolidays = [];
@@ -90,6 +91,12 @@ export default {
         }
       }
       return obJectHolidays;
+    },
+  },
+  methods: {
+    editCell(data) {
+      data.cantrade = alert(JSON.stringify(data));
+      console.log("editCell(date)", data);
     },
   },
 };

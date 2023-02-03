@@ -15,6 +15,8 @@
         :isHoliday="isHoliday(props.formattedValue)"
         :is-focused="props.isFocused"
         :is-selected="true"
+        :value="props.value"
+        @clickCell="clickCell"
       />
     </template>
   </Calendar>
@@ -55,6 +57,9 @@ export default {
     isHoliday(date) {
       return this.monthlyLeave.includes(Number(date));
     },
+    clickCell(value) {
+      this.$emit("clickRight", value)
+    }
   },
 };
 </script>
