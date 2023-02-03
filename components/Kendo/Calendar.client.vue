@@ -1,6 +1,15 @@
 <template>
-  <div class="grid grid-cols-4 gap-10 overflow-auto w-full h-full bg-slate-50 shadow-[inset_0_0_10px_rgba(0,0,0,0.3)] rounded-lg">
+  <div
+    class="grid overflow-auto items-center w-full h-full bg-slate-50"
+    :class="{
+      'grid-cols-4': columns === 4,
+      'grid-cols-3': columns === 3,
+      'grid-cols-2': columns === 2,
+      'grid-cols-1': columns === 1,
+    }"
+  >
     <calendar
+      :class="'p-[3%]'"
       v-for="month in months"
       :monthlyLeave="monthlyLeave[month]"
       :month="month"
@@ -13,6 +22,7 @@
 <script>
 import singleCalendarClient from "~~/components/Kendo/SingleCalendar.client.vue";
 import { useMainStore } from "~~/stores/data";
+import { useWindowSize } from "@vueuse/core";
 
 export default {
   components: {
@@ -25,9 +35,19 @@ export default {
   data() {
     return {
       months: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      window: useWindowSize(),
     };
   },
   computed: {
+    columns() {
+      let widthWindow = this.window.width * 0.6;
+      let widthCalendar = 260;
+      let cols =
+        Math.floor(widthWindow / widthCalendar) < 1
+          ? 1
+          : Math.floor(widthWindow / widthCalendar);
+      return cols;
+    },
     year() {
       if (this.store.year === "") {
         return new Date().getFullYear();

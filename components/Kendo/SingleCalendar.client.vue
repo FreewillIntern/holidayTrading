@@ -1,22 +1,23 @@
 <template>
-  <div class="calendar">
-    <Calendar
-      :cell="'CustomCell'"
-      :default-active-view="'month'"
-      :min="minDate"
-      :max="maxDate"
-    >
-      <template v-slot:CustomCell="{ props }">
-        <custom
-          :formatted-value="props.formattedValue"
-          :is-weekend="props.isWeekend"
-          :isHoliday="isHoliday(props.formattedValue)"
-          :is-focused="props.isFocused"
-          :is-selected="true"
-        />
-      </template>
-    </Calendar>
-  </div>
+  <Calendar
+    :cell="'CustomCell'"
+    :header-title="'customHeaderTitle'"
+    :min="minDate"
+    :max="maxDate"
+  >
+    <template v-slot:customHeaderTitle="{ props }">
+      <p>{{ props.value }}</p>
+    </template>
+    <template v-slot:CustomCell="{ props }">
+      <customCell
+        :formatted-value="props.formattedValue"
+        :is-weekend="props.isWeekend"
+        :isHoliday="isHoliday(props.formattedValue)"
+        :is-focused="props.isFocused"
+        :is-selected="true"
+      />
+    </template>
+  </Calendar>
 </template>
 
 <script>
@@ -26,7 +27,7 @@ import Cell from "~~/components/Kendo/Cell.client.vue";
 export default {
   components: {
     Calendar,
-    custom: Cell,
+    customCell: Cell,
   },
   props: {
     month: {
@@ -57,3 +58,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.k-calendar-nav {
+  display: none !important;
+}
+</style>
