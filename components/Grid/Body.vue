@@ -1,14 +1,14 @@
 <template>
     <div class="h-full rounded-lg p-4" :style="{boxShadow: 'inset 0 0 10px rgba(0,0,0,0.3)'}">
         <grid
-            :style="{overflow: 'auto',height: '100%',border: '0'}"
-            :data-items="store.holidays"
+            :style="{overflow: 'auto',height: '100%',border: '0', backgroundColor: 'transparent'}"
+            :data-items="holidays"
             :cell-render="'myTemplate'"
             :columns="columns"
             @custom="customHandler">
             <template v-slot:myTemplate="{props, listeners}">
                 <td 
-                    :style="{border: '0', padding: '0, 10'}" 
+                    :style="{border: '0', padding: '0, 10', backgroundColor: 'transparent'}" 
                     :class="props.className">
                     <b>{{ getNestedValue(props.field, props.dataItem) }}</b>
                 </td>
@@ -23,7 +23,7 @@ import { useMainStore } from "~~/stores/data";
 
 export default {
     setup() {
-        const store = useMainStore()
+        const store = useMainStore();
         return { store };
     },
     components: {
@@ -52,13 +52,25 @@ export default {
 
             return data;
         }
+    },
+    computed:{
+        holidays(){
+            const days = this.store.holidays;
+            days.forEach(day => {
+                let splitDate = day.holidaydate.split("-")
+                day.holidaydate =  `${splitDate[2]}-${splitDate[1]}-${splitDate[0]}`
+            })
+            return days;
+        }
     }
 };
 
 </script>
 
 <style>
-.k-cell-inner, .k-table-th, .k-header, .k-grid-header{
+.k-grid-content, .k-virtual-content, .k-grid ,.k-table ,.k-grid-header,.k-grid
+{
     border: 0;
+    background-color: transparent !important;
 }
 </style>
