@@ -3,13 +3,13 @@
         <!--HEADER START-->
         <div class="flex w-[90%] h-[10%]">
             <!--SEARCH START-->
-            <div class="w-[70%] m-2 border">
+            <div class="w-[70%] m-2">
                 <slot name="topLeft"></slot>
             </div>
             <!--SEARCH END-->
 
             <!--TIME START-->
-            <div class="w-[30%] m-2 border">
+            <div class="w-[30%] m-2">
                 <slot name="topRight"></slot>
             </div>
             <!--TIME END-->
@@ -19,13 +19,13 @@
         <!--BODY START-->
         <div class="flex w-[90%] h-[80%]">
             <!--CALENDAR START-->
-            <div class="w-[70%] m-2 border">
+            <div class="w-[70%] m-2">
                 <slot name="bodyLeft"></slot>
             </div>
             <!--CALENDAR END-->
             
             <!--HOLIDAYS LIST START-->
-            <div class="w-[30%] m-2 border">
+            <div class="w-[30%] m-2">
                 <slot name="bodyRight"></slot>
             </div>
             <!--HOLIDAYS LIST END-->
