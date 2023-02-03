@@ -2,7 +2,7 @@
   <div
     class="grid overflow-auto items-center w-full h-full bg-slate-50"
     :class="{
-      'grid-cols-4': columns >= 4,
+      'grid-cols-4': columns === 4,
       'grid-cols-3': columns === 3,
       'grid-cols-2': columns === 2,
       'grid-cols-1': columns === 1,
@@ -40,9 +40,13 @@ export default {
   },
   computed: {
     columns() {
-      let width = this.window.width * 0.6;
+      let widthWindow = this.window.width * 0.6;
       let widthCalendar = 260;
-      return Math.floor(width / widthCalendar);
+      let cols =
+        Math.floor(widthWindow / widthCalendar) < 1
+          ? 1
+          : Math.floor(widthWindow / widthCalendar);
+      return cols;
     },
     year() {
       if (this.store.year === "") {
