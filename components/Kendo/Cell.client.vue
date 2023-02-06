@@ -9,6 +9,7 @@
       {{ formattedValue }}
     </span>
   </td>
+  
 </template>
 
 <script>
@@ -78,6 +79,7 @@ export default {
     },
     handleRightClick(event) {
       event.preventDefault();
+      const value = this.value;
       const data = {
         ObjectDate: {
           date: value.getDate(),
