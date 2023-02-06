@@ -33,7 +33,7 @@ export default {
         handleEdit(value,identify){
             // this.testData.find(data => data.id === identify).description = value;
             fetch("https://10.22.26.103/beam/holiday/editHolidayDes?id="+identify, {
-                method: "delete",
+                method: "put",
                 body:{
                     "description": value
                 }
