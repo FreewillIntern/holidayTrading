@@ -53,15 +53,6 @@ export default {
             this.testData = this.testData.filter(data => data.id !== identify)
         }
     },
-    // computed: {
-    //     formatDate(){
-    //         this.testData = this.testData.forEach(data => {
-    //             let splitDate = data.holidaydate.split("-")
-    //             data.holidaydate = `${splitDate[2]}-${splitDate[1]}-${splitDate[0]}`
-    //         })
-    //         return this.testData
-    //     }
-    // }
 }
 
 </script>
