@@ -58,11 +58,11 @@ export default {
     isHoliday(date) {
       return this.monthlyLeave.includes(Number(date));
     },
-    handleLeftClick(value) {
-      this.$emit("clickLeft", value);
+    handleLeftClick(data) {
+      this.$emit("clickLeft", data);
     },
-    handleRightClick(value) {
-      this.$emit("clickRight", value);
+    handleRightClick(data) {
+      this.$emit("clickRight", data);
     },
   },
 };
