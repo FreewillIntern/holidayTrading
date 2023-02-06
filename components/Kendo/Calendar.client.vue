@@ -2,7 +2,7 @@
   <div
     class="grid overflow-auto items-center w-full h-full bg-slate-50"
     :class="{
-      'grid-cols-4': columns === 4,
+      'grid-cols-4': columns >= 4,
       'grid-cols-3': columns === 3,
       'grid-cols-2': columns === 2,
       'grid-cols-1': columns === 1,
@@ -16,10 +16,14 @@
       :month="month"
       :year="year"
       :key="month"
-      @clickLeft="clickShowCell"
-      @clickRight="clickEditCell"
+      @click-left="clickShowCell"
+      @click-right="clickEditCell"
     />
-    <Dialog :dialogVisible="dialogVisible" :dataFromCell="dataFromCell" />
+    <Dialog
+      :dialogVisible="dialogVisible"
+      :dataFromCell="dataFromCell"
+      @state-dialog="updateDialogState"
+    ></Dialog>
     >
   </div>
 </template>
@@ -113,6 +117,9 @@ export default {
     },
     clickShowCell(data) {
       alert(JSON.stringify(data));
+    },
+    updateDialogState() {
+      this.dialogVisible = false;
     },
   },
 };

@@ -16,8 +16,8 @@
         :is-focused="props.isFocused"
         :is-selected="true"
         :value="props.value"
-        @clickLeftCell="handleLeftClick"
-        @clickRightCell="handleRightClick"
+        @click-left-cell="handleLeftClick"
+        @click-right-cell="handleRightClick"
       />
     </template>
   </Calendar>
@@ -59,12 +59,13 @@ export default {
       return this.monthlyLeave.includes(Number(date));
     },
     handleLeftClick(data) {
-      this.$emit("clickLeft", data);
+      this.$emit("click-left", data);
     },
     handleRightClick(data) {
-      this.$emit("clickRight", data);
+      this.$emit("click-right", data);
     },
   },
+  emits: ["click-left", "click-right"],
 };
 </script>
 

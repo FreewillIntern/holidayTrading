@@ -50,13 +50,13 @@ export default {
     dialogVisible: { type: Boolean },
     dataFromCell: { type: Object },
   },
+  emits: ["stateDialog"],
   data() {
     return { dialog: { visible: false, width: "140px" }, enteredDialog: {} };
   },
   computed: {
     addCell() {
       if (this.dialogVisible) {
-        console.log("add click!!!!");
         if (this.dataFromCell.eventType === "add") {
           return true;
         } else {
@@ -68,7 +68,6 @@ export default {
     },
     editCell() {
       if (this.dialogVisible) {
-        console.log("edit click!!!!");
         if (this.dataFromCell.eventType === "edit") {
           return true;
         } else {
@@ -82,7 +81,7 @@ export default {
   methods: {
     dialogClose() {
       this.enteredDialog = {};
-      this.dialogVisible = false;
+      this.$emit("stateDialog", false);
     },
     saveEditCell() {
       fetch("https://10.22.26.103/beam/holiday/editHoliday", {
@@ -94,7 +93,7 @@ export default {
         },
       });
       this.enteredDialog = {};
-      this.dialogVisible = false;
+      this.$emit("stateDialog", false);
     },
     saveAddCell() {
       fetch("https://10.22.26.103/beam/holiday/editHoliday", {
@@ -105,6 +104,7 @@ export default {
           cantrade: "",
         },
       });
+      this.$emit("stateDialog", false);
     },
   },
 };

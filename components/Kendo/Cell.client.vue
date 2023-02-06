@@ -9,7 +9,6 @@
       {{ formattedValue }}
     </span>
   </td>
-  
 </template>
 
 <script>
@@ -22,6 +21,7 @@ export default {
     isFocused: { type: Boolean, default: false, require: false },
     isSelected: { type: Boolean, default: false, require: false },
   },
+  emits: ["click-left-cell", "click-right-cell"],
   data() {
     return { description: "" };
   },
@@ -75,7 +75,7 @@ export default {
         isHoliday: this.isHoliday,
         description: this.description,
       };
-      this.$emit("clickLeftCell", data);
+      this.$emit("click-left-cell", data);
     },
     handleRightClick(event) {
       event.preventDefault();
@@ -94,7 +94,7 @@ export default {
       } else {
         data.eventType = "add";
       }
-      this.$emit("clickRightCell", data);
+      this.$emit("click-right-cell", data);
     },
   },
 };
