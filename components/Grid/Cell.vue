@@ -1,7 +1,7 @@
 <template>
     <td class="p-4" @click="editorable = !editorable">
-        <h1 v-if="!editorable">{{ value }}</h1>
-        <input class="border w-[100px]" v-else type="text" @click.stop :value="value" @keyup.enter="handleChange" ref="editValue">
+        <h1 v-if="!editorable">{{ description }}</h1>
+        <input class="border w-[100px]" v-else type="text" @click.stop :value="description" @keyup.enter="handleChange" ref="editValue">
     </td>
 </template>
 
@@ -9,12 +9,13 @@
 export default {
     data() {
         return {
+            description: this.value.description,
             editorable: false
         }
     },
     props:{
         value:{
-            type: String,
+            type: Object,
             require: true
         },
         identify:{
@@ -25,7 +26,7 @@ export default {
     emits:["onEdit"],
     methods: {
         handleChange(){
-            this.$emit("onEdit",  this.$refs.editValue.value, this.identify)
+            this.$emit("onEdit",  this.$refs.editValue.value, this.identify, this.value)
             this.editorable = false
         }
     },
