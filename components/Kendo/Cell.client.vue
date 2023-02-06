@@ -1,5 +1,10 @@
 <template>
-  <td :class="['k-calendar-td', cellClass]" :style="styleCss">
+  <td
+    :class="'k-calendar-td'"
+    :style="styleCss"
+    @click.left="handleLeftClick($event)"
+    @click.right="handleRightClick($event)"
+  >
     <span class="k-link">
       {{ formattedValue }}
     </span>
@@ -12,8 +17,12 @@ export default {
     formattedValue: { type: String, require: true },
     isWeekend: { type: Boolean, require: true },
     isHoliday: { type: Boolean, require: true },
+    value: { type: Date, require: true },
     isFocused: { type: Boolean, default: false, require: false },
     isSelected: { type: Boolean, default: false, require: false },
+  },
+  data() {
+    return { description: "" };
   },
   emits: {
     clickOnCell: null,
@@ -48,11 +57,31 @@ export default {
         color: "black",
       };
     },
-    cellClass() {
-      return {
-        "k-state-selected": this.$props.isSelected,
-        "k-state-focused": this.$props.isFocused,
+  },
+  methods: {
+    handleLeftClick(event) {
+      const data = {
+        holidayadate: this.value,
+        isWeekend: this.isWeekend,
+        isHoliday: this.isHoliday,
+        description: this.description,
       };
+      this.$emit("clickLeftCell", data);
+    },
+    handleRightClick(event) {
+      event.preventDefault();
+      const data = {
+        holidayadate: this.value,
+        isWeekend: this.isWeekend,
+        isHoliday: this.isHoliday,
+        description: this.description,
+      };
+      if (this.isHoliday) {
+        data.eventType = "edit";
+      } else {
+        data.eventType = "add";
+      }
+      this.$emit("clickRightCell", data);
     },
   },
 };
