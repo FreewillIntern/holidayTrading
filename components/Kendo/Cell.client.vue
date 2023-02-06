@@ -60,8 +60,16 @@ export default {
   },
   methods: {
     handleLeftClick(event) {
+      event.preventDefault();
+      const value = this.value;
       const data = {
-        holidayadate: this.value,
+        ObjectDate: {
+          day: value.getDay(),
+          date: value.getDate(),
+          month: value.getMonth(),
+          year: value.getFullYear(),
+        },
+        date: this.value,
         isWeekend: this.isWeekend,
         isHoliday: this.isHoliday,
         description: this.description,
@@ -71,9 +79,12 @@ export default {
     handleRightClick(event) {
       event.preventDefault();
       const data = {
-        holidayadate: this.value,
-        isWeekend: this.isWeekend,
-        isHoliday: this.isHoliday,
+        ObjectDate: {
+          date: value.getDate(),
+          month: value.getMonth(),
+          year: value.getFullYear(),
+        },
+        date: this.value,
         description: this.description,
       };
       if (this.isHoliday) {

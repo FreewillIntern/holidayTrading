@@ -192,7 +192,7 @@ export default {
       this.dialog.visible = true;
     },
     showDataCell(data) {
-      alert(data);
+      alert(JSON.stringify(data));
     },
   },
 };
