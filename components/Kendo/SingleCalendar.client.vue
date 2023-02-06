@@ -15,6 +15,9 @@
         :isHoliday="isHoliday(props.formattedValue)"
         :is-focused="props.isFocused"
         :is-selected="true"
+        :value="props.value"
+        @clickLeftCell="handleLeftClick"
+        @clickRightCell="handleRightClick"
       />
     </template>
   </Calendar>
@@ -54,6 +57,12 @@ export default {
   methods: {
     isHoliday(date) {
       return this.monthlyLeave.includes(Number(date));
+    },
+    handleLeftClick(value) {
+      this.$emit("clickLeft", value);
+    },
+    handleRightClick(value) {
+      this.$emit("clickRight", value);
     },
   },
 };
