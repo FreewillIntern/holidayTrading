@@ -1,5 +1,10 @@
 <template>
-  <td :class="'k-calendar-td'" :style="styleCss" @click="handleClick">
+  <td
+    :class="'k-calendar-td'"
+    :style="styleCss"
+    @click.left="handleLeftClick($event)"
+    @click.right="handleRightClick($event)"
+  >
     <span class="k-link">
       {{ formattedValue }}
     </span>
@@ -54,12 +59,29 @@ export default {
     },
   },
   methods: {
-    handleClick() {
+    handleLeftClick(event) {
       const data = {
         holidayadate: this.value,
+        isWeekend: this.isWeekend,
+        isHoliday: this.isHoliday,
         description: this.description,
       };
-      this.$emit("clickCell", data);
+      this.$emit("clickLeftCell", data);
+    },
+    handleRightClick(event) {
+      event.preventDefault();
+      const data = {
+        holidayadate: this.value,
+        isWeekend: this.isWeekend,
+        isHoliday: this.isHoliday,
+        description: this.description,
+      };
+      if (this.isHoliday) {
+        data.eventType = "edit";
+      } else {
+        data.eventType = "add";
+      }
+      this.$emit("clickRightCell", data);
     },
   },
 };

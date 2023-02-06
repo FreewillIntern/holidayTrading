@@ -15,6 +15,7 @@
       :month="month"
       :year="year"
       :key="month"
+      @clickLeft="showDataCell"
       @clickRight="editCell"
     />
   </div>
@@ -30,7 +31,8 @@ export default {
     calendar: singleCalendarClient,
   },
   setup() {
-    const store = useMainStore();
+    const store = ref(useMainStore());
+
     return { store };
   },
   data() {
@@ -95,8 +97,12 @@ export default {
   },
   methods: {
     editCell(data) {
-      data.cantrade = alert(JSON.stringify(data));
-      console.log("editCell(date)", data);
+      data.cell = "Edit";
+      alert(JSON.stringify(data));
+    },
+    showDataCell(data) {
+      data.cell = "show";
+      alert(JSON.stringify(data));
     },
   },
 };
