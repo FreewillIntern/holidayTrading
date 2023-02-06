@@ -8,7 +8,7 @@
         </template>
         <template #topRight>
             <!-- TOP RIGHT -->
-            <SmartClock></SmartClock>
+            <SmartClock /> 
         </template>
         <template #bodyLeft>
             <!-- BODY LEFT -->
@@ -16,7 +16,7 @@
         </template>
         <template #bodyRight>
             <!-- BODY RIGHT -->
-            <GridBody />
+            <GridMyCustom />
         </template>
     </NuxtLayout>
 </template>
