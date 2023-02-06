@@ -33,7 +33,7 @@ export default {
         handleEdit(description, identify, oldValue){
             // this.testData.find(data => data.id === identify).description = value;
             console.log(JSON.parse(`{
-                    "mktcode": "${oldValue.mktCode}",
+                    "mktcode": "${oldValue.mktcode}",
                     "holidaydate": "${oldValue.holidaydate}",
                     "description": "${description}",
                     "cantrade": "${oldValue.cantrade}"
@@ -41,7 +41,7 @@ export default {
             fetch("https://10.22.26.103/beam/holiday?id="+identify, {
                 method: "put",
                 body:JSON.parse(`{
-                    "mktCode": "${oldValue.mktCode}",
+                    "mktcode": "${oldValue.mktcode}",
                     "holidaydate": "${oldValue.holidaydate}",
                     "description": "${description}",
                     "cantrade": "${oldValue.cantrade}"
