@@ -31,7 +31,7 @@ export default {
     },
     methods: {
         handleEdit(value,identify){
-            this.testData.find(data => data.id === identify).description = value;
+            // this.testData.find(data => data.id === identify).description = value;
             fetch("https://10.22.26.103/beam/holiday/editHolidayDes?id="+identify, {
                 method: "delete",
                 body:{
@@ -40,7 +40,7 @@ export default {
             });
         },
         handleDelete(identify){
-            this.testData = this.testData.filter(data => data.id !== identify)
+            // this.testData = this.testData.filter(data => data.id !== identify)
             fetch("https://10.22.26.103/beam/holiday?id="+identify, {
                 method: "delete",
             });

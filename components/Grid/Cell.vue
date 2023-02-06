@@ -18,7 +18,7 @@ export default {
             require: true
         },
         identify:{
-            type: String,
+            type: Number,
             require: true
         }
     },
