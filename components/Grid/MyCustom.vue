@@ -27,15 +27,23 @@ import { useMainStore } from "~~/stores/data";
 export default {
     setup() {
         const store = useMainStore();
-        
         return { store };
     },
     methods: {
         handleEdit(value,identify){
             this.testData.find(data => data.id === identify).description = value;
+            fetch("https://10.22.26.103/beam/holiday/editHolidayDes?id="+identify, {
+                method: "delete",
+                body:{
+                    "description": value
+                }
+            });
         },
         handleDelete(identify){
             this.testData = this.testData.filter(data => data.id !== identify)
+            fetch("https://10.22.26.103/beam/holiday?id="+identify, {
+                method: "delete",
+            });
         }
     }
 }
