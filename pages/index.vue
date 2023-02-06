@@ -2,7 +2,9 @@
     <NuxtLayout :name="window.width > 900 ? 'custom' : 'mobile'">
         <template #topLeft>
             <!-- TOP LEFT -->
-            <Search />
+            <component :is="window.width > 550? resovePc : resoveMb" />
+            <!-- <SearchResponPc />
+            <SearchResponMb /> -->
         </template>
         <template #topRight>
             <!-- TOP RIGHT -->
@@ -25,7 +27,9 @@ import { useWindowSize } from '@vueuse/core'
 export default {
     data(){
         return {
-            window: useWindowSize()
+            window: useWindowSize(),
+            resovePc: resolveComponent("SearchResponPc"),
+            resoveMb: resolveComponent("SearchResponMb"),
         }
        
     }
