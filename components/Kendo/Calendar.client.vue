@@ -15,6 +15,8 @@
       :month="month"
       :year="year"
       :key="month"
+      @clickLeft="showDataCell"
+      @clickRight="editCell"
     />
   </div>
 </template>
@@ -29,7 +31,8 @@ export default {
     calendar: singleCalendarClient,
   },
   setup() {
-    const store = useMainStore();
+    const store = ref(useMainStore());
+
     return { store };
   },
   data() {
@@ -56,7 +59,7 @@ export default {
       }
     },
     holidays() {
-      if (this.store.yearOld === "") {
+      if (this.store.year === "") {
         return [];
       } else {
         const arrayOfHolidays = [];
@@ -90,6 +93,16 @@ export default {
         }
       }
       return obJectHolidays;
+    },
+  },
+  methods: {
+    editCell(data) {
+      data.cell = "Edit";
+      alert(JSON.stringify(data));
+    },
+    showDataCell(data) {
+      data.cell = "show";
+      alert(JSON.stringify(data));
     },
   },
 };
