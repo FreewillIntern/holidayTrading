@@ -26,9 +26,9 @@ export default {
         return { store };
     },
     methods: {
-        async handleEdit(description, identify, oldValue){ 
+        async handleEdit(description, identify, currentValue){ 
             // this.store.holidays.find(data => data.id === identify).description = description;
-            const bodyData =`{"mktcode": "${oldValue.mktcode}","holidaydate": "${oldValue.holidaydate}","description": "${description}","cantrade": "${oldValue.cantrade}"}`
+            const bodyData =`{"mktcode": "${currentValue.mktcode}","holidaydate": "${currentValue.holidaydate}","description": "${description}","cantrade": "${currentValue.cantrade}"}`
             await useFetch(() => "https://10.22.26.103/beam/holiday?id="+identify, {
                 method: 'PUT',
                 body: JSON.parse(bodyData)
