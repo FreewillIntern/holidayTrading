@@ -11,6 +11,9 @@ export const useMainStore = defineStore("main", {
     getDataInserted(state) {
       return state.holidays;
     },
+    getDataMarket(state) {
+      return state.markets;
+    },
   },
 
   actions: {
