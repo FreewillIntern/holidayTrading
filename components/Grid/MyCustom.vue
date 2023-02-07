@@ -38,15 +38,22 @@ export default {
                     "description": "${description}",
                     "cantrade": "${oldValue.cantrade}"
             }`));
-            fetch("https://10.22.26.103/beam/holiday?id="+identify, {
-                method: "put",
-                body:JSON.parse(`{
+            const a = {
                     "mktcode": "${oldValue.mktcode}",
                     "holidaydate": "${oldValue.holidaydate}",
                     "description": "${description}",
                     "cantrade": "${oldValue.cantrade}"
-                }`)
-            });
+            }
+            console.log(a);
+            // fetch("https://10.22.26.103/beam/holiday?id="+identify, {
+            //     method: "put",
+            //     body:JSON.parse(`{
+            //         "mktcode": ${oldValue.mktcode},
+            //         "holidaydate": ${oldValue.holidaydate},
+            //         "description": ${description},
+            //         "cantrade": ${oldValue.cantrade}
+            //     }`)
+            // });
         },
         handleDelete(identify){
             // this.testData = this.testData.filter(data => data.id !== identify)
