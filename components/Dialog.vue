@@ -1,16 +1,12 @@
 <template>
   <!-- Edit Cell -->
   <div class="edit-cell">
-    <el-dialog v-model="addCell" title="Edit cell" :before-close="dialogClose">
+    <el-dialog v-model="addCell" title="add cell" :before-close="dialogClose">
+      {{ dataFromCell }}
       <el-form :model="form">
         <el-form-item label="Description" :label-width="dialog.width">
           <el-input v-model="enteredDialog.type" autocomplete="off" />
         </el-form-item>
-        <!-- <el-form-item label="Type" :label-width="dialog.width">
-          <el-select v-model="form.region" placeholder="Please select a type">
-            <el-option label="Zone No.1" value="shanghai" />
-          </el-select>
-        </el-form-item> -->
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -23,16 +19,12 @@
 
   <!-- Edit Cell -->
   <div class="add-cell">
-    <el-dialog v-model="editCell" title="add cell" :before-close="dialogClose">
+    <el-dialog v-model="editCell" title="edit cell" :before-close="dialogClose">
+      {{ dataFromCell }}
       <el-form :model="form">
         <el-form-item label="Description" :label-width="dialog.width">
           <el-input v-model="enteredDialog.type" autocomplete="off" />
         </el-form-item>
-        <!-- <el-form-item label="Type" :label-width="dialog.width">
-          <el-select v-model="form.region" placeholder="Please select a type">
-            <el-option label="Zone No.1" value="shanghai" />
-          </el-select>
-        </el-form-item> -->
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -45,10 +37,15 @@
 </template>
 
 <script>
+// import { useMainStore } from "~~/stores/data";
 export default {
+  // setup() {
+  //   const store = useMainStore();
+  //   return { store };
+  // },
   props: {
-    dialogVisible: { type: Boolean },
-    dataFromCell: { type: Object },
+    dialogVisible: { type: Boolean, require: true },
+    dataFromCell: { type: Object, require: true },
   },
   emits: ["stateDialog"],
   data() {
@@ -81,7 +78,7 @@ export default {
   methods: {
     dialogClose() {
       this.enteredDialog = {};
-      this.$emit("stateDialog", false);
+      this.$emit("stateDialog");
     },
     saveEditCell() {
       fetch("https://10.22.26.103/beam/holiday/editHoliday", {
@@ -93,7 +90,7 @@ export default {
         },
       });
       this.enteredDialog = {};
-      this.$emit("stateDialog", false);
+      this.$emit("stateDialog");
     },
     saveAddCell() {
       fetch("https://10.22.26.103/beam/holiday/editHoliday", {
@@ -104,7 +101,7 @@ export default {
           cantrade: "",
         },
       });
-      this.$emit("stateDialog", false);
+      this.$emit("stateDialog");
     },
   },
 };

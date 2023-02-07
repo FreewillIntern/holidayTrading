@@ -17,7 +17,7 @@
       :year="year"
       :key="month"
       @click-left="clickShowCell"
-      @click-right="clickEditCell"
+      @click-right="clickEventCell"
     />
     <Dialog
       :dialogVisible="dialogVisible"
@@ -75,11 +75,13 @@ export default {
         10: [],
         11: [],
       };
-      const holidays = this.holidays;
-      if (holidays.length > 0) {
-        for (const day of holidays) {
-          const splitDate = day.split("-");
-          obJectHolidays[Number(splitDate[1]) - 1].push(Number(splitDate[2]));
+      if (this.store.getDataInserted.length > 0) {
+        for (const data of this.store.getDataInserted) {
+          const splitDate = data.holidaydate.split("-");
+          obJectHolidays[Number(splitDate[1]) - 1].push({
+            id: data.id,
+            date: Number(splitDate[2]),
+          });
         }
       }
       return obJectHolidays;
@@ -91,28 +93,14 @@ export default {
         return Number(this.store.year);
       }
     },
-    holidays() {
-      if (this.store.year === "") {
-        return [];
-      } else {
-        const arrayOfHolidays = [];
-        const days = this.store.holidays;
-        for (let i = 0; i < days.length; i++) {
-          arrayOfHolidays.push(days[i].holidaydate);
-        }
-        return arrayOfHolidays;
-      }
-    },
-    lebelType() {
-      return ["N", "H", "E"];
-    },
-    idDAte() {
-      return "";
+    marketCode() {
+      return this.store.holidays[0].mktcode;
     },
   },
   methods: {
-    clickEditCell(data) {
+    clickEventCell(data) {
       this.dataFromCell = data;
+      this.dataFromCell.mktcode = this.marketCode;
       this.dialogVisible = true;
     },
     clickShowCell(data) {
@@ -120,6 +108,7 @@ export default {
     },
     updateDialogState() {
       this.dialogVisible = false;
+      this.dataFromCell = {};
     },
   },
 };

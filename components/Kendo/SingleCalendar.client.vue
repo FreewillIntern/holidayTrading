@@ -10,11 +10,22 @@
     </template>
     <template v-slot:CustomCell="{ props }">
       <customCell
+        v-if="isHoliday(props.formattedValue)"
+        :id="id(props.formattedValue)"
         :formatted-value="props.formattedValue"
         :is-weekend="props.isWeekend"
         :isHoliday="isHoliday(props.formattedValue)"
         :is-focused="props.isFocused"
-        :is-selected="true"
+        :value="props.value"
+        @click-left-cell="handleLeftClick"
+        @click-right-cell="handleRightClick"
+      />
+      <customCell
+        v-else
+        :formatted-value="props.formattedValue"
+        :is-weekend="props.isWeekend"
+        :isHoliday="isHoliday(props.formattedValue)"
+        :is-focused="props.isFocused"
         :value="props.value"
         @click-left-cell="handleLeftClick"
         @click-right-cell="handleRightClick"
@@ -46,6 +57,9 @@ export default {
       default: [],
     },
   },
+  data() {
+    return { findHoliday: [] };
+  },
   computed: {
     minDate() {
       return new Date(this.year, this.month, 1);
@@ -53,10 +67,23 @@ export default {
     maxDate() {
       return new Date(this.year, this.month + 1, 0);
     },
+    returndate() {
+      let data = [
+        { id: 132, date: 21 },
+        { id: 133, date: 23 },
+      ];
+      let getdata = data.find((value) => value.date == "21");
+      return getdata, "---", typeof getdata;
+    },
   },
   methods: {
     isHoliday(date) {
-      return this.monthlyLeave.includes(Number(date));
+      return (
+        this.monthlyLeave.find((value) => value.date == date) !== undefined
+      );
+    },
+    id(date) {
+      return this.monthlyLeave.find((value) => value.date == date).id;
     },
     handleLeftClick(data) {
       this.$emit("click-left", data);

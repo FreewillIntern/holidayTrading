@@ -14,6 +14,7 @@
 <script>
 export default {
   props: {
+    id: { type: Number, require: false },
     formattedValue: { type: String, require: true },
     isWeekend: { type: Boolean, require: true },
     isHoliday: { type: Boolean, require: true },
@@ -62,34 +63,25 @@ export default {
   methods: {
     handleLeftClick(event) {
       event.preventDefault();
-      const value = this.value;
       const data = {
-        ObjectDate: {
-          day: value.getDay(),
-          date: value.getDate(),
-          month: value.getMonth(),
-          year: value.getFullYear(),
-        },
         date: this.value,
         isWeekend: this.isWeekend,
         isHoliday: this.isHoliday,
-        description: this.description,
       };
+      if (this.isHoliday) {
+        data.id = this.id;
+        data.description = this.description;
+      }
       this.$emit("click-left-cell", data);
     },
     handleRightClick(event) {
       event.preventDefault();
-      const value = this.value;
       const data = {
-        ObjectDate: {
-          date: value.getDate(),
-          month: value.getMonth(),
-          year: value.getFullYear(),
-        },
         date: this.value,
-        description: this.description,
       };
       if (this.isHoliday) {
+        data.id = this.id;
+        data.description = this.description;
         data.eventType = "edit";
       } else {
         data.eventType = "add";
