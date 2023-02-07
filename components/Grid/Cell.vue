@@ -1,7 +1,7 @@
 <template>
-    <td class="p-4" @click="editorable = !editorable">
+    <td class="p-4" @click="editorable = true">
         <h1 v-if="!editorable">{{ description }}</h1>
-        <input class="border w-[100px]" v-else type="text" @click.stop :value="description" @keyup.enter="handleChange" ref="editValue">
+        <input class="border-2 rounded-md border-gray-800 w-full" v-else type="text" @click.stop :value="description" @keyup.enter="handleChange" ref="editValue">
     </td>
 </template>
 
@@ -27,6 +27,7 @@ export default {
     methods: {
         handleChange(){
             this.$emit("onEdit",  this.$refs.editValue.value, this.identify, this.value)
+            this.description = this.$refs.editValue.value
             this.editorable = false
         }
     },
