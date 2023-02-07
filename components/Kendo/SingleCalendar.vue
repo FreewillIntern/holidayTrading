@@ -17,6 +17,7 @@
         :isHoliday="isHoliday(props.formattedValue)"
         :is-focused="props.isFocused"
         :value="props.value"
+        :description="description(props.formattedValue)"
         @click-left-cell="handleLeftClick"
         @click-right-cell="handleRightClick"
       />
@@ -69,11 +70,15 @@ export default {
     },
     returndate() {
       let data = [
-        { id: 132, date: 21 },
-        { id: 133, date: 23 },
+        { id: 132, date: 21, des: "hi 21" },
+        { id: 133, date: 23, des: "hi 23" },
       ];
-      let getdata = data.find((value) => value.date == "21");
-      return getdata, "---", typeof getdata;
+      let getdata = data.find((value) => {
+        if (value.date == "21") {
+          return 1;
+        }
+      });
+      return getdata;
     },
   },
   methods: {
@@ -84,6 +89,9 @@ export default {
     },
     id(date) {
       return this.monthlyLeave.find((value) => value.date == date).id;
+    },
+    description(date) {
+      return this.monthlyLeave.find((value) => value.date == date).description;
     },
     handleLeftClick(data) {
       this.$emit("click-left", data);

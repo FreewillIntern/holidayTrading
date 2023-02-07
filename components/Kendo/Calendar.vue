@@ -40,7 +40,6 @@ export default {
   },
   setup() {
     const store = ref(useMainStore());
-
     return { store };
   },
   data() {
@@ -82,6 +81,7 @@ export default {
           obJectHolidays[Number(splitDate[1]) - 1].push({
             id: data.id,
             date: Number(splitDate[2]),
+            description: data.description,
           });
         }
       }
@@ -105,7 +105,10 @@ export default {
       this.dialogVisible = true;
     },
     clickShowCell(data) {
-      alert(JSON.stringify(data));
+      alert(
+        `Date: ${data.date}
+      Description: ${data.description}`
+      );
     },
     updateDialogState() {
       this.dialogVisible = false;

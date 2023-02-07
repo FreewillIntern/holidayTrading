@@ -21,11 +21,12 @@ export default {
     value: { type: Date, require: true },
     isFocused: { type: Boolean, default: false, require: false },
     isSelected: { type: Boolean, default: false, require: false },
+    description: { type: String, require: false },
   },
   emits: ["click-left-cell", "click-right-cell"],
-  data() {
-    return { description: "" };
-  },
+  // data() {
+  //   return { description: "" };
+  // },
   emits: {
     clickOnCell: null,
   },

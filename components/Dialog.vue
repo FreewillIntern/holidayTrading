@@ -20,7 +20,7 @@
   <!-- Edit Cell -->
   <div class="edit-cell">
     <el-dialog v-model="editCell" title="edit cell" :before-close="dialogClose">
-      {{ dataFromCell.id }}
+      {{ dataFromCell }}
       <el-form :model="form">
         <el-form-item label="Description" :label-width="dialog.width">
           <el-input v-model="enteredDialog.description" autocomplete="off" />
@@ -37,12 +37,7 @@
 </template>
 
 <script>
-// import { useMainStore } from "~~/stores/data";
 export default {
-  // setup() {
-  //   const store = useMainStore();
-  //   return { store };
-  // },
   props: {
     dialogVisible: { type: Boolean, require: true },
     dataFromCell: { type: Object, require: true },
@@ -78,7 +73,6 @@ export default {
       let date = this.dataFromCell.date.getDate();
       let month = this.dataFromCell.date.getMonth() + 1;
       let year = this.dataFromCell.date.getFullYear();
-      // return `${("0" + date).slice(-2)}-${("0" + month).slice(-2)}-${year}`;
       return `${year}-${("0" + month).slice(-2)}-${("0" + date).slice(-2)}`;
     },
   },
@@ -89,17 +83,16 @@ export default {
     },
     async saveEditCell() {
       const bodyData = `{"mktcode": "${this.dataFromCell.mktcode}","holidaydate": "${this.formatDate}","description": "${this.enteredDialog.description}","cantrade": "N"}`;
-      console.log("bodyData", bodyData);
       await useFetch(() => "https://10.22.26.103/beam/holiday", {
         params: { id: this.dataFromCell.id },
-        method: "put",
+        method: "PUT",
         body: JSON.parse(bodyData),
       });
       this.enteredDialog = {};
       this.$emit("stateDialog");
     },
     saveAddCell() {
-      const bodyData = `{"mktcode": "${this.dataFromCell.mktcode}","holidaydate": "this.formatDate","description": "this.enteredDialog.description","cantrade": "N"}`;
+      const bodyData = `{"mktcode": "${this.dataFromCell.mktcode}","holidaydate": "${this.formatDate}","description": "${this.enteredDialog.description}","cantrade": "N"}`;
       fetch("https://10.22.26.103/beam/holiday", {
         methods: "POST",
         body: JSON.parse(bodyData),
