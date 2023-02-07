@@ -99,6 +99,7 @@ export default {
   methods: {
     clickEventCell(data) {
       this.dataFromCell = data;
+      this.dataFromCell.cantrade = this.store.getDataInserted[0].cantrade;
       this.dataFromCell.mktcode = this.marketCode;
       this.dialogVisible = true;
     },

@@ -24,7 +24,7 @@
         </el-form-item>
         <el-form-item label="Cantrade" :label-width="formLabelWidth">
           <el-select
-            v-model="enteredDialog.market"
+            v-model="enteredDialog.cantrade"
             placeholder="Please select a type"
           >
             <el-option
@@ -57,7 +57,7 @@
         </el-form-item>
         <el-form-item label="Cantrade" :label-width="formLabelWidth">
           <el-select
-            v-model="enteredDialog.market"
+            v-model="enteredDialog.cantrade"
             placeholder="Please select a type"
           >
             <el-option
@@ -141,7 +141,7 @@ export default {
       this.$emit("stateDialog");
     },
     async saveEditCell() {
-      const bodyData = `{"mktcode": "${this.dataFromCell.mktcode}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "N"}`;
+      const bodyData = `{"mktcode": "${this.dataFromCell.mktcode}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
       await useFetch(() => "https://10.22.26.103/beam/holiday", {
         params: { id: this.dataFromCell.id },
         method: "PUT",
@@ -151,20 +151,12 @@ export default {
       this.$emit("stateDialog");
     },
     async saveAddCell() {
-      const bodyData = `{"mktcode": "${this.dataFromCell.mktcode}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "N"}`;
+      const bodyData = `{"mktcode": "${this.dataFromCell.mktcode}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
       await useFetch(() => "https://10.22.26.103/beam/holiday", {
         method: "POST",
         body: JSON.parse(bodyData),
       });
       this.enteredDialog = {};
-      this.$emit("stateDialog");
-    },
-    oldadd() {
-      const bodyData = `{"mktcode": "${this.dataFromCell.mktcode}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "N"}`;
-      fetch("https://10.22.26.103/beam/holiday", {
-        methods: "POST",
-        body: JSON.parse(bodyData),
-      });
       this.$emit("stateDialog");
     },
   },
