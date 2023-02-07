@@ -24,9 +24,7 @@ export default {
     description: { type: String, require: false },
   },
   emits: ["click-left-cell", "click-right-cell"],
-  emits: {
-    clickOnCell: null,
-  },
+
   computed: {
     styleCss() {
       if (!this.isHoliday && !this.isWeekend) {

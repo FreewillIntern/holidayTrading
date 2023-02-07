@@ -1,34 +1,34 @@
 <template>
-  <!-- Add Cell -->
-  <div class="add-cell">
-    <el-dialog v-model="addCell" title="add cell" :before-close="dialogClose">
-      <el-form :model="form">
-        <el-form-item label="Description" :label-width="dialog.width">
-          <el-input
-            type="textarea"
-            v-model="enteredDialog.description"
-            autocomplete="off"
-          />
+  <div class="dialog-add">
+    <!-- Add Form -->
+    <el-dialog
+      v-model="addCell"
+      :before-close="closeDialog"
+      title="Add holiday date"
+    >
+      <el-form :model="enteredDialog">
+        <el-form-item label="Description">
+          <el-input v-model="enteredDialog.description" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="Market Type" :label-width="formLabelWidth">
+        <el-form-item label="Market type">
           <el-select
-            v-model="enteredDialog.market"
-            placeholder="Please select a type"
+            v-model="enteredDialog.marketType"
+            placeholder="Please select a type of market"
           >
             <el-option
-              v-for="value in marketType"
+              v-for="value in store.getDataMarket"
               :label="value.mktname"
               :value="value.mktcode"
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="Cantrade" :label-width="formLabelWidth">
+        <el-form-item label="Cantrade type">
           <el-select
             v-model="enteredDialog.cantrade"
-            placeholder="Please select a type"
+            placeholder="Please select a type of market"
           >
             <el-option
-              v-for="value in cantrade"
+              v-for="value in cantradeArray"
               :label="value"
               :value="value"
             />
@@ -37,31 +37,41 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button type="primary" @click="saveAddCell">Save</el-button>
-          <el-button @click="dialogClose">Cancel</el-button>
+          <el-button type="primary" @click="addHoliday"> Add </el-button>
+          <el-button @click="closeDialog"> Cancel </el-button>
         </span>
       </template>
     </el-dialog>
-  </div>
 
-  <!-- Edit Cell -->
-  <div class="edit-cell">
-    <el-dialog v-model="editCell" title="edit cell" :before-close="dialogClose">
-      <el-form :model="form">
-        <el-form-item label="Description" :label-width="dialog.width">
-          <el-input
-            type="textarea"
-            v-model="enteredDialog.description"
-            autocomplete="off"
-          />
+    <!-- Edit form -->
+    <el-dialog
+      v-model="editCell"
+      :before-close="closeDialog"
+      title="Edit holiday date"
+    >
+      <el-form :model="enteredDialog">
+        <el-form-item label="Description">
+          <el-input v-model="enteredDialog.description" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="Cantrade" :label-width="formLabelWidth">
+        <el-form-item label="Market type">
           <el-select
-            v-model="enteredDialog.cantrade"
-            placeholder="Please select a type"
+            v-model="enteredDialog.marketType"
+            placeholder="Please select a type of market"
           >
             <el-option
-              v-for="value in cantrade"
+              v-for="value in store.getDataMarket"
+              :label="value.mktname"
+              :value="value.mktcode"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Cantrade type">
+          <el-select
+            v-model="enteredDialog.cantrade"
+            placeholder="Please select a type of market"
+          >
+            <el-option
+              v-for="value in cantradeArray"
               :label="value"
               :value="value"
             />
@@ -70,8 +80,8 @@
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button type="primary" @click="saveEditCell">Edit</el-button>
-          <el-button @click="dialogClose">Cancel</el-button>
+          <el-button type="primary" @click="editHoliday"> Edit </el-button>
+          <el-button @click="closeDialog"> Cancel </el-button>
         </span>
       </template>
     </el-dialog>
@@ -91,13 +101,16 @@ export default {
   },
   emits: ["stateDialog"],
   data() {
-    return { dialog: { visible: false, width: "140px" }, enteredDialog: {} };
+    return {
+      enteredDialog: {
+        marketType: "",
+        description: "",
+        cantrade: "",
+      },
+    };
   },
   computed: {
-    marketType() {
-      return this.store.getDataMarket;
-    },
-    cantrade() {
+    cantradeArray() {
       return ["N", "T", "S"];
     },
     addCell() {
@@ -136,28 +149,28 @@ export default {
     },
   },
   methods: {
-    dialogClose() {
-      this.enteredDialog = {};
+    closeDialog() {
+      this.enteredDialog.description = "";
+      this.enteredDialog.marketType = "";
+      this.enteredDialog.cantrade = "";
       this.$emit("stateDialog");
     },
-    async saveEditCell() {
-      const bodyData = `{"mktcode": "${this.dataFromCell.mktcode}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
+    async editHoliday() {
+      const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
       await useFetch(() => "https://10.22.26.103/beam/holiday", {
         params: { id: this.dataFromCell.id },
         method: "PUT",
         body: JSON.parse(bodyData),
       });
-      this.enteredDialog = {};
-      this.$emit("stateDialog");
+      this.closeDialog();
     },
-    async saveAddCell() {
-      const bodyData = `{"mktcode": "${this.dataFromCell.mktcode}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
+    async addHoliday() {
+      const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
       await useFetch(() => "https://10.22.26.103/beam/holiday", {
         method: "POST",
         body: JSON.parse(bodyData),
       });
-      this.enteredDialog = {};
-      this.$emit("stateDialog");
+      this.closeDialog();
     },
   },
 };

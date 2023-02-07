@@ -8,7 +8,6 @@
       'grid-cols-1': columns == 1,
     }"
   >
-
     <!-- Calendar 12 month -->
     <calendar
       :class="'p-[3%]'"
@@ -19,7 +18,7 @@
       :key="month"
       @click-left="clickShowCell"
       @click-right="clickEventCell"
-    />
+    ></calendar>
     
     <!-- Dialog Event -->
     <Dialog
@@ -32,7 +31,7 @@
 </template>
 
 <script>
-import singleCalendarClient from "~~/components/Kendo/SingleCalendar.vue";
+import singleCalendarClient from "~~/components/Kendo/SingleCalendar.client.vue";
 import { useMainStore } from "~~/stores/data";
 import { useWindowSize } from "@vueuse/core";
 
