@@ -25,7 +25,6 @@
       :dataFromCell="dataFromCell"
       @state-dialog="updateDialogState"
     ></Dialog>
-    >
   </div>
 </template>
 

@@ -91,7 +91,16 @@ export default {
       this.enteredDialog = {};
       this.$emit("stateDialog");
     },
-    saveAddCell() {
+    async saveAddCell() {
+      const bodyData = `{"mktcode": "${this.dataFromCell.mktcode}","holidaydate": "${this.formatDate}","description": "${this.enteredDialog.description}","cantrade": "N"}`;
+      await useFetch(() => "https://10.22.26.103/beam/holiday", {
+        method: "POST",
+        body: JSON.parse(bodyData),
+      });
+      this.enteredDialog = {};
+      this.$emit("stateDialog");
+    },
+    oldadd() {
       const bodyData = `{"mktcode": "${this.dataFromCell.mktcode}","holidaydate": "${this.formatDate}","description": "${this.enteredDialog.description}","cantrade": "N"}`;
       fetch("https://10.22.26.103/beam/holiday", {
         methods: "POST",
