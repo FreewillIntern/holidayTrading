@@ -58,6 +58,7 @@ export default {
       default: [],
     },
   },
+  emits: ["click-left", "click-right"],
   data() {
     return { findHoliday: [] };
   },
@@ -100,7 +101,6 @@ export default {
       this.$emit("click-right", data);
     },
   },
-  emits: ["click-left", "click-right"],
 };
 </script>
 
