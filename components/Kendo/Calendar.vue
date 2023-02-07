@@ -8,6 +8,7 @@
       'grid-cols-1': columns == 1,
     }"
   >
+
     <!-- Calendar 12 month -->
     <calendar
       :class="'p-[3%]'"
@@ -19,11 +20,14 @@
       @click-left="clickShowCell"
       @click-right="clickEventCell"
     />
+    
+    <!-- Dialog Event -->
     <Dialog
       :dialogVisible="dialogVisible"
       :dataFromCell="dataFromCell"
       @state-dialog="updateDialogState"
     ></Dialog>
+
   </div>
 </template>
 
