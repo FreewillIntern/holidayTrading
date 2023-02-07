@@ -1,7 +1,7 @@
 <template>
     <div class="w-full h-full overflow-auto">
-        <table class="w-full h-[50px]">
-            <tr class="border">
+        <table class="w-full">
+            <tr class="border h-[50px]">
                 <th class="p-4 sticky">Holiday Date</th>
                 <th class="p-4 sticky">Type</th>
                 <th class="p-4 sticky">Description</th>
