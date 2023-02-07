@@ -14,7 +14,7 @@
 <script>
 export default {
   props: {
-    id: { type: Number, require: false },
+    idCell: { type: Number, require: false },
     formattedValue: { type: String, require: true },
     isWeekend: { type: Boolean, require: true },
     isHoliday: { type: Boolean, require: true },
@@ -69,7 +69,7 @@ export default {
         isHoliday: this.isHoliday,
       };
       if (this.isHoliday) {
-        data.id = this.id;
+        data.id = this.idCell;
         data.description = this.description;
       }
       this.$emit("click-left-cell", data);
@@ -80,7 +80,7 @@ export default {
         date: this.value,
       };
       if (this.isHoliday) {
-        data.id = this.id;
+        data.id = this.idCell;
         data.description = this.description;
         data.eventType = "edit";
       } else {

@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import singleCalendarClient from "~~/components/Kendo/SingleCalendar.client.vue";
+import singleCalendarClient from "~~/components/Kendo/SingleCalendar.vue";
 import { useMainStore } from "~~/stores/data";
 import { useWindowSize } from "@vueuse/core";
 

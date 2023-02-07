@@ -11,7 +11,7 @@
     <template v-slot:CustomCell="{ props }">
       <customCell
         v-if="isHoliday(props.formattedValue)"
-        :id="id(props.formattedValue)"
+        :idCell="id(props.formattedValue)"
         :formatted-value="props.formattedValue"
         :is-weekend="props.isWeekend"
         :isHoliday="isHoliday(props.formattedValue)"
@@ -36,7 +36,7 @@
 
 <script>
 import { Calendar } from "@progress/kendo-vue-dateinputs";
-import Cell from "~~/components/Kendo/Cell.client.vue";
+import Cell from "~~/components/Kendo/Cell.vue";
 
 export default {
   components: {
