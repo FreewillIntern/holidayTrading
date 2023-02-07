@@ -79,6 +79,10 @@
             .then((result) => this.store.holidays = result);
   
           this.store.year = this.year;
+
+          gtag("event", "search", {
+            search_term: "Year: " + this.year + ", Market Code: " + this.market
+          });
   
           this.year = "";
           this.market = "";
