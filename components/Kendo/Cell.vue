@@ -24,9 +24,6 @@ export default {
     description: { type: String, require: false },
   },
   emits: ["click-left-cell", "click-right-cell"],
-  // data() {
-  //   return { description: "" };
-  // },
   emits: {
     clickOnCell: null,
   },

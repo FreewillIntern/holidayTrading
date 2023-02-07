@@ -2,11 +2,10 @@
   <div
     class="grid overflow-auto items-center w-full h-full bg-slate-50"
     :class="{
-      'grid-cols-6': columns > 5,
-      'grid-cols-4': columns > 3 && columns < 6,
-      'grid-cols-3': columns === 3,
-      'grid-cols-2': columns === 2,
-      'grid-cols-1': columns === 1,
+      'grid-cols-4': columns >= 4,
+      'grid-cols-3': columns == 3,
+      'grid-cols-2': columns == 2,
+      'grid-cols-1': columns == 1,
     }"
   >
     <!-- Calendar 12 month -->
@@ -52,7 +51,7 @@ export default {
   computed: {
     columns() {
       let widthWindow = this.window.width * 0.6;
-      let widthCalendar = 260;
+      let widthCalendar = 300;
       let cols =
         Math.floor(widthWindow / widthCalendar) < 1
           ? 1
@@ -94,7 +93,7 @@ export default {
       }
     },
     marketCode() {
-      return this.store.holidays[0].mktcode;
+      return this.store.getDataInserted[0].mktcode;
     },
   },
   methods: {
