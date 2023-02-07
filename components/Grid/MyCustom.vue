@@ -30,22 +30,19 @@ export default {
         return { store };
     },
     methods: {
-        handleEdit(description, identify, oldValue){
+        async handleEdit(description, identify, oldValue){
             // this.testData.find(data => data.id === identify).description = value;
-            fetch("https://10.22.26.103/beam/holiday?id="+identify, {
-                method: "put",
-                body:JSON.parse(`{
-                    mktcode: ${oldValue.mktcode},
-                    holidaydate: ${oldValue.holidaydate},
-                    description: ${description},
-                    cantrade: ${oldValue.cantrade}
-                }`)
+            const bodyData =`{"mktcode": "${oldValue.mktcode}","holidaydate": "${oldValue.holidaydate}","description": "${description}","cantrade": "${oldValue.cantrade}"}`
+            await useFetch(() => "https://10.22.26.103/beam/holiday?id="+identify, {
+                method: 'PUT',
+                body: JSON.parse(bodyData)
+                
             });
         },
-        handleDelete(identify){
+        async handleDelete(identify){
             // this.testData = this.testData.filter(data => data.id !== identify)
-            fetch("https://10.22.26.103/beam/holiday?id="+identify, {
-                method: "delete",
+            await useFetch(() =>"https://10.22.26.103/beam/holiday?id="+identify, {
+                method: 'DELETE',
             });
         }
     }
