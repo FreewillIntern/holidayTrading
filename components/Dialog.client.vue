@@ -125,26 +125,11 @@ export default {
       return ["N", "T", "S"];
     },
     addCell() {
-      if (this.dialogVisible) {
-        if (this.dataFromCell.eventType === "add") {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return false;
-      }
+      return this.dialogVisible && this.dataFromCell.eventType === "add" 
+         
     },
     editCell() {
-      if (this.dialogVisible) {
-        if (this.dataFromCell.eventType === "edit") {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return false;
-      }
+      return this.dialogVisible && this.dataFromCell.eventType === "edit" 
     },
     formatYYMMDD() {
       let date = this.dataFromCell.date.getDate();

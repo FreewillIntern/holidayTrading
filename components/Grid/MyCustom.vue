@@ -1,6 +1,6 @@
 <template>
     <div class="w-full h-full overflow-auto">
-        <table class="w-full">
+        <table class="w-full" aria-describedby="holidayDate">
             <tr class="border h-[50px]">
                 <th class="p-4 sticky">Holiday Date</th>
                 <th class="p-4 sticky">Type</th>
@@ -27,7 +27,6 @@ export default {
     },
     methods: {
         async handleEdit(description, identify, currentValue){ 
-            // this.store.holidays.find(data => data.id === identify).description = description;
             const bodyData =`{"mktcode": "${currentValue.mktcode}","holidaydate": "${currentValue.holidaydate}","description": "${description}","cantrade": "${currentValue.cantrade}"}`
             await useFetch(() => "https://10.22.26.103/beam/holiday?id="+identify, {
                 method: 'PUT',
