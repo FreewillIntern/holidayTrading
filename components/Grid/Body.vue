@@ -7,13 +7,6 @@
         @itemchange="itemChange"
         :columns="columns"
         >
-        <!-- <grid-toolbar>
-            <div @click="closeEdit">
-                <kbutton title="Add new" :theme-color="'primary'" @click='addRecord' >
-                    Add new
-                </kbutton>
-            </div>
-        </grid-toolbar> -->
     </Grid>
 </template>
 <script>
