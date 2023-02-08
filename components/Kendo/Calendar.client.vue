@@ -1,6 +1,6 @@
 <template>
   <div
-    class="grid overflow-auto items-center w-full h-full bg-slate-50"
+    class="grid overflow-auto items-center w-full h-full"
     :class="{
       'grid-cols-4': columns >= 4,
       'grid-cols-3': columns == 3,
@@ -93,15 +93,14 @@ export default {
         return Number(this.store.year);
       }
     },
-    marketCode() {
-      return this.store.getDataInserted[0].mktcode;
-    },
   },
   methods: {
     clickEventCell(data) {
       this.dataFromCell = data;
-      this.dataFromCell.cantrade = this.store.getDataInserted[0].cantrade;
-      this.dataFromCell.mktcode = this.marketCode;
+      if (this.store.getDataInserted.length > 0) {
+        this.dataFromCell.cantrade = this.store.getDataInserted[0].cantrade;
+        this.dataFromCell.mktcode = this.store.getDataInserted[0].mktcode;
+      }
       this.dialogVisible = true;
     },
     clickShowCell(data) {

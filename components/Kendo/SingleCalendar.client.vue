@@ -16,7 +16,7 @@
         :is-weekend="props.isWeekend"
         :isHoliday="isHoliday(props.formattedValue)"
         :value="props.value"
-        :description="description(props.formattedValue)"
+        :description="desHoliday(props.formattedValue)"
         @click-left-cell="handleLeftClick"
         @click-right-cell="handleRightClick"
       ></customCell>
@@ -72,12 +72,12 @@ export default {
         return null;
       }
     },
-    description(date) {
+    desHoliday(date) {
       try {
         return this.monthlyLeave.find((value) => value.date == date)
           .description;
       } catch (error) {
-        return "";
+        return null;
       }
     },
     handleLeftClick(data) {

@@ -103,9 +103,9 @@ export default {
   data() {
     return {
       enteredDialog: {
-        marketType: "",
-        description: "",
-        cantrade: "",
+        marketType: null,
+        description: null,
+        cantrade: null,
       },
     };
   },
