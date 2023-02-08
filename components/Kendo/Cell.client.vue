@@ -104,3 +104,13 @@ export default {
   },
 };
 </script>
+
+<style>
+.k-calendar-td {
+  width: 0px !important;
+  height: 30px !important;
+  margin: 30px !important;
+  border-collapse: separate !important;
+  border-spacing: 15px !important;
+}
+</style>
