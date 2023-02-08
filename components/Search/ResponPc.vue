@@ -72,16 +72,14 @@ export default {
     };
   },
   mounted() {
-    const apiMarkets = fetch(`https://10.22.26.103/beam/market`)
+    fetch(`https://10.22.26.103/beam/market`)
       .then((response) => response.json())
       .then((result) => {
         this.markets = result;
         this.store.markets = result;
       });
 
-    const apiFirst = fetch(
-      `https://10.22.26.103/beam/holiday?mkt=SET&year=2000`
-    )
+    fetch(`https://10.22.26.103/beam/holiday?mkt=SET&year=2000`)
       .then((response) => response.json())
       .then((result) => (this.store.holidays = result));
 
@@ -99,7 +97,7 @@ export default {
         this.market != "" &&
         this.markets.find((mkt) => mkt.mktcode === this.market) != undefined
       ) {
-        const apiSearch = fetch(
+        fetch(
           `https://10.22.26.103/beam/holiday?mkt=${this.market}&year=${this.year}`
         )
           .then((response) => response.json())
