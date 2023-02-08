@@ -20,7 +20,7 @@
     ></calendar>
 
     <!-- Dialog Event -->
-    <Dialog
+    <Dialog v-if="dialogVisible"
       :dialogVisible="dialogVisible"
       :dataFromCell="dataFromCell"
       @state-dialog="updateDialogState"
