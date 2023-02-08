@@ -10,7 +10,6 @@
   >
     <!-- Calendar 12 month -->
     <calendar
-      :class="'p-[3%]'"
       v-for="month in months"
       :monthlyLeave="monthlyLeave[month]"
       :month="month"
@@ -19,14 +18,13 @@
       @click-left="clickShowCell"
       @click-right="clickEventCell"
     ></calendar>
-    
+
     <!-- Dialog Event -->
     <Dialog
       :dialogVisible="dialogVisible"
       :dataFromCell="dataFromCell"
       @state-dialog="updateDialogState"
     ></Dialog>
-
   </div>
 </template>
 
@@ -53,7 +51,7 @@ export default {
   },
   computed: {
     columns() {
-      let widthWindow = this.window.width * 0.6;
+      let widthWindow = this.window.width * 0.65;
       let widthCalendar = 300;
       let cols =
         Math.floor(widthWindow / widthCalendar) < 1
