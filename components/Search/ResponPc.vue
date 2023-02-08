@@ -63,7 +63,6 @@ export default {
   },
   directives: { maska: vMaska },
   data() {
-    F;
     return {
       window: useWindowSize(),
       years: [],
