@@ -14,27 +14,53 @@
 <script>
 export default {
   props: {
-    idCell: { type: Number, require: false },
-    formattedValue: { type: String, require: true },
-    isWeekend: { type: Boolean, require: true },
-    isHoliday: { type: Boolean, require: true },
-    value: { type: Date, require: true },
-    isFocused: { type: Boolean, default: false, require: false },
-    isSelected: { type: Boolean, default: false, require: false },
-    description: { type: String, require: false },
+    idHoliday: {
+      type: Number,
+      require: false,
+      defualt: null,
+    },
+    formattedValue: {
+      type: String,
+      require: true,
+    },
+    isWeekend: {
+      type: Boolean,
+      require: true,
+    },
+    isHoliday: {
+      type: Boolean,
+      require: true,
+    },
+    value: {
+      type: Date,
+      require: true,
+    },
+    description: {
+      type: String,
+      require: false,
+    },
   },
+
   emits: ["click-left-cell", "click-right-cell"],
 
   computed: {
     styleCss() {
-      if (!this.isHoliday && !this.isWeekend) {
-        return this.cellStyle;
+      // if (!this.isHoliday && !this.isWeekend) {
+      //   return this.cellStyle;
+      // } else {
+      //   if ((this.isHoliday && this.isWeekend) || this.isWeekend) {
+      //     return this.cellStyleWeekEnd;
+      //   } else {
+      //     return this.cellStyleHolidays;
+      //   }
+      // }
+
+      if (this.isHoliday) {
+        return this.cellStyleHolidays;
+      } else if (this.isWeekend) {
+        return this.cellStyleWeekEnd;
       } else {
-        if ((this.isHoliday && this.isWeekend) || this.isWeekend) {
-          return this.cellStyleWeekEnd;
-        } else {
-          return this.cellStyleHolidays;
-        }
+        return this.cellStyle;
       }
     },
     cellStyle() {
@@ -56,6 +82,7 @@ export default {
       };
     },
   },
+
   methods: {
     handleLeftClick(event) {
       event.preventDefault();
@@ -65,7 +92,7 @@ export default {
         isHoliday: this.isHoliday,
       };
       if (this.isHoliday) {
-        data.id = this.idCell;
+        data.id = this.idHoliday;
         data.description = this.description;
       }
       this.$emit("click-left-cell", data);
@@ -76,7 +103,7 @@ export default {
         date: this.value,
       };
       if (this.isHoliday) {
-        data.id = this.idCell;
+        data.id = this.idHoliday;
         data.description = this.description;
         data.eventType = "edit";
       } else {

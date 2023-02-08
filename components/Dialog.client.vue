@@ -10,7 +10,7 @@
         <el-form-item label="Description">
           <el-input v-model="enteredDialog.description" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="Market type">
+        <el-form-item label="Market type" :rules="[{ required: true }]">
           <el-select
             v-model="enteredDialog.marketType"
             placeholder="Please select a type of market"
@@ -22,7 +22,7 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="Cantrade type">
+        <el-form-item label="Cantrade type" :rules="[{ required: true }]">
           <el-select
             v-model="enteredDialog.cantrade"
             placeholder="Please select a type of market"
@@ -53,7 +53,7 @@
         <el-form-item label="Description">
           <el-input v-model="enteredDialog.description" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="Market type">
+        <el-form-item label="Market type" :rules="[{ required: true}]">
           <el-select
             v-model="enteredDialog.marketType"
             placeholder="Please select a type of market"
@@ -65,7 +65,7 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="Cantrade type">
+        <el-form-item label="Cantrade type" :rules="[{ required: true }]">
           <el-select
             v-model="enteredDialog.cantrade"
             placeholder="Please select a type of market"

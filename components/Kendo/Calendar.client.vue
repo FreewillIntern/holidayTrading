@@ -1,6 +1,6 @@
 <template>
   <div
-    class="grid overflow-auto items-center w-full h-full bg-slate-50"
+    class="grid overflow-auto items-center w-full h-full"
     :class="{
       'grid-cols-4': columns >= 4,
       'grid-cols-3': columns == 3,
@@ -10,7 +10,6 @@
   >
     <!-- Calendar 12 month -->
     <calendar
-      :class="'p-[3%]'"
       v-for="month in months"
       :monthlyLeave="monthlyLeave[month]"
       :month="month"
@@ -19,14 +18,13 @@
       @click-left="clickShowCell"
       @click-right="clickEventCell"
     ></calendar>
-    
+
     <!-- Dialog Event -->
     <Dialog
       :dialogVisible="dialogVisible"
       :dataFromCell="dataFromCell"
       @state-dialog="updateDialogState"
     ></Dialog>
-
   </div>
 </template>
 
@@ -53,7 +51,7 @@ export default {
   },
   computed: {
     columns() {
-      let widthWindow = this.window.width * 0.6;
+      let widthWindow = this.window.width * 0.65;
       let widthCalendar = 300;
       let cols =
         Math.floor(widthWindow / widthCalendar) < 1
@@ -95,15 +93,14 @@ export default {
         return Number(this.store.year);
       }
     },
-    marketCode() {
-      return this.store.getDataInserted[0].mktcode;
-    },
   },
   methods: {
     clickEventCell(data) {
       this.dataFromCell = data;
-      this.dataFromCell.cantrade = this.store.getDataInserted[0].cantrade;
-      this.dataFromCell.mktcode = this.marketCode;
+      if (this.store.getDataInserted.length > 0) {
+        this.dataFromCell.cantrade = this.store.getDataInserted[0].cantrade;
+        this.dataFromCell.mktcode = this.store.getDataInserted[0].mktcode;
+      }
       this.dialogVisible = true;
     },
     clickShowCell(data) {
