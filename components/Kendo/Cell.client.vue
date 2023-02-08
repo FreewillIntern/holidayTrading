@@ -14,19 +14,17 @@
 <script>
 export default {
   props: {
+    idCell: { type: Number, require: false },
     formattedValue: { type: String, require: true },
     isWeekend: { type: Boolean, require: true },
     isHoliday: { type: Boolean, require: true },
     value: { type: Date, require: true },
     isFocused: { type: Boolean, default: false, require: false },
     isSelected: { type: Boolean, default: false, require: false },
+    description: { type: String, require: false },
   },
-  data() {
-    return { description: "" };
-  },
-  emits: {
-    clickOnCell: null,
-  },
+  emits: ["click-left-cell", "click-right-cell"],
+
   computed: {
     styleCss() {
       if (!this.isHoliday && !this.isWeekend) {
@@ -60,28 +58,31 @@ export default {
   },
   methods: {
     handleLeftClick(event) {
+      event.preventDefault();
       const data = {
-        holidayadate: this.value,
+        date: this.value,
         isWeekend: this.isWeekend,
         isHoliday: this.isHoliday,
-        description: this.description,
       };
-      this.$emit("clickLeftCell", data);
+      if (this.isHoliday) {
+        data.id = this.idCell;
+        data.description = this.description;
+      }
+      this.$emit("click-left-cell", data);
     },
     handleRightClick(event) {
       event.preventDefault();
       const data = {
-        holidayadate: this.value,
-        isWeekend: this.isWeekend,
-        isHoliday: this.isHoliday,
-        description: this.description,
+        date: this.value,
       };
       if (this.isHoliday) {
+        data.id = this.idCell;
+        data.description = this.description;
         data.eventType = "edit";
       } else {
         data.eventType = "add";
       }
-      this.$emit("clickRightCell", data);
+      this.$emit("click-right-cell", data);
     },
   },
 };

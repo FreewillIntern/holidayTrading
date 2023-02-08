@@ -10,14 +10,26 @@
     </template>
     <template v-slot:CustomCell="{ props }">
       <customCell
+        v-if="isHoliday(props.formattedValue)"
+        :idCell="id(props.formattedValue)"
         :formatted-value="props.formattedValue"
         :is-weekend="props.isWeekend"
         :isHoliday="isHoliday(props.formattedValue)"
         :is-focused="props.isFocused"
-        :is-selected="true"
         :value="props.value"
-        @clickLeftCell="handleLeftClick"
-        @clickRightCell="handleRightClick"
+        :description="description(props.formattedValue)"
+        @click-left-cell="handleLeftClick"
+        @click-right-cell="handleRightClick"
+      />
+      <customCell
+        v-else
+        :formatted-value="props.formattedValue"
+        :is-weekend="props.isWeekend"
+        :isHoliday="isHoliday(props.formattedValue)"
+        :is-focused="props.isFocused"
+        :value="props.value"
+        @click-left-cell="handleLeftClick"
+        @click-right-cell="handleRightClick"
       />
     </template>
   </Calendar>
@@ -46,6 +58,10 @@ export default {
       default: [],
     },
   },
+  emits: ["click-left", "click-right"],
+  data() {
+    return { findHoliday: [] };
+  },
   computed: {
     minDate() {
       return new Date(this.year, this.month, 1);
@@ -53,16 +69,36 @@ export default {
     maxDate() {
       return new Date(this.year, this.month + 1, 0);
     },
+    returndate() {
+      let data = [
+        { id: 132, date: 21, des: "hi 21" },
+        { id: 133, date: 23, des: "hi 23" },
+      ];
+      let getdata = data.find((value) => {
+        if (value.date == "21") {
+          return 1;
+        }
+      });
+      return getdata;
+    },
   },
   methods: {
     isHoliday(date) {
-      return this.monthlyLeave.includes(Number(date));
+      return (
+        this.monthlyLeave.find((value) => value.date == date) !== undefined
+      );
     },
-    handleLeftClick(value) {
-      this.$emit("clickLeft", value);
+    id(date) {
+      return this.monthlyLeave.find((value) => value.date == date).id;
     },
-    handleRightClick(value) {
-      this.$emit("clickRight", value);
+    description(date) {
+      return this.monthlyLeave.find((value) => value.date == date).description;
+    },
+    handleLeftClick(data) {
+      this.$emit("click-left", data);
+    },
+    handleRightClick(data) {
+      this.$emit("click-right", data);
     },
   },
 };
