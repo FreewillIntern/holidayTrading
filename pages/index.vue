@@ -2,8 +2,7 @@
     <NuxtLayout :name="window.width > 900 ? 'custom' : 'mobile'">
         <template #topLeft>
             <!-- TOP LEFT -->
-            <SearchResponPc v-if="window.width > 550" />
-            <SearchResponMb v-else />
+            <Search />
         </template>
         <template #topRight>
             <!-- TOP RIGHT -->
