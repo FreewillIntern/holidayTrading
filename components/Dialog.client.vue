@@ -18,6 +18,7 @@
           >
             <el-option
               v-for="value in store.getDataMarket"
+              :key="value"
               :label="value.mktcode"
               :value="value.mktcode"
             />
@@ -30,6 +31,7 @@
           >
             <el-option
               v-for="value in cantradeArray"
+              :key="value"
               :label="value"
               :value="value"
             />
@@ -62,6 +64,7 @@
           >
             <el-option
               v-for="value in store.getDataMarket"
+              :key="value"
               :label="value.mktcode"
               :value="value.mktcode"
             />
@@ -74,6 +77,7 @@
           >
             <el-option
               v-for="value in cantradeArray"
+              :key="value"
               :label="value"
               :value="value"
             />
@@ -102,7 +106,7 @@ export default {
     dialogVisible: { type: Boolean, require: true },
     dataFromCell: { type: Object, require: true },
   },
-  
+
   emits: ["stateDialog"],
 
   data() {
