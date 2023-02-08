@@ -45,16 +45,6 @@ export default {
 
   computed: {
     styleCss() {
-      // if (!this.isHoliday && !this.isWeekend) {
-      //   return this.cellStyle;
-      // } else {
-      //   if ((this.isHoliday && this.isWeekend) || this.isWeekend) {
-      //     return this.cellStyleWeekEnd;
-      //   } else {
-      //     return this.cellStyleHolidays;
-      //   }
-      // }
-
       if (this.isHoliday) {
         return this.cellStyleHolidays;
       } else if (this.isWeekend) {
