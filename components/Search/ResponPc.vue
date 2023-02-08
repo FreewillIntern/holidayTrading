@@ -108,21 +108,41 @@
       getMktFullName() {
         return this.markets.find(mkt => mkt.mktcode === this.market) || ""
       }
+      else if (this.year == "" && this.market == "") {
+        alert("Please enter the year and market.");
+      }
+      else if (this.year == "") {
+        alert("Please enter the year.");
+      }
+      else if (this.market == "") {
+        alert("Please enter the market.");
+      }
+      // else if (this.years.includes(this.year) === false) {
+      //   alert("Sorry, the year you selected does not exist.");
+      // }
+      else if (this.markets.find(mkt => mkt.mktcode === this.market) === undefined) {
+        alert("Sorry, the market you selected does not exist.");
+      }
+    },
+  },
+  computed: {
+    getMktFullName() {
+      return this.markets.find(mkt => mkt.mktcode === this.market) || ""
     }
-  };
-  </script>
-  
-  <style>
-  @media only screen and (max-width: 1260px) {
-  
-    .inputYear {
-      width: 90px;
-    }
-  
-    .inputMarket {
-      width: 120px;
-    }
-  
   }
-  </style>
-  
+};
+</script>
+
+<style>
+@media only screen and (max-width: 1260px) {
+
+  .inputYear {
+    width: 90px;
+  }
+
+  .inputMarket {
+    width: 120px;
+  }
+
+}
+</style>
