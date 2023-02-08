@@ -6,23 +6,24 @@
       :before-close="closeDialog"
       title="Add holiday date"
     >
+      <p class="pb-5">Date: {{ formatDDMMYY }}</p>
       <el-form :model="enteredDialog">
         <el-form-item label="Description">
           <el-input v-model="enteredDialog.description" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="Market type" :rules="[{ required: true }]">
+        <el-form-item label="Market code" :rules="[{ required: true }]">
           <el-select
             v-model="enteredDialog.marketType"
             placeholder="Please select a type of market"
           >
             <el-option
               v-for="value in store.getDataMarket"
-              :label="value.mktname"
+              :label="value.mktcode"
               :value="value.mktcode"
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="Cantrade type" :rules="[{ required: true }]">
+        <el-form-item label="type" :rules="[{ required: true }]">
           <el-select
             v-model="enteredDialog.cantrade"
             placeholder="Please select a type of market"
@@ -49,23 +50,24 @@
       :before-close="closeDialog"
       title="Edit holiday date"
     >
+      <p class="pb-5">Date: {{ formatDDMMYY }}</p>
       <el-form :model="enteredDialog">
         <el-form-item label="Description">
           <el-input v-model="enteredDialog.description" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="Market type" :rules="[{ required: true}]">
+        <el-form-item label="Market code" :rules="[{ required: true }]">
           <el-select
             v-model="enteredDialog.marketType"
             placeholder="Please select a type of market"
           >
             <el-option
               v-for="value in store.getDataMarket"
-              :label="value.mktname"
+              :label="value.mktcode"
               :value="value.mktcode"
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="Cantrade type" :rules="[{ required: true }]">
+        <el-form-item label="type" :rules="[{ required: true }]">
           <el-select
             v-model="enteredDialog.cantrade"
             placeholder="Please select a type of market"
@@ -95,45 +97,35 @@ export default {
     const store = ref(useMainStore());
     return { store };
   },
+
   props: {
     dialogVisible: { type: Boolean, require: true },
     dataFromCell: { type: Object, require: true },
   },
+  
   emits: ["stateDialog"],
+
   data() {
     return {
+      date: this.dataFromCell.date,
       enteredDialog: {
-        marketType: "",
-        description: "",
-        cantrade: "",
+        marketType: this.dataFromCell.mktcode,
+        description: this.dataFromCell.description,
+        cantrade: this.dataFromCell.cantrade,
       },
     };
   },
+
   computed: {
     cantradeArray() {
       return ["N", "T", "S"];
     },
     addCell() {
-      if (this.dialogVisible) {
-        if (this.dataFromCell.eventType === "add") {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return false;
-      }
+      return this.dialogVisible && this.dataFromCell.eventType === "add" 
+         
     },
     editCell() {
-      if (this.dialogVisible) {
-        if (this.dataFromCell.eventType === "edit") {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return false;
-      }
+      return this.dialogVisible && this.dataFromCell.eventType === "edit" 
     },
     formatYYMMDD() {
       let date = this.dataFromCell.date.getDate();
@@ -148,11 +140,9 @@ export default {
       return `${("0" + date).slice(-2)}-${("0" + month).slice(-2)}-${year}`;
     },
   },
+
   methods: {
     closeDialog() {
-      this.enteredDialog.description = "";
-      this.enteredDialog.marketType = "";
-      this.enteredDialog.cantrade = "";
       this.$emit("stateDialog");
     },
     async editHoliday() {
