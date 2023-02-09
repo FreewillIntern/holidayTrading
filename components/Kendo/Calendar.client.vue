@@ -41,8 +41,9 @@ export default {
     EventDialog: DialogEventHoliday,
   },
   setup() {
-    const store = ref(useMainStore());
-    return { store };
+    const store = useMainStore();
+    const { updateHolidays } = useMainStore();
+    return { store, updateHolidays };
   },
   data() {
     return {
@@ -120,12 +121,7 @@ export default {
     updateEventDialogState() {
       this.eventDialogVisible = false;
       this.dataFromCell = {};
-      console.log("update store");
-
-      fetch(`https://10.22.26.103/beam/holiday?mkt=SET&year=2000`)
-        .then((response) => response.json())
-        .then((result) => (this.store.holidays = result));
-      window.location.reload();
+      this.updateHolidays();
     },
   },
 };

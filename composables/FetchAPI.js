@@ -24,15 +24,24 @@ export const delDate = async (id) => {
   });
 };
 
-export const getHolidays = (marketCode, year) => {
-  console.log(marketCode, "--", year.toString());
-  fetch(`https://10.22.26.103/beam/holiday?mkt=${marketCode}&year=${year.toString()}`)
-    .then((response) => response.json())
-    .then((result) => {
-      console.log("result:", result);
-      store.holidays = result;
-    });
+export const getHolidays = async (marketCode, year) => {
+  const { data: holidays } = await Promise.all([
+    useFetch(
+      `https://10.22.26.103/beam/holiday?mkt=${marketCode}&year=${year.toString()}`
+    ),
+  ]);
+  return holidays;
 };
+
+// export const getHolidays = (marketCode, year) => {
+//   console.log(marketCode, "--", year.toString());
+//   fetch(`https://10.22.26.103/beam/holiday?mkt=${marketCode}&year=${year.toString()}`)
+//     .then((response) => response.json())
+//     .then((result) => {
+//       console.log("result:", result);
+//       store.holidays = result;
+//     });
+// };
 
 export const getMarket = async () => {
   const res = await useFetch(() => {

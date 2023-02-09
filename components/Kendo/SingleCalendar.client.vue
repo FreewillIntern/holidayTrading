@@ -1,13 +1,13 @@
 <template>
   <Calendar
-    :class-name="'single-calendar'"
+    :class-name="'single-calendar rounded mb-5'"
     :cell="'CustomCell'"
     :header-title="'customHeaderTitle'"
     :min="minDate"
     :max="maxDate"
   >
     <template v-slot:customHeaderTitle="{ props }">
-      <p class="calendar-nav">{{ props.value }}</p>
+      <p class="ml-6 mt-2 pl-5 pr-5 pt-2 pb-2 bg-slate-800 text-white rounded">{{ props.value }}</p>
     </template>
     <template v-slot:CustomCell="{ props }">
       <customCell

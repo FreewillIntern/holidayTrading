@@ -99,8 +99,9 @@ import { useMainStore } from "~~/stores/data";
 import { addDate, editDate, getMarket } from "~~/composables/FetchAPI";
 export default {
   setup() {
-    const store = ref(useMainStore());
-    return { store };
+    const store = useMainStore();
+    const { updateHolidays } = useMainStore();
+    return { store, updateHolidays };
   },
 
   props: {
@@ -158,13 +159,13 @@ export default {
     async editHoliday() {
       const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
       editDate({ id: this.dataFromCell.id }, JSON.parse(bodyData));
-
+      this.updateHolidays();
       this.closeDialog();
     },
     async addHoliday() {
       const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
-      const res = addDate(JSON.parse(bodyData));
-      console.log("resAdd: ", res);
+      addDate(JSON.parse(bodyData));
+      this.updateHolidays();
       this.closeDialog();
     },
   },
