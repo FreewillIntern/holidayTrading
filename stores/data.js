@@ -4,6 +4,8 @@ export const useMainStore = defineStore("main", {
   state: () => ({
     holidays: [],
     markets: [],
+    marketCode: "",
+    marketName: "",
     year: "",
   }),
 
