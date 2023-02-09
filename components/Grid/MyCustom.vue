@@ -27,6 +27,9 @@ export default {
     },
     methods: {
         async handleEdit(description, identify, currentValue){ 
+            this.store.holidays.forEach(data =>{ if(data.id === identify){
+                data.description = description
+            }})
             const bodyData =`{"mktcode": "${currentValue.mktcode}","holidaydate": "${currentValue.holidaydate}","description": "${description}","cantrade": "${currentValue.cantrade}"}`
             await useFetch(() => "https://10.22.26.103/beam/holiday?id="+identify, {
                 method: 'PUT',
