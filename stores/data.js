@@ -17,8 +17,8 @@ export const useMainStore = defineStore("main", {
   },
 
   actions: {
-    reset() {
-      this.counter = 0;
+    updateHolidays(data) {
+      this.holidays = data;
     },
   },
 });

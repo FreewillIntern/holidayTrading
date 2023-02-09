@@ -26,21 +26,12 @@
       :dataFromCell="dataFromCell"
       @state-event-dialog="updateEventDialogState"
     ></EventDialog>
-
-    <!-- Dialog Show Date -->
-    <!-- <showDialog
-      v-if="showDialogVisible"
-      :dialogVisible="showDialogVisible"
-      :dataFromCell="dataFromCell"
-      @state-show-dialog="updateShowDialogState"
-    ></showDialog> -->
   </div>
 </template>
 
 <script>
 import singleCalendarClient from "~~/components/Kendo/SingleCalendar.client.vue";
 import DialogEventHoliday from "~~/components/Dialog/EventHoliday.vue";
-import DialogShowdate from "~~/components/Dialog/ShowDate.vue";
 import { useMainStore } from "~~/stores/data";
 import { useWindowSize } from "@vueuse/core";
 
@@ -48,7 +39,6 @@ export default {
   components: {
     calendar: singleCalendarClient,
     EventDialog: DialogEventHoliday,
-    showDialog: DialogShowdate,
   },
   setup() {
     const store = ref(useMainStore());
@@ -94,6 +84,7 @@ export default {
           obJectHolidays[Number(splitDate[1]) - 1].push({
             id: data.id,
             date: Number(splitDate[2]),
+            cantrade: data.cantrade,
             description: data.description,
           });
         }
@@ -118,9 +109,6 @@ export default {
       this.eventDialogVisible = true;
     },
     clickShowCell(data) {
-      // this.dataFromCell = data;
-      // this.showDialogVisible = true;
-      // console.log("Do show");
       alert(
         `Date: ${data.date}
       Description: ${data.description}`
@@ -128,10 +116,6 @@ export default {
     },
     updateEventDialogState() {
       this.eventDialogVisible = false;
-      this.dataFromCell = {};
-    },
-    updateShowDialogState() {
-      this.showDialogVisible = false;
       this.dataFromCell = {};
     },
   },

@@ -15,6 +15,7 @@
         :formatted-value="props.formattedValue"
         :is-weekend="props.isWeekend"
         :isHoliday="isHoliday(props.formattedValue)"
+        :cantrade="cantradeHoliday(props.formattedValue)"
         :value="props.value"
         :description="desHoliday(props.formattedValue)"
         @click-left-cell="handleLeftClick"
@@ -68,6 +69,13 @@ export default {
     idHoliday(date) {
       try {
         return this.monthlyLeave.find((value) => value.date == date).id;
+      } catch (error) {
+        return null;
+      }
+    },
+    cantradeHoliday(date) {
+      try {
+        return this.monthlyLeave.find((value) => value.date == date).cantrade;
       } catch (error) {
         return null;
       }
