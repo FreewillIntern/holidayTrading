@@ -1,15 +1,21 @@
 <template>
-    <div class="shadow-[inset_0_0_10px_rgba(0,0,0,0.3)] bg-slate-50 rounded-lg flex flex-col items-center h-[100%]">
-        <div class="flex justify-center items-center h-[100%]">
+    <div class="w-full h-full bg-[rgba(255,255,255,0.6)] shadow-[_3px_3px_15px_rgba(0,0,0,0.3)] rounded-3xl flex flex-col items-center">
+        <div class="flex flex-col justify-center items-center h-[100%]">
             <h1>{{ timeThree }} | {{ timeOne }}</h1>
+            <h1> {{ store.marketCode }} | {{ store.marketName }} </h1>
         </div>
     </div>
 </template> 
 
 <script>
 import moment from "moment"
+import { useMainStore } from "~~/stores/data";
 
 export default {
+    setup() {
+        const store = useMainStore();
+        return { store };
+    },
     data(){
         return {
             timeOne: moment().format('LTS'),
