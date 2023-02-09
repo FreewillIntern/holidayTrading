@@ -1,7 +1,7 @@
 <template>
-    <div class="fixed h-screen w-screen opacity-80 z-10 top-0 left-0">
-        <div class="fixed h-screen w-screen bg-white opacity-80 z-10 top-0 left-0"></div>
-        <dialog open class="absolute z-10 border-2 rounded-xl top-[43%] ">
+    <div class="fixed h-screen w-screen bg-transparent z-10 top-0 left-0">
+        <div class="absolute h-screen w-screen bg-white opacity-80 z-10 top-0 left-0"></div>
+        <dialog open class="fixed z-10 border-2 rounded-xl top-[43%] bg-white">
             <div class="flex justify-start flex-col p-0 m-0">
                <div>
                     <slot name="default"></slot>
