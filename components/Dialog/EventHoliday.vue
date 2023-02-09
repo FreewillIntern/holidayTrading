@@ -96,6 +96,7 @@
 
 <script>
 import { useMainStore } from "~~/stores/data";
+import { editDate, addDate } from "~~/composables/FetchAPI.js";
 export default {
   setup() {
     const store = ref(useMainStore());
@@ -156,19 +157,12 @@ export default {
     },
     async editHoliday() {
       const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
-      await useFetch(() => "https://10.22.26.103/beam/holiday", {
-        params: { id: this.dataFromCell.id },
-        method: "PUT",
-        body: JSON.parse(bodyData),
-      });
+      const res = editDate(this.dataFromCell.id, JSON.parse(bodyData));
       this.closeDialog();
     },
     async addHoliday() {
       const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
-      await useFetch(() => "https://10.22.26.103/beam/holiday", {
-        method: "POST",
-        body: JSON.parse(bodyData),
-      });
+      const res = addDate(JSON.parse(bodyData));
       this.closeDialog();
     },
   },
