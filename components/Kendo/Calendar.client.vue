@@ -8,7 +8,6 @@
       'grid-cols-1': columns == 1,
     }"
   >
-    <p>{{ store.holidays }}</p>
     <!-- Calendar 12 month -->
     <calendar
       v-for="month in months"
@@ -127,7 +126,6 @@ export default {
         .then((response) => response.json())
         .then((result) => (this.store.holidays = result));
       window.location.reload();
-
     },
   },
 };

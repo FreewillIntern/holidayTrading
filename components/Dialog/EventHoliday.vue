@@ -158,14 +158,13 @@ export default {
     async editHoliday() {
       const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
       editDate({ id: this.dataFromCell.id }, JSON.parse(bodyData));
-      // getMarket(this.dataFromCell.mktcode, this.date.getFullYear());
+
       this.closeDialog();
     },
     async addHoliday() {
       const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
-      addDate(JSON.parse(bodyData));
-      // getMarket(this.dataFromCell.mktcode, this.date.getFullYear());
-      console.log("addHoliday");
+      const res = addDate(JSON.parse(bodyData));
+      console.log("resAdd: ", res);
       this.closeDialog();
     },
   },
