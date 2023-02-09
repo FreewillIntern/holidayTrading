@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full h-full bg-[rgba(255,255,255,0.6)] shadow-[_3px_3px_15px_rgba(0,0,0,0.3)] rounded-3xl overflow-auto flex items-center">
+    class="w-full h-full bg-[rgba(32,32,32,0.95)] shadow-[_3px_3px_15px_rgba(0,0,0,0.8)] rounded-xl overflow-auto flex items-center text-white">
     <div class="w-full flex">
       <!-- Pc -->
       <div class="h-full w-full flex justify-evenly" v-show="window.width >= 550">
@@ -29,7 +29,7 @@
 
         <div class="flex">
           <button @click="search"
-            class="px-[15px] py-[2px] bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)] hover:shadow-[0_0_15px_rgba(0,0,0,0.3)] rounded-3xl">
+            class="px-[15px] py-[2px] bg-[rgba(255,255,255,0.3)] shadow-[0_0_10px_rgba(0,0,0,0.3)] hover:shadow-[0_0_15px_rgba(0,0,0,0.3)] rounded-3xl">
             Search
           </button>
         </div>
