@@ -7,7 +7,7 @@
     :max="maxDate"
   >
     <template v-slot:customHeaderTitle="{ props }">
-      <p>{{ props.value }}</p>
+      <p class="calendar-nav">{{ props.value }}</p>
     </template>
     <template v-slot:CustomCell="{ props }">
       <customCell
@@ -37,15 +37,15 @@ export default {
   props: {
     month: {
       type: Number,
+      required: true,
     },
     year: {
       type: Number,
-      default: new Date().getFullYear(),
+      required: true,
     },
     monthlyLeave: {
       type: Array,
       required: true,
-      default: [],
     },
   },
 
@@ -93,5 +93,12 @@ export default {
 <style>
 .k-calendar-nav {
   display: none !important;
+}
+.calendar-nav {
+  margin: 20px 0px -10px 30px;
+}
+.single-calendar {
+  width: 300px;
+  height: 300px;
 }
 </style>
