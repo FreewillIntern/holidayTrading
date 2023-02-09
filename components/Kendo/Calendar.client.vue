@@ -20,33 +20,38 @@
     ></calendar>
 
     <!-- Dialog Event -->
-    <Dialog v-if="dialogVisible"
-      :dialogVisible="dialogVisible"
+    <EventDialog
+      v-if="eventDialogVisible"
+      :dialogVisible="eventDialogVisible"
       :dataFromCell="dataFromCell"
-      @state-dialog="updateDialogState"
-    ></Dialog>
+      @state-event-dialog="updateEventDialogState"
+    ></EventDialog>
   </div>
 </template>
 
 <script>
 import singleCalendarClient from "~~/components/Kendo/SingleCalendar.client.vue";
+import DialogEventHoliday from "~~/components/Dialog/EventHoliday.vue";
 import { useMainStore } from "~~/stores/data";
 import { useWindowSize } from "@vueuse/core";
 
 export default {
   components: {
     calendar: singleCalendarClient,
+    EventDialog: DialogEventHoliday,
   },
   setup() {
-    const store = ref(useMainStore());
-    return { store };
+    const store = useMainStore();
+    const { updateHolidays } = useMainStore();
+    return { store, updateHolidays };
   },
   data() {
     return {
       months: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       window: useWindowSize(),
       dataFromCell: {},
-      dialogVisible: false,
+      eventDialogVisible: false,
+      showDialogVisible: false,
     };
   },
   computed: {
@@ -80,6 +85,7 @@ export default {
           obJectHolidays[Number(splitDate[1]) - 1].push({
             id: data.id,
             date: Number(splitDate[2]),
+            cantrade: data.cantrade,
             description: data.description,
           });
         }
@@ -100,8 +106,11 @@ export default {
       if (this.store.getDataInserted.length > 0) {
         this.dataFromCell.cantrade = this.store.getDataInserted[0].cantrade;
         this.dataFromCell.mktcode = this.store.getDataInserted[0].mktcode;
+      } else {
+        this.dataFromCell.cantrade = "N";
+        this.dataFromCell.mktcode = "SET";
       }
-      this.dialogVisible = true;
+      this.eventDialogVisible = true;
     },
     clickShowCell(data) {
       alert(
@@ -109,9 +118,10 @@ export default {
       Description: ${data.description}`
       );
     },
-    updateDialogState() {
-      this.dialogVisible = false;
+    updateEventDialogState() {
+      this.eventDialogVisible = false;
       this.dataFromCell = {};
+      this.updateHolidays();
     },
   },
 };

@@ -96,18 +96,26 @@
 
 <script>
 import { useMainStore } from "~~/stores/data";
+import { addDate, editDate, getMarket } from "~~/composables/FetchAPI";
 export default {
   setup() {
-    const store = ref(useMainStore());
-    return { store };
+    const store = useMainStore();
+    const { updateHolidays } = useMainStore();
+    return { store, updateHolidays };
   },
 
   props: {
-    dialogVisible: { type: Boolean, require: true },
-    dataFromCell: { type: Object, require: true },
+    dialogVisible: {
+      type: Boolean,
+      require: true,
+    },
+    dataFromCell: {
+      type: Object,
+      require: true,
+    },
   },
 
-  emits: ["stateDialog"],
+  emits: ["stateEventDialog"],
 
   data() {
     return {
@@ -125,11 +133,10 @@ export default {
       return ["N", "T", "S"];
     },
     addCell() {
-      return this.dialogVisible && this.dataFromCell.eventType === "add" 
-         
+      return this.dialogVisible && this.dataFromCell.eventType === "add";
     },
     editCell() {
-      return this.dialogVisible && this.dataFromCell.eventType === "edit" 
+      return this.dialogVisible && this.dataFromCell.eventType === "edit";
     },
     formatYYMMDD() {
       let date = this.dataFromCell.date.getDate();
@@ -147,23 +154,18 @@ export default {
 
   methods: {
     closeDialog() {
-      this.$emit("stateDialog");
+      this.$emit("stateEventDialog");
     },
     async editHoliday() {
       const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
-      await useFetch(() => "https://10.22.26.103/beam/holiday", {
-        params: { id: this.dataFromCell.id },
-        method: "PUT",
-        body: JSON.parse(bodyData),
-      });
+      editDate({ id: this.dataFromCell.id }, JSON.parse(bodyData));
+      this.updateHolidays();
       this.closeDialog();
     },
     async addHoliday() {
       const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
-      await useFetch(() => "https://10.22.26.103/beam/holiday", {
-        method: "POST",
-        body: JSON.parse(bodyData),
-      });
+      addDate(JSON.parse(bodyData));
+      this.updateHolidays();
       this.closeDialog();
     },
   },
