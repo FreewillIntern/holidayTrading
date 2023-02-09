@@ -103,11 +103,17 @@ export default {
   },
 
   props: {
-    dialogVisible: { type: Boolean, require: true },
-    dataFromCell: { type: Object, require: true },
+    dialogVisible: {
+      type: Boolean,
+      require: true,
+    },
+    dataFromCell: {
+      type: Object,
+      require: true,
+    },
   },
 
-  emits: ["stateDialog"],
+  emits: ["stateEventDialog"],
 
   data() {
     return {
@@ -125,11 +131,10 @@ export default {
       return ["N", "T", "S"];
     },
     addCell() {
-      return this.dialogVisible && this.dataFromCell.eventType === "add" 
-         
+      return this.dialogVisible && this.dataFromCell.eventType === "add";
     },
     editCell() {
-      return this.dialogVisible && this.dataFromCell.eventType === "edit" 
+      return this.dialogVisible && this.dataFromCell.eventType === "edit";
     },
     formatYYMMDD() {
       let date = this.dataFromCell.date.getDate();
@@ -147,7 +152,7 @@ export default {
 
   methods: {
     closeDialog() {
-      this.$emit("stateDialog");
+      this.$emit("stateEventDialog");
     },
     async editHoliday() {
       const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;

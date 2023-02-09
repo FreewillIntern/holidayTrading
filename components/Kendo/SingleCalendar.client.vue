@@ -98,7 +98,7 @@ export default {
   margin: 20px 0px -10px 30px;
 }
 .single-calendar {
-  width: 300px;
+  width: 280px;
   height: 300px;
 }
 </style>

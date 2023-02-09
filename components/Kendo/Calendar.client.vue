@@ -20,22 +20,35 @@
     ></calendar>
 
     <!-- Dialog Event -->
-    <Dialog v-if="dialogVisible"
-      :dialogVisible="dialogVisible"
+    <EventDialog
+      v-if="eventDialogVisible"
+      :dialogVisible="eventDialogVisible"
       :dataFromCell="dataFromCell"
-      @state-dialog="updateDialogState"
-    ></Dialog>
+      @state-event-dialog="updateEventDialogState"
+    ></EventDialog>
+
+    <!-- Dialog Show Date -->
+    <!-- <showDialog
+      v-if="showDialogVisible"
+      :dialogVisible="showDialogVisible"
+      :dataFromCell="dataFromCell"
+      @state-show-dialog="updateShowDialogState"
+    ></showDialog> -->
   </div>
 </template>
 
 <script>
 import singleCalendarClient from "~~/components/Kendo/SingleCalendar.client.vue";
+import DialogEventHoliday from "~~/components/Dialog/EventHoliday.vue";
+import DialogShowdate from "~~/components/Dialog/ShowDate.vue";
 import { useMainStore } from "~~/stores/data";
 import { useWindowSize } from "@vueuse/core";
 
 export default {
   components: {
     calendar: singleCalendarClient,
+    EventDialog: DialogEventHoliday,
+    showDialog: DialogShowdate,
   },
   setup() {
     const store = ref(useMainStore());
@@ -46,7 +59,8 @@ export default {
       months: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       window: useWindowSize(),
       dataFromCell: {},
-      dialogVisible: false,
+      eventDialogVisible: false,
+      showDialogVisible: false,
     };
   },
   computed: {
@@ -101,16 +115,23 @@ export default {
         this.dataFromCell.cantrade = this.store.getDataInserted[0].cantrade;
         this.dataFromCell.mktcode = this.store.getDataInserted[0].mktcode;
       }
-      this.dialogVisible = true;
+      this.eventDialogVisible = true;
     },
     clickShowCell(data) {
+      // this.dataFromCell = data;
+      // this.showDialogVisible = true;
+      // console.log("Do show");
       alert(
         `Date: ${data.date}
       Description: ${data.description}`
       );
     },
-    updateDialogState() {
-      this.dialogVisible = false;
+    updateEventDialogState() {
+      this.eventDialogVisible = false;
+      this.dataFromCell = {};
+    },
+    updateShowDialogState() {
+      this.showDialogVisible = false;
       this.dataFromCell = {};
     },
   },

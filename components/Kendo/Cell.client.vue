@@ -38,6 +38,7 @@ export default {
     description: {
       type: String,
       require: false,
+      defualt: null,
     },
   },
 
