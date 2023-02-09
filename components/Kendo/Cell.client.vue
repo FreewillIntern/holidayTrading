@@ -79,7 +79,7 @@ export default {
         style.backgroundColor = "rgb(255,0,0,0.5)";
       } else if (this.cantrade === "T") {
         style.backgroundColor = "green";
-      } else if (this.cantrade === "s") {
+      } else if (this.cantrade === "S") {
         style.backgroundColor = "blue";
       }
       return style;

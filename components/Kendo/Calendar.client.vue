@@ -8,6 +8,7 @@
       'grid-cols-1': columns == 1,
     }"
   >
+    <p>{{ store.holidays }}</p>
     <!-- Calendar 12 month -->
     <calendar
       v-for="month in months"
@@ -105,6 +106,9 @@ export default {
       if (this.store.getDataInserted.length > 0) {
         this.dataFromCell.cantrade = this.store.getDataInserted[0].cantrade;
         this.dataFromCell.mktcode = this.store.getDataInserted[0].mktcode;
+      } else {
+        this.dataFromCell.cantrade = "N";
+        this.dataFromCell.mktcode = "SET";
       }
       this.eventDialogVisible = true;
     },
@@ -117,6 +121,13 @@ export default {
     updateEventDialogState() {
       this.eventDialogVisible = false;
       this.dataFromCell = {};
+      console.log("update store");
+
+      fetch(`https://10.22.26.103/beam/holiday?mkt=SET&year=2000`)
+        .then((response) => response.json())
+        .then((result) => (this.store.holidays = result));
+      window.location.reload();
+
     },
   },
 };
