@@ -15,7 +15,7 @@
         <template #bodyRight>
             <!-- BODY RIGHT -->
             <GridMyCustom />
-        </template>
+        </template>    
     </NuxtLayout>
 </template>
 
