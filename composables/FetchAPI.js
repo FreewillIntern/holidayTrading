@@ -1,17 +1,23 @@
-export const editDate = async (params, body) => {
-  console.log("editDate composables: ", params, "---", body);
-  await useFetch(() => "https://10.22.26.103/beam/holiday", {
-    params: params,
-    method: "PUT",
-    body: body,
-  });
-};
-
 export const addDate = async (body) => {
   console.log(typeof body);
   await useFetch(() => "https://10.22.26.103/beam/holiday", {
     method: "POST",
     body: body,
+  });
+};
+
+export const editDate = async (params, body) => {
+  await useFetch(() => "https://10.22.26.103/beam/holiday", {
+    method: "PUT",
+    params: params,
+    body: body,
+  });
+};
+
+export const delDate = async (id) => {
+  await useFetch(() => "https://10.22.26.103/beam/holiday", {
+    params: id,
+    method: "DELETE",
   });
 };
 
