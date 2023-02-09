@@ -1,5 +1,5 @@
 <template>
-   <div class="flex flex-col justify-center items-center w-full h-screen">
+   <div class="flex flex-col justify-center items-center w-full h-screen bg-cover bg-[url('https://cdn.discordapp.com/attachments/1062212130885075066/1073107517514711060/wp7287248.png')]">
         <!--HEADER START-->
         <div class="flex w-[90%] h-[10%]">
             <!--SEARCH START-->
