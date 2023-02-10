@@ -1,5 +1,5 @@
 <template>
-  <div class="dialog-add">
+  <div class="dialog-add rounded">
     <!-- Add Form -->
     <el-dialog
       v-model="addCell"
@@ -96,7 +96,7 @@
 
 <script>
 import { useMainStore } from "~~/stores/data";
-import { addDate, editDate, getMarket } from "~~/composables/FetchAPI";
+import { addDate, editDate } from "~~/composables/FetchAPI";
 export default {
   setup() {
     const store = useMainStore();

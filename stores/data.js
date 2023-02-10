@@ -25,8 +25,8 @@ export const useMainStore = defineStore("main", {
       )
         .then((response) => response.json())
         .then((result) => {
-          this.holidays = result;
-          console.log("this.holidays.length: ", this.holidays.length);
+          console.log("result ", result.data.length);
+          this.holidays = result.data;
         });
     },
   },
