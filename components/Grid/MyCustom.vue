@@ -39,14 +39,14 @@ import {Delete} from '@element-plus/icons-vue'
 export default {
     data() {
         return {
-            url: "https://10.22.26.103/beam/holiday?id=",
+            url: useRuntimeConfig().public.apiBase,
             isVisible: false,
             Delete,
             currentId: 0
         }
     },
     setup() {
-        const store = useMainStore();
+        const store = ref(useMainStore());
         return { store };
     },
     methods: {
@@ -55,7 +55,7 @@ export default {
                 data.description = description
             }})
             const bodyData =`{"mktcode": "${currentValue.mktcode}","holidaydate": "${currentValue.holidaydate}","description": "${description}","cantrade": "${currentValue.cantrade}"}`
-            await useFetch(() => this.url+identify, {
+            await useFetch(() => this.url + "holiday/edit" + identify, {
                 method: 'PUT',
                 body: JSON.parse(bodyData)
             });
@@ -63,7 +63,7 @@ export default {
         async handleDelete(){
             this.isVisible = false
             this.store.holidays = this.store.holidays.filter(data => data.id !== this.currentId)
-            await useFetch(() =>this.url+this.currentId, {
+            await useFetch(() =>this.url + "holiday/delete" + this.currentId, {
                 method: 'DELETE',
             });
         },
