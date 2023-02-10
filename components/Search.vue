@@ -94,16 +94,16 @@ export default {
     fetch(`https://10.22.26.103/beam/market`)
       .then((response) => response.json())
       .then((result) => {
-        this.markets = result;
-        this.store.marketCode = result[0].mktcode;
-        this.store.marketName = result[0].mktname;
-        this.store.markets = result;
+        this.markets = result.data;
+        this.store.marketCode = result.data[0].mktcode;
+        this.store.marketName = result.data[0].mktname;
+        this.store.markets = result.data;
         fetch(
           `https://10.22.26.103/beam/holiday?mkt=${this.markets[0].mktcode
           }&year=${new Date().getFullYear().toString()}`
         )
           .then((response) => response.json())
-          .then((result) => (this.store.holidays = result));
+          .then((result) => (this.store.holidays = result.data));
       });
 
     const setYear = new Date().getFullYear();
@@ -124,7 +124,7 @@ export default {
           `https://10.22.26.103/beam/holiday?mkt=${this.market}&year=${this.year}`
         )
           .then((response) => response.json())
-          .then((result) => (this.store.holidays = result));
+          .then((result) => (this.store.holidays = result.data));
 
         this.store.year = this.year;
         this.store.marketCode = this.markets.find((mkt) => mkt.mktcode === this.market).mktcode;
