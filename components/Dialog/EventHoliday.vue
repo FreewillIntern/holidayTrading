@@ -158,14 +158,47 @@ export default {
     },
     async editHoliday() {
       const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
-      editDate({ id: this.dataFromCell.id }, JSON.parse(bodyData));
-      this.updateHolidays();
+
+      await useFetch(() => "https://10.22.26.103/beam/holiday/edit", {
+        method: "POST",
+        params: { id: this.dataFromCell.id },
+        body: JSON.parse(bodyData),
+      });
+
+      let url = `https://10.22.26.103/beam/holiday?mkt=${
+        this.dataFromCell.mktcode
+      }&year=${this.date.getFullYear()}`;
+
+      await fetch(url)
+        .then((response) => response.json())
+        .then((result) => (this.store.holidays = result.data))
+        .catch((error) => {
+          console.log(error);
+          this.store.holidays = [];
+        });
+
       this.closeDialog();
     },
     async addHoliday() {
       const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
-      addDate(JSON.parse(bodyData));
-      this.updateHolidays();
+
+      await useFetch(() => "https://10.22.26.103/beam/holiday/insert", {
+        method: "POST",
+        body: JSON.parse(bodyData),
+      });
+
+      let url = `https://10.22.26.103/beam/holiday?mkt=${
+        this.dataFromCell.mktcode
+      }&year=${this.date.getFullYear()}`;
+
+      await fetch(url)
+        .then((response) => response.json())
+        .then((result) => (this.store.holidays = result.data))
+        .catch((error) => {
+          console.log(error);
+          this.store.holidays = [];
+        });
+
       this.closeDialog();
     },
   },
