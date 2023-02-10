@@ -31,6 +31,11 @@ export default {
       type: Boolean,
       require: true,
     },
+    cantrade: {
+      type: String,
+      require: false,
+      defualt: null,
+    },
     value: {
       type: Date,
       require: true,
@@ -38,6 +43,7 @@ export default {
     description: {
       type: String,
       require: false,
+      defualt: null,
     },
   },
 
@@ -66,10 +72,17 @@ export default {
       };
     },
     cellStyleHolidays() {
-      return {
-        backgroundColor: "rgb(255,0,0,0.5)",
+      const style = {
         color: "black",
       };
+      if (this.cantrade === "N") {
+        style.backgroundColor = "rgb(255,0,0,0.5)";
+      } else if (this.cantrade === "T") {
+        style.backgroundColor = "green";
+      } else if (this.cantrade === "S") {
+        style.backgroundColor = "blue";
+      }
+      return style;
     },
   },
 

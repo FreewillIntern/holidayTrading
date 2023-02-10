@@ -1,13 +1,13 @@
 <template>
   <Calendar
-    :class-name="'single-calendar'"
+    :class-name="'single-calendar rounded mb-5'"
     :cell="'CustomCell'"
     :header-title="'customHeaderTitle'"
     :min="minDate"
     :max="maxDate"
   >
     <template v-slot:customHeaderTitle="{ props }">
-      <p class="calendar-nav">{{ props.value }}</p>
+      <p class="ml-6 mt-2 pl-5 pr-5 pt-2 pb-2 bg-slate-800 text-white rounded">{{ props.value }}</p>
     </template>
     <template v-slot:CustomCell="{ props }">
       <customCell
@@ -15,6 +15,7 @@
         :formatted-value="props.formattedValue"
         :is-weekend="props.isWeekend"
         :isHoliday="isHoliday(props.formattedValue)"
+        :cantrade="cantradeHoliday(props.formattedValue)"
         :value="props.value"
         :description="desHoliday(props.formattedValue)"
         @click-left-cell="handleLeftClick"
@@ -72,6 +73,13 @@ export default {
         return null;
       }
     },
+    cantradeHoliday(date) {
+      try {
+        return this.monthlyLeave.find((value) => value.date == date).cantrade;
+      } catch (error) {
+        return null;
+      }
+    },
     desHoliday(date) {
       try {
         return this.monthlyLeave.find((value) => value.date == date)
@@ -98,7 +106,7 @@ export default {
   margin: 20px 0px -10px 30px;
 }
 .single-calendar {
-  width: 300px;
+  width: 280px;
   height: 300px;
 }
 </style>
