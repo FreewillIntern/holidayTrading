@@ -129,10 +129,10 @@ export default {
 
   computed: {
     addCell() {
-      return this.dialogVisible && this.dataDateSelected.eventType === "add";
+      return this.dialogVisible && !this.dataDateSelected.isHoliday;
     },
     editCell() {
-      return this.dialogVisible && this.dataDateSelected.eventType === "edit";
+      return this.dialogVisible && this.dataDateSelected.isHoliday;
     },
     formatYYMMDD() {
       let date = this.dataDateSelected.date.getDate();
@@ -187,14 +187,20 @@ export default {
         });
     },
     async addHoliday() {
-      if (this.enteredDialog.description === undefined) {
+      if (
+        this.enteredDialog.description === undefined ||
+        this.enteredDialog.description === null
+      ) {
         this.enteredDialog.description = "";
       }
       this.fetchaddAPI();
       this.closeDialog();
     },
     async editHoliday() {
-      if (this.enteredDialog.description === undefined) {
+      if (
+        this.enteredDialog.description === undefined ||
+        this.enteredDialog.description === null
+      ) {
         this.enteredDialog.description = "";
       }
       this.fetchEditAPI();

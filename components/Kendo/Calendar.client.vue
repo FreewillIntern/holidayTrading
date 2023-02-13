@@ -107,20 +107,15 @@ export default {
   methods: {
     clickEventCell(data) {
       this.dataDateSelected = data;
-      if (this.store.getDataHolidays.length > 0) {
-        this.dataDateSelected.cantrade = this.store.getDataHolidays[0].cantrade;
-        this.dataDateSelected.mktcode = this.store.getDataHolidays[0].mktcode;
-      } else {
-        this.dataDateSelected.cantrade = "N";
-        this.dataDateSelected.mktcode = "SET";
-      }
+      this.dataDateSelected.mktcode = this.store.getMarketCode;
       this.eventDialogVisible = true;
     },
     clickShowCell(data) {
-      alert(
-        `Date: ${data.date}
-      Description: ${data.description}`
-      );
+      // alert(
+      //   `Date: ${data.date}
+      // Description: ${data.description}`
+      // );
+      alert(JSON.stringify(data));
     },
     updateEventDialogState() {
       this.eventDialogVisible = false;
