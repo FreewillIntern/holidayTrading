@@ -55,16 +55,17 @@ export default {
                 data.description = description
             }})
             const bodyData =`{"mktcode": "${currentValue.mktcode}","holidaydate": "${currentValue.holidaydate}","description": "${description}","cantrade": "${currentValue.cantrade}"}`
-            await useFetch(() => this.url + "holiday/edit" + identify, {
-                method: 'PUT',
+            console.log(identify);
+            await useFetch(() => this.url + "holiday/edit?id=" + identify, {
+                method: 'POST',
                 body: JSON.parse(bodyData)
             });
         },
         async handleDelete(){
             this.isVisible = false
             this.store.holidays = this.store.holidays.filter(data => data.id !== this.currentId)
-            await useFetch(() =>this.url + "holiday/delete" + this.currentId, {
-                method: 'DELETE',
+            await useFetch(() =>this.url + "holiday/delete?id=" + this.currentId, {
+                method: 'POST',
             });
         },
         PreHandleDelete(identify){
