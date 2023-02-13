@@ -23,7 +23,7 @@
     <EventDialog
       v-if="eventDialogVisible"
       :dialogVisible="eventDialogVisible"
-      :dataFromCell="dataFromCell"
+      :dataDateSelected="dataDateSelected"
       @state-event-dialog="updateEventDialogState"
     ></EventDialog>
   </div>
@@ -51,7 +51,7 @@ export default {
     return {
       months: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       window: useWindowSize(),
-      dataFromCell: {},
+      dataDateSelected: {},
       eventDialogVisible: false,
       showDialogVisible: false,
     };
@@ -103,28 +103,23 @@ export default {
       }
     },
   },
-  
+
   methods: {
     clickEventCell(data) {
-      this.dataFromCell = data;
-      if (this.store.getDataHolidays.length > 0) {
-        this.dataFromCell.cantrade = this.store.getDataHolidays[0].cantrade;
-        this.dataFromCell.mktcode = this.store.getDataHolidays[0].mktcode;
-      } else {
-        this.dataFromCell.cantrade = "N";
-        this.dataFromCell.mktcode = "SET";
-      }
+      this.dataDateSelected = data;
+      this.dataDateSelected.mktcode = this.store.getMarketCode;
       this.eventDialogVisible = true;
     },
     clickShowCell(data) {
-      alert(
-        `Date: ${data.date}
-      Description: ${data.description}`
-      );
+      // alert(
+      //   `Date: ${data.date}
+      // Description: ${data.description}`
+      // );
+      alert(JSON.stringify(data));
     },
     updateEventDialogState() {
       this.eventDialogVisible = false;
-      this.dataFromCell = {};
+      this.dataDateSelected = {};
     },
   },
 };

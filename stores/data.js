@@ -10,6 +10,9 @@ export const useMainStore = defineStore("main", {
   }),
 
   getters: {
+    getMarketCode(state) {
+      return state.marketCode;
+    },
     getDataInserted(state) {
       return state.holidays;
     },

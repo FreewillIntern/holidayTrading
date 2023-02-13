@@ -1,17 +1,20 @@
 <template>
-  <Calendar
+  <customCalendar
     :class-name="'single-calendar rounded mb-5'"
     :cell="'CustomCell'"
-    :header-title="'customHeaderTitle'"
+    :header-title="'CustomHeaderTitle'"
     :min="minDate"
     :max="maxDate"
   >
-    <template v-slot:customHeaderTitle="{ props }">
-      <p class="ml-6 mt-2 pl-5 pr-5 pt-2 pb-2 bg-slate-800 text-white rounded">{{ props.value }}</p>
+    <template v-slot:CustomHeaderTitle="{ props }">
+      <p class="ml-6 mt-2 pl-5 pr-5 pt-2 pb-2 bg-slate-800 text-white rounded">
+        {{ props.value }}
+      </p>
     </template>
+
+    <!-- code send id of date to cell ==> :idHoliday="idHoliday(props.formattedValue)" -->
     <template v-slot:CustomCell="{ props }">
       <customCell
-        :idHoliday="idHoliday(props.formattedValue)"
         :formatted-value="props.formattedValue"
         :is-weekend="props.isWeekend"
         :isHoliday="isHoliday(props.formattedValue)"
@@ -22,7 +25,7 @@
         @click-right-cell="handleRightClick"
       ></customCell>
     </template>
-  </Calendar>
+  </customCalendar>
 </template>
 
 <script>
@@ -31,7 +34,7 @@ import Cell from "~~/components/Kendo/Cell.client.vue";
 
 export default {
   components: {
-    Calendar,
+    customCalendar: Calendar,
     customCell: Cell,
   },
 
@@ -61,32 +64,30 @@ export default {
   },
 
   methods: {
+    // idHoliday(date) {
+    //   try {
+    //     return this.monthlyLeave.find((value) => value.date == date).id;
+    //   } catch (error) {
+    //     return null;
+    //   }
+    // },
+
     isHoliday(date) {
       return (
         this.monthlyLeave.find((value) => value.date == date) !== undefined
       );
     },
-    idHoliday(date) {
-      try {
-        return this.monthlyLeave.find((value) => value.date == date).id;
-      } catch (error) {
-        return null;
-      }
-    },
     cantradeHoliday(date) {
-      try {
-        return this.monthlyLeave.find((value) => value.date == date).cantrade;
-      } catch (error) {
-        return null;
-      }
+      const arr = this.monthlyLeave.find((value) => value.date == date);
+      if (arr !== undefined) {
+        return arr.cantrade;
+      } else return null;
     },
     desHoliday(date) {
-      try {
-        return this.monthlyLeave.find((value) => value.date == date)
-          .description;
-      } catch (error) {
-        return null;
-      }
+      const arr = this.monthlyLeave.find((value) => value.date == date);
+      if (arr !== undefined) {
+        return arr.description;
+      } else return null;
     },
     handleLeftClick(data) {
       this.$emit("click-left", data);
