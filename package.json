@@ -13,8 +13,6 @@
   },
   "dependencies": {
     "@element-plus/nuxt": "^1.0.3",
-    "@inkline/inkline": "^3.2.2",
-    "@inkline/nuxt": "^3.1.4",
     "@nuxtjs/moment": "^1.6.1",
     "@nuxtjs/tailwindcss": "^6.3.0",
     "@pinia/nuxt": "^0.4.6",
@@ -36,7 +34,6 @@
     "maska": "^2.1.6",
     "moment": "^2.29.4",
     "pinia": "^2.0.29",
-    "sass": "^1.58.0",
     "vue-gtag-next": "^1.14.0"
   }
 }
