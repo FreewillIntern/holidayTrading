@@ -1,10 +1,6 @@
 <template>
     <td class="k-command-cell">
-        <kbutton
-            class="k-grid-remove-command"
-            @click="removeHandler">
-            Remove
-        </kbutton>
+        <i-button color="danger" link size="sm" @click="removeHandler" >Remove</i-button>
     </td>
     </template>
     <script>
@@ -27,7 +23,7 @@
         },
         methods: {
             removeHandler: function() {
-                this.$emit('remove', {dataItem:this.dataItem});
+                this.$emit('preRemove', {dataItem:this.dataItem});
             }
         }
     }

@@ -9,10 +9,13 @@
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.3.0",
-    "nuxt": "^3.1.0"
+    "nuxt": "^3.1.0",
+    "sass": "^1.58.0"
   },
   "dependencies": {
     "@element-plus/nuxt": "^1.0.3",
+    "@inkline/inkline": "^3.2.2",
+    "@inkline/nuxt": "^3.1.4",
     "@nuxtjs/moment": "^1.6.1",
     "@nuxtjs/tailwindcss": "^6.3.0",
     "@pinia/nuxt": "^0.4.6",

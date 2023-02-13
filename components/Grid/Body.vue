@@ -1,5 +1,6 @@
 <template>
     <Grid ref="grid"
+            class="h-[78.4vh] rounded-lg"
              :data-items="setGridData"
              :edit-field="'inEdit'"
              @rowclick="rowClick"
@@ -10,10 +11,22 @@
              <template v-slot:myTemplate="{ props }">
                 <custom
                     :data-item="props.dataItem"
-                    @remove="remove"
+                    @preRemove="setModalVisible"
                 />
              </template>
     </Grid>
+    <i-modal v-model="visible" size="lg" :showClose="false">
+        <template #header>
+            Delete
+        </template>
+        Please confirm your action.
+        <template #footer>
+            <div class="w-full h-full flex justify-end items-end">
+                <i-button color="danger" @click="remove(this.currentEdit)" class="mr-4">Delete</i-button>
+                <i-button color="dark" @click="visible=false" >Cancle</i-button>
+            </div>
+        </template>
+    </i-modal>
 </template>
 <script>
 import { Grid, GridToolbar } from '@progress/kendo-vue-grid';
@@ -40,6 +53,8 @@ export default {
         console.log("data",this.store.holidays);
         return {
             editItem: undefined,
+            currentEdit: null,
+            visible: false,
             changes: false,
             updatedData: [],
             editID: null,
@@ -50,7 +65,7 @@ export default {
                 { field: 'holidaydate', editable: false, title: 'Holiday Date'},
                 { field: 'cantrade', editable: false, title: 'Type' },
                 { field: 'description', title: 'Description'},
-                { cell: 'myTemplate', width: '80px' },
+                { cell: 'myTemplate', width: '100px' },
             ],
             gridData: [],
             url: useRuntimeConfig().public.apiBase
@@ -59,10 +74,18 @@ export default {
     computed:{
         setGridData(){
             this.gridData = this.store.holidays
+            this.gridData.forEach(d => {
+                let splitDate = d.holidaydate.split("-")
+                d.holidaydate = `${splitDate[2]}-${splitDate[1]}-${splitDate[0]}`
+            })
             return this.gridData
         }
     },
     methods: {
+        setModalVisible(currentEdit){
+            this.visible = !this.visible
+            this.currentEdit = currentEdit
+        },
         update(data, item, remove) {
             let updated;
             let itemProductID = item.ProductID;
@@ -89,10 +112,15 @@ export default {
             }
             return data[index];
         },
+        preHandleDelete(identify){
+            this.isVisible = true
+        },
         async remove(e) {
             e.dataItem.inEdit = undefined;
             this.update(this.gridData, e.dataItem, true);
             this.gridData = this.gridData.slice();
+            this.currentEdit = null;
+            this.visible = false;
             await useFetch(() => this.url + "holiday/delete?mkt=" + e.dataItem.mktcode + "&date=" + e.dataItem.holidaydate, {
                 method: 'POST',
             });
@@ -154,4 +182,12 @@ export default {
 };
 
 </script>
+ 
+<style scoped>
+    .k-cell-inner, .k-link, .k-grid-aria-root {
+        border-radius: 10px;
+    }
+    tr:nth-child(odd) {background-color: #ffffff;}
+
+</style>
 
