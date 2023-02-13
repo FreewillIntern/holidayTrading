@@ -62,7 +62,7 @@ export default {
     },
     cellStyle() {
       return {
-        backgroundColor: "white",
+        backgroundColor: "rgb(228,228,228,0.3)",
         color: "black",
       };
     },

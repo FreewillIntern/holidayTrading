@@ -7,7 +7,7 @@
     :max="maxDate"
   >
     <template v-slot:CustomHeaderTitle="{ props }">
-      <p class="ml-6 mt-2 pl-5 pr-5 pt-2 pb-2 bg-slate-800 text-white rounded">
+      <p class="ml-2 mt-2 pl-5 pr-5 pt-2 pb-2 bg-slate-800 text-white rounded">
         {{ props.value }}
       </p>
     </template>
@@ -108,6 +108,17 @@ export default {
 }
 .single-calendar {
   width: 280px;
-  height: 300px;
+  height: 320px;
+}
+
+table {
+  border-collapse: separate !important;
+  border-spacing: 5px !important;
+}
+
+table td {
+    width: 30px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 </style>

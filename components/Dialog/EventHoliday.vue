@@ -1,96 +1,106 @@
 <template>
   <div class="dialog-add rounded">
     <!-- Add Form -->
-    <el-dialog
+    <i-modal
       v-model="addCell"
-      :before-close="closeDialog"
-      title="Add holiday date"
+      color="white"
+      size="lg"
+      :hideOnClickOutside="false"
+      :showClose="false"
     >
-      <p class="pb-5">Date: {{ formatDDMMYY }}</p>
-      <el-form :model="enteredDialog">
-        <el-form-item label="Description">
-          <el-input v-model="enteredDialog.description" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="Market code" :rules="[{ required: true }]">
-          <el-select
-            v-model="enteredDialog.marketType"
-            placeholder="Please select a type of market"
-          >
-            <el-option
-              v-for="value in store.getDataMarket"
-              :key="value"
-              :label="value.mktcode"
-              :value="value.mktcode"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="type" :rules="[{ required: true }]">
-          <el-select
-            v-model="enteredDialog.cantrade"
-            placeholder="Please select a type of market"
-          >
-            <el-option
-              v-for="value in cantradeChoise"
-              :key="value"
-              :label="value"
-              :value="value"
-            />
-          </el-select>
-        </el-form-item>
-      </el-form>
+      <template #header> Add holiday date </template>
+      <template #default>
+        <p class="pb-5">Date: {{ formatDDMMYY }}</p>
+        <el-form :model="enteredDialog">
+          <el-form-item label="Description">
+            <el-input v-model="enteredDialog.description" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="Market code" :rules="[{ required: true }]">
+            <el-select
+              v-model="enteredDialog.marketType"
+              placeholder="Please select a type of market"
+            >
+              <el-option
+                v-for="value in store.getDataMarket"
+                :key="value"
+                :label="value.mktcode"
+                :value="value.mktcode"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="type" :rules="[{ required: true }]">
+            <el-select
+              v-model="enteredDialog.cantrade"
+              placeholder="Please select a type"
+            >
+              <el-option
+                v-for="value in cantradeChoise"
+                :key="value"
+                :label="value"
+                :value="value"
+              />
+            </el-select>
+          </el-form-item>
+        </el-form>
+      </template>
       <template #footer>
         <span class="dialog-footer">
           <el-button type="primary" @click="addHoliday"> Add </el-button>
           <el-button @click="closeDialog"> Cancel </el-button>
         </span>
       </template>
-    </el-dialog>
+    </i-modal>
 
     <!-- Edit form -->
-    <el-dialog
+    <i-modal
       v-model="editCell"
-      :before-close="closeDialog"
-      title="Edit holiday date"
+      color="white"
+      size="lg"
+      :hideOnClickOutside="false"
+      :showClose="false"
     >
-      <p class="pb-5">Date: {{ formatDDMMYY }}</p>
-      <el-form :model="enteredDialog">
-        <el-form-item label="Description">
-          <el-input v-model="enteredDialog.description" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="Market code" :rules="[{ required: true }]">
-          <el-select
-            v-model="enteredDialog.marketType"
-            placeholder="Please select a type of market"
-          >
-            <el-option
-              v-for="value in store.getDataMarket"
-              :key="value"
-              :label="value.mktcode"
-              :value="value.mktcode"
-            />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="type" :rules="[{ required: true }]">
-          <el-select
-            v-model="enteredDialog.cantrade"
-            placeholder="Please select a type of market"
-          >
-            <el-option
-              v-for="value in cantradeChoise"
-              :key="value"
-              :label="value"
-              :value="value"
-            />
-          </el-select>
-        </el-form-item>
-      </el-form>
+      <template #header> Edit holiday date </template>
+      <template #default>
+        <p class="pb-5">Date: {{ formatDDMMYY }}</p>
+        <el-form :model="enteredDialog">
+          <el-form-item label="Description">
+            <el-input v-model="enteredDialog.description" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="Market code" :rules="[{ required: true }]">
+            <el-select
+              v-model="enteredDialog.marketType"
+              placeholder="Please select a type of market"
+            >
+              <el-option
+                v-for="value in store.getDataMarket"
+                :key="value"
+                :label="value.mktcode"
+                :value="value.mktcode"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="type" :rules="[{ required: true }]">
+            <el-select
+              v-model="enteredDialog.cantrade"
+              placeholder="Please select a type"
+            >
+              <el-option
+                v-for="value in cantradeChoise"
+                :key="value"
+                :label="value"
+                :value="value"
+              />
+            </el-select>
+          </el-form-item>
+        </el-form>
+      </template>
       <template #footer>
         <span class="dialog-footer">
           <el-button type="primary" @click="editHoliday"> Edit </el-button>
           <el-button @click="closeDialog"> Cancel </el-button>
         </span>
       </template>
-    </el-dialog>
+    </i-modal>
   </div>
 </template>
 
@@ -187,14 +197,18 @@ export default {
         });
     },
     async addHoliday() {
-      if (
-        this.enteredDialog.description === undefined ||
-        this.enteredDialog.description === null
-      ) {
-        this.enteredDialog.description = "";
+      if (this.enteredDialog.cantrade === undefined) {
+        alert("Plase select holiday type");
+      } else {
+        if (
+          this.enteredDialog.description === undefined ||
+          this.enteredDialog.description === null
+        ) {
+          this.enteredDialog.description = "";
+        }
+        this.fetchaddAPI();
+        this.closeDialog();
       }
-      this.fetchaddAPI();
-      this.closeDialog();
     },
     async editHoliday() {
       if (

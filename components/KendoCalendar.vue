@@ -19,13 +19,21 @@
       @click-right="clickEventCell"
     ></calendar>
 
+    <!-- Dialog Information -->
+    <DialogDateInformation
+      v-if="informationDialogVisible"
+      :dialogVisible="informationDialogVisible"
+      :dataDateSelected="dataDateSelected"
+      @state-information-dialog="updateInformationDialogState"
+    />
+
     <!-- Dialog Event -->
     <EventDialog
       v-if="eventDialogVisible"
       :dialogVisible="eventDialogVisible"
       :dataDateSelected="dataDateSelected"
       @state-event-dialog="updateEventDialogState"
-    ></EventDialog>
+    />
   </div>
 </template>
 
@@ -53,7 +61,7 @@ export default {
       window: useWindowSize(),
       dataDateSelected: {},
       eventDialogVisible: false,
-      showDialogVisible: false,
+      informationDialogVisible: false,
     };
   },
 
@@ -111,11 +119,12 @@ export default {
       this.eventDialogVisible = true;
     },
     clickShowCell(data) {
-      // alert(
-      //   `Date: ${data.date}
-      // Description: ${data.description}`
-      // );
-      alert(JSON.stringify(data));
+      this.dataDateSelected = data;
+      this.informationDialogVisible = true;
+    },
+    updateInformationDialogState() {
+      this.informationDialogVisible = false;
+      this.dataDateSelected = {};
     },
     updateEventDialogState() {
       this.eventDialogVisible = false;
