@@ -67,7 +67,7 @@ export default {
     },
     cellStyleWeekEnd() {
       return {
-        backgroundColor: "#F7F701",
+        backgroundColor: "rgb(255,255,153)",
         color: "black",
       };
     },
@@ -76,11 +76,11 @@ export default {
         color: "black",
       };
       if (this.cantrade === "N") {
-        style.backgroundColor = "rgb(255,0,0,0.5)";
+        style.backgroundColor = "rgb(255,153,153)";
       } else if (this.cantrade === "T") {
-        style.backgroundColor = "green";
+        style.backgroundColor = "rgb(188,255,110,0.7)";
       } else if (this.cantrade === "S") {
-        style.backgroundColor = "blue";
+        style.backgroundColor = "rgb(153,204,255)";
       }
       return style;
     },

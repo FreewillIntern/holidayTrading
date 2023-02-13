@@ -13,21 +13,21 @@ export const useMainStore = defineStore("main", {
     getDataInserted(state) {
       return state.holidays;
     },
+    getDataHolidays(state) {
+      return state.holidays;
+    },
     getDataMarket(state) {
       return state.markets;
     },
   },
 
   actions: {
-    updateHolidays() {
-      fetch(
-        `https://10.22.26.103/beam/holiday?mkt=${this.marketCode}&year=${this.year}`
-      )
-        .then((response) => response.json())
-        .then((result) => {
-          this.holidays = result;
-          console.log("this.holidays.length: ", this.holidays.length);
-        });
+    updateHolidays(holidays) {
+      if (holidays !== undefined) {
+        this.holidays = holidays;
+      } else {
+        this.holidays = [];
+      }
     },
   },
 });
