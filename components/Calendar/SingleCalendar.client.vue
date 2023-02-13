@@ -7,7 +7,9 @@
     :max="maxDate"
   >
     <template v-slot:CustomHeaderTitle="{ props }">
-      <p class="ml-2 mt-2 pl-5 pr-5 pt-2 pb-2 bg-slate-800 text-white rounded">
+      <p
+        class="title-calendar ml-2 mt-2 pl-5 pr-5 pt-2 pb-2 bg-slate-800 text-white rounded"
+      >
         {{ props.value }}
       </p>
     </template>
@@ -103,22 +105,20 @@ export default {
 .k-calendar-nav {
   display: none !important;
 }
-.calendar-nav {
-  margin: 20px 0px -10px 30px;
-}
+
 .single-calendar {
   width: 280px;
   height: 320px;
 }
 
-table {
+.single-calendar table {
   border-collapse: separate !important;
   border-spacing: 5px !important;
 }
 
-table td {
-    width: 30px;
-    overflow: hidden;
-    white-space: nowrap;
+.single-calendar table td {
+  width: 30px;
+  overflow: hidden;
+  white-space: nowrap;
 }
 </style>
