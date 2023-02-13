@@ -20,7 +20,7 @@
       </template>
       <template #bodyRight>
         <!-- BODY RIGHT -->
-        <GridMyCustom />
+        <GridBody />
       </template>
     </NuxtLayout>
   </div>
