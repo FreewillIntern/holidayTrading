@@ -40,11 +40,13 @@ export default {
     calendar: singleCalendarClient,
     EventDialog: DialogEventHoliday,
   },
+
   setup() {
     const store = useMainStore();
     const { updateHolidays } = useMainStore();
     return { store, updateHolidays };
   },
+
   data() {
     return {
       months: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
@@ -54,6 +56,7 @@ export default {
       showDialogVisible: false,
     };
   },
+
   computed: {
     columns() {
       let widthWindow = this.window.width * 0.65;
@@ -79,8 +82,8 @@ export default {
         10: [],
         11: [],
       };
-      if (this.store.getDataInserted.length > 0) {
-        for (const data of this.store.getDataInserted) {
+      if (this.store.getDataHolidays.length > 0) {
+        for (const data of this.store.getDataHolidays) {
           const splitDate = data.holidaydate.split("-");
           obJectHolidays[Number(splitDate[1]) - 1].push({
             id: data.id,
@@ -100,12 +103,13 @@ export default {
       }
     },
   },
+  
   methods: {
     clickEventCell(data) {
       this.dataFromCell = data;
-      if (this.store.getDataInserted.length > 0) {
-        this.dataFromCell.cantrade = this.store.getDataInserted[0].cantrade;
-        this.dataFromCell.mktcode = this.store.getDataInserted[0].mktcode;
+      if (this.store.getDataHolidays.length > 0) {
+        this.dataFromCell.cantrade = this.store.getDataHolidays[0].cantrade;
+        this.dataFromCell.mktcode = this.store.getDataHolidays[0].mktcode;
       } else {
         this.dataFromCell.cantrade = "N";
         this.dataFromCell.mktcode = "SET";
@@ -121,7 +125,6 @@ export default {
     updateEventDialogState() {
       this.eventDialogVisible = false;
       this.dataFromCell = {};
-      this.updateHolidays();
     },
   },
 };

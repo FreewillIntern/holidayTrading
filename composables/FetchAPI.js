@@ -2,12 +2,12 @@ import { useMainStore } from "~~/stores/data";
 
 const store = useMainStore();
 
-export const addDate = async (body) => {
-  await useFetch(() => "https://10.22.26.103/beam/holiday/insert", {
-    method: "POST",
-    body: body,
-  });
-};
+// export const addDate = async (body) => {
+//   await useFetch(() => "https://10.22.26.103/beam/holiday/insert", {
+//     method: "POST",
+//     body: body,
+//   });
+// };
 
 // export const editDate = async (params, body) => {
 //   await useFetch(() => "https://10.22.26.103/beam/holiday/edit", {
@@ -16,6 +16,26 @@ export const addDate = async (body) => {
 //     body: body,
 //   });
 // };
+
+export const addDate = async (body) => {
+  await useFetch(() => "https://10.22.26.103/beam/holiday/insert", {
+    method: "POST",
+    body: body,
+  });
+};
+
+export const addDate2 = async (body, marketCode, year) => {
+  const [{ data: add }, { data: holidays }] = Promise.all([
+    useFetch(() => "https://10.22.26.103/beam/holiday/insert", {
+      method: "POST",
+      body: body,
+    }),
+    useFetch(
+      `https://10.22.26.103/beam/holiday?mkt=${marketCode}&year=${year.toString()}`
+    ),
+  ]);
+  return { add, holidays };
+};
 
 export const editDate = async (params, body, marketCode, year) => {
   const [edit, holidays] = await Promise.all([

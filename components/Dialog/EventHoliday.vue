@@ -30,7 +30,7 @@
             placeholder="Please select a type of market"
           >
             <el-option
-              v-for="value in cantradeArray"
+              v-for="value in cantradeChoise"
               :key="value"
               :label="value"
               :value="value"
@@ -76,7 +76,7 @@
             placeholder="Please select a type of market"
           >
             <el-option
-              v-for="value in cantradeArray"
+              v-for="value in cantradeChoise"
               :key="value"
               :label="value"
               :value="value"
@@ -96,7 +96,6 @@
 
 <script>
 import { useMainStore } from "~~/stores/data";
-import { addDate, editDate } from "~~/composables/FetchAPI";
 export default {
   setup() {
     const store = useMainStore();
@@ -119,6 +118,7 @@ export default {
 
   data() {
     return {
+      cantradeChoise: ["N", "T", "S"],
       date: this.dataFromCell.date,
       enteredDialog: {
         marketType: this.dataFromCell.mktcode,
@@ -129,9 +129,6 @@ export default {
   },
 
   computed: {
-    cantradeArray() {
-      return ["N", "T", "S"];
-    },
     addCell() {
       return this.dialogVisible && this.dataFromCell.eventType === "add";
     },
@@ -156,49 +153,52 @@ export default {
     closeDialog() {
       this.$emit("stateEventDialog");
     },
-    async editHoliday() {
+    async fetchaddAPI() {
       const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
-
-      await useFetch(() => "https://10.22.26.103/beam/holiday/edit", {
-        method: "POST",
-        params: { id: this.dataFromCell.id },
-        body: JSON.parse(bodyData),
-      });
-
-      let url = `https://10.22.26.103/beam/holiday?mkt=${
+      let urlGetHolidays = `https://10.22.26.103/beam/holiday?mkt=${
         this.dataFromCell.mktcode
       }&year=${this.date.getFullYear()}`;
-
-      await fetch(url)
-        .then((response) => response.json())
-        .then((result) => (this.store.holidays = result.data))
-        .catch((error) => {
-          console.log(error);
-          this.store.holidays = [];
-        });
-
-      this.closeDialog();
-    },
-    async addHoliday() {
-      const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
-
       await useFetch(() => "https://10.22.26.103/beam/holiday/insert", {
         method: "POST",
         body: JSON.parse(bodyData),
       });
-
-      let url = `https://10.22.26.103/beam/holiday?mkt=${
-        this.dataFromCell.mktcode
-      }&year=${this.date.getFullYear()}`;
-
-      await fetch(url)
+      await fetch(urlGetHolidays)
         .then((response) => response.json())
-        .then((result) => (this.store.holidays = result.data))
+        .then((result) => this.store.updateHolidays(result.data))
         .catch((error) => {
           console.log(error);
-          this.store.holidays = [];
+          this.store.updateHolidays([]);
         });
-
+    },
+    async fetchEditAPI() {
+      const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
+      let urlGetHolidays = `https://10.22.26.103/beam/holiday?mkt=${
+        this.dataFromCell.mktcode
+      }&year=${this.date.getFullYear()}`;
+      await useFetch(() => "https://10.22.26.103/beam/holiday/edit", {
+        method: "POST",
+        body: JSON.parse(bodyData),
+      });
+      await fetch(urlGetHolidays)
+        .then((response) => response.json())
+        .then((result) => this.store.updateHolidays(result.data))
+        .catch((error) => {
+          console.log(error);
+          this.store.updateHolidays([]);
+        });
+    },
+    async addHoliday() {
+      if (this.enteredDialog.description === undefined) {
+        this.enteredDialog.description = "";
+      }
+      this.fetchaddAPI();
+      this.closeDialog();
+    },
+    async editHoliday() {
+      if (this.enteredDialog.description === undefined) {
+        this.enteredDialog.description = "";
+      }
+      this.fetchEditAPI();
       this.closeDialog();
     },
   },
