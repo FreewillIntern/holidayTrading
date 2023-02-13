@@ -7,9 +7,19 @@
     :showClose="false"
   >
     <template #header> Date information </template>
-    
-    <template #default v-if="isHoliday">holiday</template>
-    <template #default v-else>day</template>
+
+    <template #default v-if="isHoliday">
+      <p>Date: {{ dataDateSelected.date }}</p>
+      <p>Weekend: {{ dataDateSelected.isWeekend }}</p>
+      <p>Holiday: {{ dataDateSelected.isHoliday }}</p>
+      <p>Trade type: {{ dataDateSelected.cantrade }}</p>
+      <p>Description: {{ dataDateSelected.description }}</p>
+    </template>
+    <template #default v-else>
+      <p>Date: {{ dataDateSelected.date }}</p>
+      <p>Weekend: {{ dataDateSelected.isWeekend }}</p>
+      <p>Holiday: {{ dataDateSelected.isHoliday }}</p>
+    </template>
 
     <template #footer>
       <span class="dialog-footer">
