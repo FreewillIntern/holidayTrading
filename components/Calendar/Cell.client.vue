@@ -1,8 +1,8 @@
 <template>
   <td
-    :class="'k-calendar-td'"
+    :class="'custom-cell k-calendar-td'"
     :style="styleCss"
-    @click.left="handleLeftClick($event)"
+    @click.left="handleLeftClick()"
     @click.right="handleRightClick($event)"
   >
     <span class="k-link">
@@ -14,11 +14,12 @@
 <script>
 export default {
   props: {
-    idHoliday: {
-      type: Number,
-      require: false,
-      defualt: null,
-    },
+    // idHoliday: {
+    //   type: Number,
+    //   require: false,
+    //   defualt: null,
+    // },
+    
     formattedValue: {
       type: String,
       require: true,
@@ -35,9 +36,15 @@ export default {
       type: Date,
       require: true,
     },
+    cantrade: {
+      type: String,
+      require: false,
+      defualt: null,
+    },
     description: {
       type: String,
       require: false,
+      defualt: null,
     },
   },
 
@@ -55,34 +62,40 @@ export default {
     },
     cellStyle() {
       return {
-        backgroundColor: "white",
+        backgroundColor: "rgb(228,228,228,0.3)",
         color: "black",
       };
     },
     cellStyleWeekEnd() {
       return {
-        backgroundColor: "#F7F701",
+        backgroundColor: "rgb(255,255,153)",
         color: "black",
       };
     },
     cellStyleHolidays() {
-      return {
-        backgroundColor: "rgb(255,0,0,0.5)",
+      const style = {
         color: "black",
       };
+      if (this.cantrade === "N") {
+        style.backgroundColor = "rgb(255,153,153)";
+      } else if (this.cantrade === "T") {
+        style.backgroundColor = "rgb(188,255,110,0.7)";
+      } else if (this.cantrade === "S") {
+        style.backgroundColor = "rgb(153,204,255)";
+      }
+      return style;
     },
   },
 
   methods: {
-    handleLeftClick(event) {
-      event.preventDefault();
+    handleLeftClick() {
       const data = {
         date: this.value,
         isWeekend: this.isWeekend,
         isHoliday: this.isHoliday,
       };
       if (this.isHoliday) {
-        data.id = this.idHoliday;
+        data.cantrade = this.cantrade;
         data.description = this.description;
       }
       this.$emit("click-left-cell", data);
@@ -91,13 +104,11 @@ export default {
       event.preventDefault();
       const data = {
         date: this.value,
+        isHoliday: this.isHoliday,
       };
       if (this.isHoliday) {
-        data.id = this.idHoliday;
+        data.cantrade = this.cantrade;
         data.description = this.description;
-        data.eventType = "edit";
-      } else {
-        data.eventType = "add";
       }
       this.$emit("click-right-cell", data);
     },

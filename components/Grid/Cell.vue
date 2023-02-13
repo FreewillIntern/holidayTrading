@@ -1,7 +1,7 @@
 <template>
     <td class="p-4" @click="editorable = true">
         <h1 v-if="!editorable">{{ description }}</h1>
-        <input class="border-2 rounded-md border-gray-800 w-full" v-else type="text" @click.stop :value="description" @keyup.enter="handleChange" ref="editValue">
+        <input class="border text-black rounded-md border-gray-800 w-full px-2 py-[3px]" v-else type="text" @click.stop :value="description" @keyup.enter="handleChange" ref="editValue">
     </td>
 </template>
 

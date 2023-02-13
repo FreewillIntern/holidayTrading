@@ -1,46 +1,85 @@
 <template>
-    <div class="w-full h-full overflow-auto">
+    <div class="w-full h-full overflow-auto rounded-lg">
         <table class="w-full" aria-describedby="holidayDate">
-            <tr class="border h-[50px]">
-                <th class="p-4 sticky">Holiday Date</th>
-                <th class="p-4 sticky">Type</th>
-                <th class="p-4 sticky">Description</th>
-                <th class="p-4 sticky">Option</th>
+            <!--HEADER-->
+            <tr class="border h-[50px] bg-slate-50">
+                <th class="p-4 w-[180px]">Holiday Date</th>
+                <th class="p-4 w-[170px]">Type</th>
+                <th class="p-4 w-[170px]">Description</th>
+                <th class="p-4 w-[170px]">Option</th>
             </tr>
-            <tr v-for="data in store.holidays" :key="data" class="text-center odd:bg-white even:bg-slate-50 hover:bg-slate-200 active:bg-slate-400 focus:outline-none focus:ring focus:ring-slate-300 h-[50px]"> 
+            <!--BODY-->
+            <tr 
+                v-for="data in store.holidays" 
+                :key="data" 
+                class="hoverCustom text-center text-white odd:bg-zinc-800 opacity-[85%] even:bg-neutral-900 h-[80px]  rounded-xl"> 
+
                 <td>{{data.holidaydate.split("-")[2]}}-{{data.holidaydate.split("-")[1]}}-{{data.holidaydate.split("-")[0]}}</td>
+
                 <td>{{data.cantrade}}</td>
+
                 <GridCell :value="data" :identify="data.id" @on-edit="handleEdit"/>
-                <td class="cursor-pointer" @click="handleDelete(data.id)">x</td>
+
+                <td class="cursor-pointer"><el-button type="danger" :icon="Delete" circle @click="PreHandleDelete(data.id)"/></td>
             </tr>
+
         </table>
+        <GridUIDialog v-show="isVisible" @on-delete="handleDelete" @on-cancle="isVisible = false">
+            <template #default>
+                <h1>Are you need to dalete this event ?</h1>
+            </template>
+        </GridUIDialog>
     </div>
 </template>
 
 <script>
 import { useMainStore } from "~~/stores/data";
+import {Delete} from '@element-plus/icons-vue'
 
 export default {
+    data() {
+        return {
+            url: useRuntimeConfig().public.apiBase,
+            isVisible: false,
+            Delete,
+            currentId: 0
+        }
+    },
     setup() {
-        const store = useMainStore();
+        const store = ref(useMainStore());
         return { store };
     },
     methods: {
         async handleEdit(description, identify, currentValue){ 
+            this.store.holidays.forEach(data =>{ if(data.id === identify){
+                data.description = description
+            }})
             const bodyData =`{"mktcode": "${currentValue.mktcode}","holidaydate": "${currentValue.holidaydate}","description": "${description}","cantrade": "${currentValue.cantrade}"}`
-            await useFetch(() => "https://10.22.26.103/beam/holiday?id="+identify, {
-                method: 'PUT',
+            console.log(identify);
+            await useFetch(() => this.url + "holiday/edit?id=" + identify, {
+                method: 'POST',
                 body: JSON.parse(bodyData)
             });
         },
-        async handleDelete(identify){
-            this.store.holidays = this.store.holidays.filter(data => data.id !== identify)
-            await useFetch(() =>"https://10.22.26.103/beam/holiday?id="+identify, {
-                method: 'DELETE',
+        async handleDelete(){
+            this.isVisible = false
+            this.store.holidays = this.store.holidays.filter(data => data.id !== this.currentId)
+            await useFetch(() =>this.url + "holiday/delete?id=" + this.currentId, {
+                method: 'POST',
             });
+        },
+        PreHandleDelete(identify){
+            this.isVisible = true
+            this.currentId = identify
         }
     }
 }
 
 </script>
                             
+<style scoped>
+.hoverCustom:hover{
+    transition: 0.5s;
+    opacity: 100%;
+}
+</style>

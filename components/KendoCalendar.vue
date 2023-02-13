@@ -19,36 +19,52 @@
       @click-right="clickEventCell"
     ></calendar>
 
+    <!-- Dialog Information -->
+    <DialogDateInformation
+      v-if="informationDialogVisible"
+      :dialogVisible="informationDialogVisible"
+      :dataDateSelected="dataDateSelected"
+      @state-information-dialog="updateInformationDialogState"
+    />
+
     <!-- Dialog Event -->
-    <Dialog v-if="dialogVisible"
-      :dialogVisible="dialogVisible"
-      :dataFromCell="dataFromCell"
-      @state-dialog="updateDialogState"
-    ></Dialog>
+    <EventDialog
+      v-if="eventDialogVisible"
+      :dialogVisible="eventDialogVisible"
+      :dataDateSelected="dataDateSelected"
+      @state-event-dialog="updateEventDialogState"
+    />
   </div>
 </template>
 
 <script>
-import singleCalendarClient from "~~/components/Kendo/SingleCalendar.client.vue";
+import singleCalendarClient from "~~/components/Calendar/SingleCalendar.client.vue";
+import DialogEventHoliday from "~~/components/Dialog/EventHoliday.vue";
 import { useMainStore } from "~~/stores/data";
 import { useWindowSize } from "@vueuse/core";
 
 export default {
   components: {
     calendar: singleCalendarClient,
+    EventDialog: DialogEventHoliday,
   },
+
   setup() {
-    const store = ref(useMainStore());
-    return { store };
+    const store = useMainStore();
+    const { updateHolidays } = useMainStore();
+    return { store, updateHolidays };
   },
+
   data() {
     return {
       months: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       window: useWindowSize(),
-      dataFromCell: {},
-      dialogVisible: false,
+      dataDateSelected: {},
+      eventDialogVisible: false,
+      informationDialogVisible: false,
     };
   },
+
   computed: {
     columns() {
       let widthWindow = this.window.width * 0.65;
@@ -74,12 +90,13 @@ export default {
         10: [],
         11: [],
       };
-      if (this.store.getDataInserted.length > 0) {
-        for (const data of this.store.getDataInserted) {
+      if (this.store.getDataHolidays.length > 0) {
+        for (const data of this.store.getDataHolidays) {
           const splitDate = data.holidaydate.split("-");
           obJectHolidays[Number(splitDate[1]) - 1].push({
             id: data.id,
             date: Number(splitDate[2]),
+            cantrade: data.cantrade,
             description: data.description,
           });
         }
@@ -94,24 +111,24 @@ export default {
       }
     },
   },
+
   methods: {
     clickEventCell(data) {
-      this.dataFromCell = data;
-      if (this.store.getDataInserted.length > 0) {
-        this.dataFromCell.cantrade = this.store.getDataInserted[0].cantrade;
-        this.dataFromCell.mktcode = this.store.getDataInserted[0].mktcode;
-      }
-      this.dialogVisible = true;
+      this.dataDateSelected = data;
+      this.dataDateSelected.mktcode = this.store.getMarketCode;
+      this.eventDialogVisible = true;
     },
     clickShowCell(data) {
-      alert(
-        `Date: ${data.date}
-      Description: ${data.description}`
-      );
+      this.dataDateSelected = data;
+      this.informationDialogVisible = true;
     },
-    updateDialogState() {
-      this.dialogVisible = false;
-      this.dataFromCell = {};
+    updateInformationDialogState() {
+      this.informationDialogVisible = false;
+      this.dataDateSelected = {};
+    },
+    updateEventDialogState() {
+      this.eventDialogVisible = false;
+      this.dataDateSelected = {};
     },
   },
 };
