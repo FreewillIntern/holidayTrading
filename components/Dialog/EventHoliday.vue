@@ -99,8 +99,7 @@ import { useMainStore } from "~~/stores/data";
 export default {
   setup() {
     const store = useMainStore();
-    const { updateHolidays } = useMainStore();
-    return { store, updateHolidays };
+    return { store };
   },
 
   props: {
@@ -108,7 +107,7 @@ export default {
       type: Boolean,
       require: true,
     },
-    dataFromCell: {
+    dataDateSelected: {
       type: Object,
       require: true,
     },
@@ -119,32 +118,32 @@ export default {
   data() {
     return {
       cantradeChoise: ["N", "T", "S"],
-      date: this.dataFromCell.date,
+      date: this.dataDateSelected.date,
       enteredDialog: {
-        marketType: this.dataFromCell.mktcode,
-        description: this.dataFromCell.description,
-        cantrade: this.dataFromCell.cantrade,
+        marketType: this.dataDateSelected.mktcode,
+        description: this.dataDateSelected.description,
+        cantrade: this.dataDateSelected.cantrade,
       },
     };
   },
 
   computed: {
     addCell() {
-      return this.dialogVisible && this.dataFromCell.eventType === "add";
+      return this.dialogVisible && this.dataDateSelected.eventType === "add";
     },
     editCell() {
-      return this.dialogVisible && this.dataFromCell.eventType === "edit";
+      return this.dialogVisible && this.dataDateSelected.eventType === "edit";
     },
     formatYYMMDD() {
-      let date = this.dataFromCell.date.getDate();
-      let month = this.dataFromCell.date.getMonth() + 1;
-      let year = this.dataFromCell.date.getFullYear();
+      let date = this.dataDateSelected.date.getDate();
+      let month = this.dataDateSelected.date.getMonth() + 1;
+      let year = this.dataDateSelected.date.getFullYear();
       return `${year}-${("0" + month).slice(-2)}-${("0" + date).slice(-2)}`;
     },
     formatDDMMYY() {
-      let date = this.dataFromCell.date.getDate();
-      let month = this.dataFromCell.date.getMonth() + 1;
-      let year = this.dataFromCell.date.getFullYear();
+      let date = this.dataDateSelected.date.getDate();
+      let month = this.dataDateSelected.date.getMonth() + 1;
+      let year = this.dataDateSelected.date.getFullYear();
       return `${("0" + date).slice(-2)}-${("0" + month).slice(-2)}-${year}`;
     },
   },
@@ -156,7 +155,7 @@ export default {
     async fetchaddAPI() {
       const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
       let urlGetHolidays = `https://10.22.26.103/beam/holiday?mkt=${
-        this.dataFromCell.mktcode
+        this.dataDateSelected.mktcode
       }&year=${this.date.getFullYear()}`;
       await useFetch(() => "https://10.22.26.103/beam/holiday/insert", {
         method: "POST",
@@ -173,7 +172,7 @@ export default {
     async fetchEditAPI() {
       const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
       let urlGetHolidays = `https://10.22.26.103/beam/holiday?mkt=${
-        this.dataFromCell.mktcode
+        this.dataDateSelected.mktcode
       }&year=${this.date.getFullYear()}`;
       await useFetch(() => "https://10.22.26.103/beam/holiday/edit", {
         method: "POST",

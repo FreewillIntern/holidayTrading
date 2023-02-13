@@ -61,6 +61,26 @@ export default {
   },
 
   methods: {
+    // cantradeHoliday(date) {
+    //   let cantrade = this.monthlyLeave.find(
+    //     (value) => value.date == date
+    //   ).cantrade;
+    //   if (cantrade !== undefined) {
+    //     return cantrade;
+    //   } else {
+    //     return null;
+    //   }
+    // },
+    // desHoliday(date) {
+    //   let description = this.monthlyLeave.find(
+    //     (value) => value.date == date
+    //   ).description;
+    //   if (description !== undefined) {
+    //     return description;
+    //   } else {
+    //     return null;
+    //   }
+    // },
     isHoliday(date) {
       return (
         this.monthlyLeave.find((value) => value.date == date) !== undefined
