@@ -37,11 +37,7 @@ import CommandCell from './CommandCell';
 export default {
     setup() {
         const store = useMainStore();
-        console.log("steup",store.holidays);
         return { store };
-    },
-    mounted() {
-        console.log("mounted",this.store.holidays);
     },
     components: {
         'Grid': Grid,
@@ -50,7 +46,6 @@ export default {
         'custom': CommandCell,
     },
     data: function () {
-        console.log("data",this.store.holidays);
         return {
             editItem: undefined,
             currentEdit: null,
@@ -73,10 +68,13 @@ export default {
     },
     computed:{
         setGridData(){
-            this.gridData = this.store.holidays
+            let cloneStore = this.store.holidays
+            this.gridData = cloneStore
             this.gridData.forEach(d => {
-                let splitDate = d.holidaydate.split("-")
-                d.holidaydate = `${splitDate[2]}-${splitDate[1]}-${splitDate[0]}`
+                    let splitDate = d.holidaydate.split("-")
+                    if (splitDate[0].length > 2){
+                        d.holidaydate = `${splitDate[2]}-${splitDate[1]}-${splitDate[0]}`
+                    }
             })
             return this.gridData
         }
@@ -118,10 +116,11 @@ export default {
         async remove(e) {
             e.dataItem.inEdit = undefined;
             this.update(this.gridData, e.dataItem, true);
-            this.gridData = this.gridData.slice();
             this.currentEdit = null;
             this.visible = false;
-            await useFetch(() => this.url + "holiday/delete?mkt=" + e.dataItem.mktcode + "&date=" + e.dataItem.holidaydate, {
+            let formatDate = e.dataItem.holidaydate.split("-")
+            let sendDate = `${formatDate[2]}-${formatDate[1]}-${formatDate[0]}`
+            await useFetch(() => this.url + "holiday/delete?mkt=" + e.dataItem.mktcode + "&date=" + sendDate, {
                 method: 'POST',
             });
         },
@@ -148,12 +147,13 @@ export default {
                     d.inEdit = undefined;
                 }
             });
-            this.gridData = this.gridData;
             this.editField = undefined;
         },
         itemChange: async function (e) {
             e.dataItem[e.field] = e.value;
-            const bodyData =`{"mktcode": "${e.dataItem.mktcode}","holidaydate": "${e.dataItem.holidaydate}","description": "${e.dataItem.description}","cantrade": "${e.dataItem.cantrade}"}`
+            let formatDate = e.dataItem.holidaydate.split("-")
+            let sendDate = `${formatDate[2]}-${formatDate[1]}-${formatDate[0]}`
+            const bodyData =`{"mktcode": "${e.dataItem.mktcode}","holidaydate": "${sendDate}","description": "${e.dataItem.description}","cantrade": "${e.dataItem.cantrade}"}`
             await useFetch(() => this.url + "holiday/edit", {
                 method: 'POST',
                 body: JSON.parse(bodyData)
@@ -168,14 +168,12 @@ export default {
                     }
                 }
             });
-            this.gridData = this.gridData;
         },
         cellClick: function (e) {
             if (e.dataItem.inEdit && e.field === this.editField) {
                 return;
             }
             this.editField = e.field;
-            this.gridData = this.gridData;
             e.dataItem.inEdit = e.field;
         }
     }
@@ -184,7 +182,7 @@ export default {
 </script>
  
 <style scoped>
-    .k-cell-inner, .k-link, .k-grid-aria-root {
+    .k-table , .k-grid-aria-root, .k-grid-header, .k-cell-inner, .k-link, .k-grid-aria-root {
         border-radius: 10px;
     }
     tr:nth-child(odd) {background-color: #ffffff;}
