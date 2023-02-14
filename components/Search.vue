@@ -22,15 +22,8 @@
 
         <div class="flex items-center">
           <h1 class="min-w-fit">Market :</h1>
-          <i-select
-            class="mr-2"
-            v-model="market"
-            :options="filterMarketCodes"
-            autocomplete
-            placeholder="Code"
-            @search="onSearchMarket"
-            @input="onInputMarket"
-          />
+          <i-select class="mr-2" v-model="market" :options="filterMarketCodes" autocomplete placeholder="Code"
+            @search="onSearchMarket" @input="onInputMarket" />
           <h1>:</h1>
           <h1
             class="ml-2 w-[200px] h-[26px] min-w-fit border-b-2 border-[rgb(84,84,84)]"
@@ -81,10 +74,8 @@
         </div>
 
         <div class="flex">
-          <h1
-            @click="search"
-            class="px-[15px] py-[2px] bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)] hover:shadow-[0_0_15px_rgba(0,0,0,0.3)] rounded-3xl"
-          >
+          <h1 @click="search"
+            class="px-[15px] py-[2px] bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)] hover:shadow-[0_0_15px_rgba(0,0,0,0.3)] rounded-3xl">
             Search
           </h1>
         </div>
