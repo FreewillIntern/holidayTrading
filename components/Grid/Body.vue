@@ -1,6 +1,6 @@
 <template>
     <Grid ref="grid"
-            class="h-[78.4vh] rounded-lg"
+            class="h-[78.4vh] rounded-lg gridCustomStyle"
              :data-items="setGridData"
              :edit-field="'inEdit'"
              @rowclick="rowClick"
@@ -68,14 +68,7 @@ export default {
     },
     computed:{
         setGridData(){
-            let cloneStore = this.store.holidays
-            this.gridData = cloneStore
-            this.gridData.forEach(d => {
-                    let splitDate = d.holidaydate.split("-")
-                    if (splitDate[0].length > 2){
-                        d.holidaydate = `${splitDate[2]}-${splitDate[1]}-${splitDate[0]}`
-                    }
-            })
+            this.gridData = this.store.holidays
             return this.gridData
         }
     },
@@ -118,9 +111,7 @@ export default {
             this.update(this.gridData, e.dataItem, true);
             this.currentEdit = null;
             this.visible = false;
-            let formatDate = e.dataItem.holidaydate.split("-")
-            let sendDate = `${formatDate[2]}-${formatDate[1]}-${formatDate[0]}`
-            await useFetch(() => this.url + "holiday/delete?mkt=" + e.dataItem.mktcode + "&date=" + sendDate, {
+            await useFetch(() => this.url + "holiday/delete?mkt=" + e.dataItem.mktcode + "&date=" + e.dataItem.holidaydate, {
                 method: 'POST',
             });
         },
@@ -151,9 +142,7 @@ export default {
         },
         itemChange: async function (e) {
             e.dataItem[e.field] = e.value;
-            let formatDate = e.dataItem.holidaydate.split("-")
-            let sendDate = `${formatDate[2]}-${formatDate[1]}-${formatDate[0]}`
-            const bodyData =`{"mktcode": "${e.dataItem.mktcode}","holidaydate": "${sendDate}","description": "${e.dataItem.description}","cantrade": "${e.dataItem.cantrade}"}`
+            const bodyData =`{"mktcode": "${e.dataItem.mktcode}","holidaydate": "${e.dataItem.holidaydate}","description": "${e.dataItem.description}","cantrade": "${e.dataItem.cantrade}"}`
             await useFetch(() => this.url + "holiday/edit", {
                 method: 'POST',
                 body: JSON.parse(bodyData)
@@ -184,11 +173,83 @@ export default {
 
 </script>
  
-<style scoped>
-    .k-table , .k-grid-aria-root, .k-grid-header, .k-cell-inner, .k-link, .k-grid-aria-root {
+<style >
+    .gridCustomStyle .k-table ,.gridCustomStyle .k-grid-aria-root, .gridCustomStyle .k-cell-inner,.gridCustomStyle .k-link,.gridCustomStyle .k-grid-aria-root {
         border-radius: 10px;
+        border: 0px;
     }
-    tr:nth-child(odd) {background-color: #ffffff;}
+    .gridCustomStyle tbody tr:nth-child(odd) {
+        transition: 1s;
+        background-color: #0000005e;
+        color: white;
+    }
+
+    .gridCustomStyle tbody tr:nth-child(even) {
+        background-color: #00000080;
+        color: white;
+        transition: 1s;
+    }
+    
+    .k-grid{
+        background-color: transparent;
+    }
+
+    .k-grid-container{
+        background-color: transparent;
+    }
+
+    .k-grid-content{
+        background-color: transparent;
+    }
+
+    .gridCustomStyle .k-grid {
+        background-color: transparent;
+        color: black;
+    }
+
+    .gridCustomStyle .k-grid-aria-root{
+        background-color: rgba(0, 0, 0, 0);
+        border: none;
+    }
+
+    .gridCustomStyle .k-grid-header{
+        background-color: rgb(0, 0, 0);
+        color: azure;
+    }
+
+    .gridCustomStyle tr:hover {
+        transition: 2s;
+    }
+
+    .gridCustomStyle tbody tr:hover {
+        color: black;
+    }
+
+    .gridCustomStyle tr:hover{
+        transition: 1s;
+        background-color: transparent;
+    }
+
+    div.k-grid-content::-webkit-scrollbar-track
+    {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        border-radius: 10px;
+        background-color: #f5f5f500;
+    }
+
+    div.k-grid-content::-webkit-scrollbar
+    {
+        width: 8px;
+        background-color: #f5f5f500;
+    }
+
+    div.k-grid-content::-webkit-scrollbar-thumb
+    {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(20, 20, 20, 0.582);
+        background-color: #3a3a3ae3;
+    }
+
 
 </style>
 
