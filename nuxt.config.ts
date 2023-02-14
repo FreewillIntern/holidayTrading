@@ -2,15 +2,14 @@
 export default defineNuxtConfig({
   css: ["@progress/kendo-theme-default/dist/all.css"],
   modules: [
-    "@nuxtjs/tailwindcss", 
-    "@pinia/nuxt", 
+    "@nuxtjs/tailwindcss",
+    "@pinia/nuxt",
     "@element-plus/nuxt",
-    '@inkline/nuxt'
+    "@inkline/nuxt",
   ],
   runtimeConfig: {
     public: {
-      apiBase: process.env.API_BASE_URL
-    }
+      apiBase: process.env.API_BASE_URL,
+    },
   },
-  
 });
