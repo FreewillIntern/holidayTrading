@@ -94,7 +94,6 @@ export default {
         for (let i = 0; i < result.data.length; i++) {
           this.marketCodes.push({id: i+1, label: result.data[i].mktcode})
           this.filterMarketCodes.push({id: i+1, label: result.data[i].mktcode})
-          console.log(result.data[i]);
         };
         this.store.marketCode = result.data[0].mktcode;
         this.store.marketName = result.data[0].mktname;
@@ -112,7 +111,6 @@ export default {
     for (let i = 1; i < 14; i++) {
       this.years.push({ id: i, label: (setYear - (11 - i)).toString() });
       this.filterYears.push({ id: i, label: (setYear - (11 - i)).toString() });
-      console.log((setYear - (11 - i)).toString());
     }
 
     this.store.year = new Date().getFullYear().toString();
