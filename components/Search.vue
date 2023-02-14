@@ -6,14 +6,14 @@
       <div class="h-full w-full flex justify-evenly" v-show="window.width >= 550">
         <div class="flex items-center">
           <h1 class="min-w-fit">Year :</h1>
-          <i-select v-model="year" :options="filterYears" autocomplete placeholder="Select Year" @search="onSearchYear"
+          <i-select v-model="year" :options="filterYears" autocomplete placeholder="20XX" @search="onSearchYear"
             @input="onInputYear" />
         </div>
 
         <div class="flex items-center">
           <h1 class="min-w-fit">Market :</h1>
           <i-select class="mr-2" v-model="market" :options="filterMarketCodes" autocomplete placeholder="Code" @search="onSearchMarket" @input="onInputMarket"/>
-          <h1>:</h1>
+          <h1 v-if="window.width > 1200">:</h1>
           <h1 class="ml-2 w-[200px] h-[26px] min-w-fit border-b-2 border-[rgb(84,84,84)]" v-if="window.width > 1200">
             {{ getMktFullName.mktname }}
           </h1>
@@ -33,9 +33,9 @@
         <div class="flex-col">
           <h1 class="text-[14px]">Year :</h1>
           <select v-model="year"
-            class="px-[5px] py-[2px] rounded-full bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)]">
-            <option v-for="(y, i) in years" :key="i" :value="y">
-              {{ y }}
+            class="px-[5px] py-[2px] rounded-full bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)] text-black">
+            <option v-for="(y, i) in years" :key="i" :value="y.label">
+              {{ y.label }}
             </option>
           </select>
         </div>
@@ -43,7 +43,7 @@
         <div class="flex-col">
           <h1 class="text-[14px]">Market :</h1>
           <select v-model="market"
-            class="px-[5px] py-[2px] rounded-full bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)]">
+            class="px-[5px] py-[2px] rounded-full bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)] text-black">
             <option v-for="(m, i) in markets" :key="i" :value="m.mktcode">
               {{ m.mktcode }}
             </option>
@@ -51,10 +51,10 @@
         </div>
 
         <div class="flex">
-          <button @click="search"
-            class="px-[15px] py-[2px] bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)] hover:shadow-[0_0_15px_rgba(0,0,0,0.3)] rounded-3xl">
+          <h1 @click="search"
+            class="px-[15px] py-[4px] bg-[rgba(255,255,255,0.3)] hover:bg-[rgba(255,255,255,0.5)] shadow-[0_0_10px_rgba(0,0,0,0.3)] hover:shadow-[0_0_15px_rgba(0,0,0,0.5)] cursor-pointer rounded-3xl">
             Search
-          </button>
+          </h1>
         </div>
       </div>
       <!-- Mobile -->
@@ -66,9 +66,6 @@
 import { vMaska } from "maska";
 import { useMainStore } from "~~/stores/data";
 import { useWindowSize } from "@vueuse/core";
-import { ComboBox } from "@progress/kendo-vue-dropdowns";
-import { filterBy } from "@progress/kendo-data-query";
-import { fontSizeIcon, paddingTopIcon } from "@progress/kendo-svg-icons";
 
 export default {
   setup() {
@@ -76,9 +73,6 @@ export default {
     return { store };
   },
   directives: { maska: vMaska },
-  components: {
-    combobox: ComboBox,
-  },
   data() {
     return {
       url: useRuntimeConfig().public.apiBase,
@@ -86,8 +80,8 @@ export default {
       years: [],
       markets: [],
       marketCodes: [],
-      year: null,
-      market: null,
+      year: '',
+      market: '',
       filterYears: [],
       filterMarketCodes: [],
     };
@@ -100,6 +94,7 @@ export default {
         for (let i = 0; i < result.data.length; i++) {
           this.marketCodes.push({id: i+1, label: result.data[i].mktcode})
           this.filterMarketCodes.push({id: i+1, label: result.data[i].mktcode})
+          console.log(result.data[i]);
         };
         this.store.marketCode = result.data[0].mktcode;
         this.store.marketName = result.data[0].mktname;
@@ -117,15 +112,17 @@ export default {
     for (let i = 1; i < 14; i++) {
       this.years.push({ id: i, label: (setYear - (11 - i)).toString() });
       this.filterYears.push({ id: i, label: (setYear - (11 - i)).toString() });
+      console.log((setYear - (11 - i)).toString());
     }
 
     this.store.year = new Date().getFullYear().toString();
   },
   methods: {
     search() {
+      console.log("Search");
       if (
-        this.year != null &&
-        this.market != null
+        this.year !== null &&
+        this.market !== null
       ) {
         fetch(`${this.url}holiday?mkt=${this.market.label}&year=${this.year.label}`)
           .then((response) => response.json())
