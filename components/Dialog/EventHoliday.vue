@@ -1,13 +1,7 @@
 <template>
   <div class="dialog-add rounded">
     <!-- Add Form -->
-    <i-modal
-      v-model="addCell"
-      color="white"
-      size="lg"
-      :hideOnClickOutside="false"
-      :showClose="false"
-    >
+    <i-modal v-model="addCell" color="white" size="lg" :hideOnClickOutside="false" :showClose="false">
       <template #header> Add holiday date </template>
       <template #default>
         <p class="pb-5">Date: {{ formatDDMMYY }}</p>
@@ -16,29 +10,14 @@
             <el-input v-model="enteredDialog.description" autocomplete="off" />
           </el-form-item>
           <el-form-item label="Market code" :rules="[{ required: true }]">
-            <el-select
-              v-model="enteredDialog.marketType"
-              placeholder="Please select a type of market"
-            >
-              <el-option
-                v-for="value in store.getDataMarket"
-                :key="value"
-                :label="value.mktcode"
-                :value="value.mktcode"
-              />
+            <el-select v-model="enteredDialog.marketType" placeholder="Please select a type of market">
+              <el-option v-for="value in store.getDataMarket" :key="value" :label="value.mktcode"
+                :value="value.mktcode" />
             </el-select>
           </el-form-item>
           <el-form-item label="type" :rules="[{ required: true }]">
-            <el-select
-              v-model="enteredDialog.cantrade"
-              placeholder="Please select a type"
-            >
-              <el-option
-                v-for="value in cantradeChoise"
-                :key="value"
-                :label="value"
-                :value="value"
-              />
+            <el-select v-model="enteredDialog.cantrade" placeholder="Please select a type">
+              <el-option v-for="value in cantradeChoise" :key="value" :label="value" :value="value" />
             </el-select>
           </el-form-item>
         </el-form>
@@ -52,13 +31,7 @@
     </i-modal>
 
     <!-- Edit form -->
-    <i-modal
-      v-model="editCell"
-      color="white"
-      size="lg"
-      :hideOnClickOutside="false"
-      :showClose="false"
-    >
+    <i-modal v-model="editCell" color="white" size="lg" :hideOnClickOutside="false" :showClose="false">
       <template #header> Edit holiday date </template>
       <template #default>
         <p class="pb-5">Date: {{ formatDDMMYY }}</p>
@@ -67,29 +40,14 @@
             <el-input v-model="enteredDialog.description" autocomplete="off" />
           </el-form-item>
           <el-form-item label="Market code" :rules="[{ required: true }]">
-            <el-select
-              v-model="enteredDialog.marketType"
-              placeholder="Please select a type of market"
-            >
-              <el-option
-                v-for="value in store.getDataMarket"
-                :key="value"
-                :label="value.mktcode"
-                :value="value.mktcode"
-              />
+            <el-select v-model="enteredDialog.marketType" placeholder="Please select a type of market">
+              <el-option v-for="value in store.getDataMarket" :key="value" :label="value.mktcode"
+                :value="value.mktcode" />
             </el-select>
           </el-form-item>
           <el-form-item label="type" :rules="[{ required: true }]">
-            <el-select
-              v-model="enteredDialog.cantrade"
-              placeholder="Please select a type"
-            >
-              <el-option
-                v-for="value in cantradeChoise"
-                :key="value"
-                :label="value"
-                :value="value"
-              />
+            <el-select v-model="enteredDialog.cantrade" placeholder="Please select a type">
+              <el-option v-for="value in cantradeChoise" :key="value" :label="value" :value="value" />
             </el-select>
           </el-form-item>
         </el-form>
@@ -127,6 +85,7 @@ export default {
 
   data() {
     return {
+      url: useRuntimeConfig().public.apiBase,
       cantradeChoise: ["N", "T", "S"],
       date: this.dataDateSelected.date,
       enteredDialog: {
@@ -164,10 +123,8 @@ export default {
     },
     async fetchaddAPI() {
       const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
-      let urlGetHolidays = `https://10.22.26.103/beam/holiday?mkt=${
-        this.dataDateSelected.mktcode
-      }&year=${this.date.getFullYear()}`;
-      await useFetch(() => "https://10.22.26.103/beam/holiday/insert", {
+      let urlGetHolidays = `${this.url}holiday?mkt=${this.dataDateSelected.mktcode}&year=${this.date.getFullYear()}`;
+      await useFetch(() => `${this.url}holiday/insert`, {
         method: "POST",
         body: JSON.parse(bodyData),
       });
@@ -181,14 +138,14 @@ export default {
     },
     async fetchEditAPI() {
       const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
-      let urlGetHolidays = `https://10.22.26.103/beam/holiday?mkt=${
-        this.dataDateSelected.mktcode
-      }&year=${this.date.getFullYear()}`;
-      await useFetch(() => "https://10.22.26.103/beam/holiday/edit", {
+      // let urlGetHolidays = `${this.url}holiday?mkt=${this.dataDateSelected.mktcode}&year=${this.date.getFullYear()}`;
+
+      await useFetch(() => `${this.url}holiday/edit`, {
         method: "POST",
         body: JSON.parse(bodyData),
       });
-      await fetch(urlGetHolidays)
+
+      await fetch(`${this.url}holiday?mkt=${this.dataDateSelected.mktcode}&year=${this.date.getFullYear()}`)
         .then((response) => response.json())
         .then((result) => this.store.updateHolidays(result.data))
         .catch((error) => {

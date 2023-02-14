@@ -6,14 +6,13 @@
       <div class="h-full w-full flex justify-evenly" v-show="window.width >= 550">
         <div class="flex items-center">
           <h1 class="min-w-fit">Year :</h1>
-          <i-select v-model="year" :options="filterYears" autocomplete placeholder="Year" @search="onSearchYear"
+          <i-select v-model="year" :options="filterYears" autocomplete placeholder="Select Year" @search="onSearchYear"
             @input="onInputYear" />
         </div>
 
         <div class="flex items-center">
           <h1 class="min-w-fit">Market :</h1>
-          <i-select class="mr-2" v-model="market" :options="filterMarketCodes" autocomplete placeholder="Code"
-            @search="onSearchMarket" @input="onInputMarket" />
+          <i-select class="mr-2" v-model="market" :options="filterMarketCodes" autocomplete placeholder="Code" @search="onSearchMarket" @input="onInputMarket"/>
           <h1>:</h1>
           <h1 class="ml-2 w-[200px] h-[26px] min-w-fit border-b-2 border-[rgb(84,84,84)]" v-if="window.width > 1200">
             {{ getMktFullName.mktname }}
@@ -67,6 +66,9 @@
 import { vMaska } from "maska";
 import { useMainStore } from "~~/stores/data";
 import { useWindowSize } from "@vueuse/core";
+import { ComboBox } from "@progress/kendo-vue-dropdowns";
+import { filterBy } from "@progress/kendo-data-query";
+import { fontSizeIcon, paddingTopIcon } from "@progress/kendo-svg-icons";
 
 export default {
   setup() {
@@ -74,6 +76,9 @@ export default {
     return { store };
   },
   directives: { maska: vMaska },
+  components: {
+    combobox: ComboBox,
+  },
   data() {
     return {
       url: useRuntimeConfig().public.apiBase,
@@ -93,8 +98,8 @@ export default {
       .then((result) => {
         this.markets = result.data;
         for (let i = 0; i < result.data.length; i++) {
-          this.marketCodes.push({ id: i + 1, label: result.data[i].mktcode })
-          this.filterMarketCodes.push({ id: i + 1, label: result.data[i].mktcode })
+          this.marketCodes.push({id: i+1, label: result.data[i].mktcode})
+          this.filterMarketCodes.push({id: i+1, label: result.data[i].mktcode})
         };
         this.store.marketCode = result.data[0].mktcode;
         this.store.marketName = result.data[0].mktname;
