@@ -68,7 +68,7 @@ export default {
   computed: {
     columns() {
       let widthWindow = this.window.width * 0.6;
-      let widthCalendar = 370;
+      let widthCalendar = 400;
       let cols =
         Math.floor(widthWindow / widthCalendar) < 1
           ? 1

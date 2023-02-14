@@ -2,7 +2,7 @@
   <td class="p-4" @click="editorable = true">
     <h1 v-if="!editorable">{{ description }}</h1>
     <input
-      class="border text-black rounded-md border-gray-800 w-full px-2 py-[3px]"
+      class="cell-calendar border text-black rounded-md border-gray-800 w-full px-2 py-[3px]"
       v-else
       type="text"
       @click.stop
@@ -46,3 +46,9 @@ export default {
   },
 };
 </script>
+
+<style>
+.cell-calendar {
+  width: 10px !important;
+}
+</style>
