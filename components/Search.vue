@@ -9,37 +9,44 @@
         v-show="window.width >= 550"
       >
         <div class="flex items-center">
-          <h1 class="min-w-fit">Year :</h1>
+          <p class="min-w-fit">Year :</p>
           <i-select
             v-model="year"
             :options="filterYears"
             autocomplete
-            placeholder="Select Year"
+            placeholder="20XX"
             @search="onSearchYear"
             @input="onInputYear"
           />
         </div>
 
         <div class="flex items-center">
-          <h1 class="min-w-fit">Market :</h1>
-          <i-select class="mr-2" v-model="market" :options="filterMarketCodes" autocomplete placeholder="Code"
-            @search="onSearchMarket" @input="onInputMarket" />
-          <h1>:</h1>
-          <h1
+          <p class="min-w-fit">Market :</p>
+          <i-select
+            class="mr-2"
+            v-model="market"
+            :options="filterMarketCodes"
+            autocomplete
+            placeholder="Code"
+            @search="onSearchMarket"
+            @input="onInputMarket"
+          />
+          <p v-if="window.width > 1200">:</p>
+          <p
             class="ml-2 w-[200px] h-[26px] min-w-fit border-b-2 border-[rgb(84,84,84)]"
             v-if="window.width > 1200"
           >
             {{ getMktFullName.mktname }}
-          </h1>
+          </p>
         </div>
 
         <div class="flex items-center">
-          <h1
+          <p
             @click="search"
             class="px-[15px] py-[4px] bg-[rgba(255,255,255,0.3)] hover:bg-[rgba(255,255,255,0.5)] shadow-[0_0_10px_rgba(0,0,0,0.3)] hover:shadow-[0_0_15px_rgba(0,0,0,0.5)] cursor-pointer rounded-3xl"
           >
             Search
-          </h1>
+          </p>
         </div>
       </div>
       <!-- Pc -->
@@ -50,22 +57,22 @@
         v-show="window.width < 550"
       >
         <div class="flex-col">
-          <h1 class="text-[14px]">Year :</h1>
+          <p class="text-[14px]">Year :</p>
           <select
             v-model="year"
-            class="px-[5px] py-[2px] rounded-full bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)]"
+            class="px-[5px] py-[2px] rounded-full bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)] text-black"
           >
-            <option v-for="(y, i) in years" :key="i" :value="y">
-              {{ y }}
+            <option v-for="(y, i) in years" :key="i" :value="y.label">
+              {{ y.label }}
             </option>
           </select>
         </div>
 
         <div class="flex-col">
-          <h1 class="text-[14px]">Market :</h1>
+          <p class="text-[14px]">Market :</p>
           <select
             v-model="market"
-            class="px-[5px] py-[2px] rounded-full bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)]"
+            class="px-[5px] py-[2px] rounded-full bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)] text-black"
           >
             <option v-for="(m, i) in markets" :key="i" :value="m.mktcode">
               {{ m.mktcode }}
@@ -74,10 +81,12 @@
         </div>
 
         <div class="flex">
-          <h1 @click="search"
-            class="px-[15px] py-[2px] bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)] hover:shadow-[0_0_15px_rgba(0,0,0,0.3)] rounded-3xl">
+          <p
+            @click="search"
+            class="px-[15px] py-[4px] bg-[rgba(255,255,255,0.3)] hover:bg-[rgba(255,255,255,0.5)] shadow-[0_0_10px_rgba(0,0,0,0.3)] hover:shadow-[0_0_15px_rgba(0,0,0,0.5)] cursor-pointer rounded-3xl"
+          >
             Search
-          </h1>
+          </p>
         </div>
       </div>
       <!-- Mobile -->
@@ -86,21 +95,13 @@
 </template>
 
 <script>
-import { vMaska } from "maska";
 import { useMainStore } from "~~/stores/data";
 import { useWindowSize } from "@vueuse/core";
-import { ComboBox } from "@progress/kendo-vue-dropdowns";
-import { filterBy } from "@progress/kendo-data-query";
-import { fontSizeIcon, paddingTopIcon } from "@progress/kendo-svg-icons";
 
 export default {
   setup() {
     const store = useMainStore();
     return { store };
-  },
-  directives: { maska: vMaska },
-  components: {
-    combobox: ComboBox,
   },
   data() {
     return {
@@ -109,8 +110,8 @@ export default {
       years: [],
       markets: [],
       marketCodes: [],
-      year: null,
-      market: null,
+      year: "",
+      market: "",
       filterYears: [],
       filterMarketCodes: [],
     };
@@ -216,11 +217,7 @@ export default {
 
 @media only screen and (max-width: 1400px) {
   .input {
-    width: 120px;
-  }
-
-  .inputMarket {
-    width: 120px;
+    width: 130px;
   }
 }
 </style>
