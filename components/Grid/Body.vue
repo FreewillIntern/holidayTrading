@@ -6,6 +6,7 @@
              @rowclick="rowClick"
              @cellclick="cellClick"
              :row-render="rowRender"
+             loading = true
              @itemchange="itemChange"
              :columns="columns">
              <template v-slot:myTemplate="{ props }">
@@ -141,15 +142,14 @@ export default {
             this.editField = undefined;
         },
         itemChange: async function (e) {
+            this.editField = "holidaydate";
             e.dataItem[e.field] = e.value;
             const bodyData =`{"mktcode": "${e.dataItem.mktcode}","holidaydate": "${e.dataItem.holidaydate}","description": "${e.dataItem.description}","cantrade": "${e.dataItem.cantrade}"}`
             await useFetch(() => this.url + "holiday/edit", {
                 method: 'POST',
                 body: JSON.parse(bodyData)
             });
-            this.store.holidays = await useFetch(() => this.url + `?mkt=${this.store.marketCode}&year=${this.store.year}`, {
-                method: 'GET'
-            });
+            this.gridData = await useFetch(() => this.url + `holiday?mkt=${this.store.marketCode}&year=${this.store.year}`);
             this.changes = true;
         },
         rowClick: function (e) {
