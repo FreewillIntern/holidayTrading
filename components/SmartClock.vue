@@ -18,7 +18,7 @@ export default {
     },
     data(){
         return {
-            timeOne: moment().format('LTS'),
+            timeOne: '',
             timeTwo: moment().format('l'),
             timeThree: moment().format('MMMM Do YY'),
             timeFour: moment().format('LT'), 
