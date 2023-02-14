@@ -6,7 +6,7 @@
       <div class="h-full w-full flex justify-evenly" v-show="window.width >= 550">
         <div class="flex items-center">
           <h1 class="min-w-fit">Year :</h1>
-          <i-select v-model="year" :options="filterYears" autocomplete placeholder="Select Year" @search="onSearchYear"
+          <i-select v-model="year" :options="filterYears" autocomplete placeholder="Year" @search="onSearchYear"
             @input="onInputYear" />
         </div>
 
