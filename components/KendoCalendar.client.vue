@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import singleCalendarClient from "~~/components/Calendar/SingleCalendar.client.vue";
+import singleCalendarClient from "~~/components/Calendar/SingleCalendar.vue";
 import DialogEventHoliday from "~~/components/Dialog/EventHoliday.vue";
 import { useMainStore } from "~~/stores/data";
 import { useWindowSize } from "@vueuse/core";
@@ -68,7 +68,7 @@ export default {
   computed: {
     columns() {
       let widthWindow = this.window.width * 0.6;
-      let widthCalendar = 400;
+      let widthCalendar = 380;
       let cols =
         Math.floor(widthWindow / widthCalendar) < 1
           ? 1
