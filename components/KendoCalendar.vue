@@ -1,39 +1,21 @@
 <template>
-  <div
-    class="grid overflow-auto items-center w-full h-full"
-    :class="{
-      'grid-cols-4': columns >= 4,
-      'grid-cols-3': columns == 3,
-      'grid-cols-2': columns == 2,
-      'grid-cols-1': columns == 1,
-    }"
-  >
+  <div class="grid overflow-auto items-center w-full h-full grid-cols-2" :class="{
+    'grid-cols-4': columns >= 4,
+    'grid-cols-3': columns == 3,
+    'grid-cols-2': columns == 2,
+    'grid-cols-1': columns == 1,
+  }">
     <!-- Calendar 12 month -->
-    <calendar
-      v-for="month in months"
-      :monthlyLeave="monthlyLeave[month]"
-      :month="month"
-      :year="year"
-      :key="month"
-      @click-left="clickShowCell"
-      @click-right="clickEventCell"
-    ></calendar>
+    <calendar v-for="month in months" :monthlyLeave="monthlyLeave[month]" :month="month" :year="year" :key="month"
+      @click-left="clickShowCell" @click-right="clickEventCell"></calendar>
 
     <!-- Dialog Information -->
-    <DialogDateInformation
-      v-if="informationDialogVisible"
-      :dialogVisible="informationDialogVisible"
-      :dataDateSelected="dataDateSelected"
-      @state-information-dialog="updateInformationDialogState"
-    />
+    <DialogDateInformation v-if="informationDialogVisible" :dialogVisible="informationDialogVisible"
+      :dataDateSelected="dataDateSelected" @state-information-dialog="updateInformationDialogState" />
 
     <!-- Dialog Event -->
-    <EventDialog
-      v-if="eventDialogVisible"
-      :dialogVisible="eventDialogVisible"
-      :dataDateSelected="dataDateSelected"
-      @state-event-dialog="updateEventDialogState"
-    />
+    <EventDialog v-if="eventDialogVisible" :dialogVisible="eventDialogVisible" :dataDateSelected="dataDateSelected"
+      @state-event-dialog="updateEventDialogState" />
   </div>
 </template>
 
@@ -67,8 +49,8 @@ export default {
 
   computed: {
     columns() {
-      let widthWindow = this.window.width * 0.65;
-      let widthCalendar = 300;
+      let widthWindow = this.window.width * 0.6;
+      let widthCalendar = 280;
       let cols =
         Math.floor(widthWindow / widthCalendar) < 1
           ? 1
