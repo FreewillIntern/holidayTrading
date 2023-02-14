@@ -30,7 +30,7 @@
 
 <script>
 import { Calendar } from "@progress/kendo-vue-dateinputs";
-import Cell from "~~/components/Calendar/Cell.client.vue";
+import Cell from "~~/components/Calendar/Cell.vue"
 
 export default {
   components: {

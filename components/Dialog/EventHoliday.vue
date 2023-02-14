@@ -122,7 +122,7 @@ export default {
       this.$emit("stateEventDialog");
     },
     async fetchaddAPI() {
-      const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
+      const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatDDMMYY}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
       let urlGetHolidays = `${this.url}holiday?mkt=${this.dataDateSelected.mktcode}&year=${this.date.getFullYear()}`;
       await useFetch(() => `${this.url}holiday/insert`, {
         method: "POST",
@@ -137,7 +137,7 @@ export default {
         });
     },
     async fetchEditAPI() {
-      const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatYYMMDD}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
+      const bodyData = `{"mktcode": "${this.enteredDialog.marketType}","holidaydate": "${this.formatDDMMYY}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
       // let urlGetHolidays = `${this.url}holiday?mkt=${this.dataDateSelected.mktcode}&year=${this.date.getFullYear()}`;
 
       await useFetch(() => `${this.url}holiday/edit`, {
