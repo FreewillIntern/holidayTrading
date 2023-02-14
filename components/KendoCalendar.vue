@@ -1,6 +1,6 @@
 <template>
   <div
-    class="grid overflow-auto items-center w-full h-full"
+    class="grid justify-items-center overflow-auto overflow-y-auto items-center w-full h-full pt-5"
     :class="{
       'grid-cols-4': columns >= 4,
       'grid-cols-3': columns == 3,
@@ -67,8 +67,8 @@ export default {
 
   computed: {
     columns() {
-      let widthWindow = this.window.width * 0.65;
-      let widthCalendar = 300;
+      let widthWindow = this.window.width * 0.6;
+      let widthCalendar = 370;
       let cols =
         Math.floor(widthWindow / widthCalendar) < 1
           ? 1
