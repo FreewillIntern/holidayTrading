@@ -54,7 +54,7 @@
           <button @click="search"
             class="px-[15px] py-[2px] bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)] hover:shadow-[0_0_15px_rgba(0,0,0,0.3)] rounded-3xl">
             Search
-          </button>
+          </h1>
         </div>
       </div>
       <!-- Mobile -->
@@ -123,6 +123,7 @@ export default {
   },
   methods: {
     search() {
+      console.log("Search");
       if (
         this.year != null &&
         this.market != null
