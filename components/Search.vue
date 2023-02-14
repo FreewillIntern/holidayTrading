@@ -1,27 +1,50 @@
 <template>
   <div
-    class="w-full h-full bg-[rgba(32,32,32,0.95)] shadow-[_3px_3px_15px_rgba(0,0,0,0.8)] rounded-xl overflow-auto flex items-center text-white">
+    class="w-full h-full bg-[rgba(32,32,32,0.95)] shadow-[_3px_3px_15px_rgba(0,0,0,0.8)] rounded-xl overflow-auto flex items-center text-white"
+  >
     <div class="w-full flex">
       <!-- Pc -->
-      <div class="h-full w-full flex justify-evenly" v-show="window.width >= 550">
+      <div
+        class="h-full w-full flex justify-evenly"
+        v-show="window.width >= 550"
+      >
         <div class="flex items-center">
           <h1 class="min-w-fit">Year :</h1>
-          <i-select v-model="year" :options="filterYears" autocomplete placeholder="Select Year" @search="onSearchYear"
-            @input="onInputYear" />
+          <i-select
+            v-model="year"
+            :options="filterYears"
+            autocomplete
+            placeholder="Select Year"
+            @search="onSearchYear"
+            @input="onInputYear"
+          />
         </div>
 
         <div class="flex items-center">
           <h1 class="min-w-fit">Market :</h1>
-          <i-select class="mr-2" v-model="market" :options="filterMarketCodes" autocomplete placeholder="Code" @search="onSearchMarket" @input="onInputMarket"/>
+          <i-select
+            class="mr-2"
+            v-model="market"
+            :options="filterMarketCodes"
+            autocomplete
+            placeholder="Code"
+            @search="onSearchMarket"
+            @input="onInputMarket"
+          />
           <h1>:</h1>
-          <h1 class="ml-2 w-[200px] h-[26px] min-w-fit border-b-2 border-[rgb(84,84,84)]" v-if="window.width > 1200">
+          <h1
+            class="ml-2 w-[200px] h-[26px] min-w-fit border-b-2 border-[rgb(84,84,84)]"
+            v-if="window.width > 1200"
+          >
             {{ getMktFullName.mktname }}
           </h1>
         </div>
 
         <div class="flex items-center">
-          <h1 @click="search"
-            class="px-[15px] py-[4px] bg-[rgba(255,255,255,0.3)] hover:bg-[rgba(255,255,255,0.5)] shadow-[0_0_10px_rgba(0,0,0,0.3)] hover:shadow-[0_0_15px_rgba(0,0,0,0.5)] cursor-pointer rounded-3xl">
+          <h1
+            @click="search"
+            class="px-[15px] py-[4px] bg-[rgba(255,255,255,0.3)] hover:bg-[rgba(255,255,255,0.5)] shadow-[0_0_10px_rgba(0,0,0,0.3)] hover:shadow-[0_0_15px_rgba(0,0,0,0.5)] cursor-pointer rounded-3xl"
+          >
             Search
           </h1>
         </div>
@@ -29,11 +52,16 @@
       <!-- Pc -->
 
       <!-- Mobile -->
-      <div class="h-full w-full flex justify-evenly items-center" v-show="window.width < 550">
+      <div
+        class="h-full w-full flex justify-evenly items-center"
+        v-show="window.width < 550"
+      >
         <div class="flex-col">
           <h1 class="text-[14px]">Year :</h1>
-          <select v-model="year"
-            class="px-[5px] py-[2px] rounded-full bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)]">
+          <select
+            v-model="year"
+            class="px-[5px] py-[2px] rounded-full bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)]"
+          >
             <option v-for="(y, i) in years" :key="i" :value="y">
               {{ y }}
             </option>
@@ -42,8 +70,10 @@
 
         <div class="flex-col">
           <h1 class="text-[14px]">Market :</h1>
-          <select v-model="market"
-            class="px-[5px] py-[2px] rounded-full bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)]">
+          <select
+            v-model="market"
+            class="px-[5px] py-[2px] rounded-full bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)]"
+          >
             <option v-for="(m, i) in markets" :key="i" :value="m.mktcode">
               {{ m.mktcode }}
             </option>
@@ -51,8 +81,10 @@
         </div>
 
         <div class="flex">
-          <button @click="search"
-            class="px-[15px] py-[2px] bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)] hover:shadow-[0_0_15px_rgba(0,0,0,0.3)] rounded-3xl">
+          <h1
+            @click="search"
+            class="px-[15px] py-[2px] bg-[rgb(255,255,255)] shadow-[0_0_10px_rgba(0,0,0,0.3)] hover:shadow-[0_0_15px_rgba(0,0,0,0.3)] rounded-3xl"
+          >
             Search
           </h1>
         </div>
@@ -98,9 +130,12 @@ export default {
       .then((result) => {
         this.markets = result.data;
         for (let i = 0; i < result.data.length; i++) {
-          this.marketCodes.push({id: i+1, label: result.data[i].mktcode})
-          this.filterMarketCodes.push({id: i+1, label: result.data[i].mktcode})
-        };
+          this.marketCodes.push({ id: i + 1, label: result.data[i].mktcode });
+          this.filterMarketCodes.push({
+            id: i + 1,
+            label: result.data[i].mktcode,
+          });
+        }
         this.store.marketCode = result.data[0].mktcode;
         this.store.marketName = result.data[0].mktname;
         this.store.markets = result.data;
@@ -124,22 +159,22 @@ export default {
   methods: {
     search() {
       console.log("Search");
-      if (
-        this.year != null &&
-        this.market != null
-      ) {
-        fetch(`${this.url}holiday?mkt=${this.market.label}&year=${this.year.label}`)
+      if (this.year != null && this.market != null) {
+        fetch(
+          `${this.url}holiday?mkt=${this.market.label}&year=${this.year.label}`
+        )
           .then((response) => response.json())
           .then((result) => (this.store.holidays = result.data));
 
         this.store.year = this.year.label;
-        this.store.marketCode = this.market.label
+        this.store.marketCode = this.market.label;
         this.store.marketName = this.markets.find(
           (mkt) => mkt.mktcode === this.market.label
         ).mktname;
 
         gtag("event", "search", {
-          search_term: "Year: " + this.year.label + ", Market Code: " + this.market.label,
+          search_term:
+            "Year: " + this.year.label + ", Market Code: " + this.market.label,
         });
       }
     },
@@ -154,10 +189,9 @@ export default {
       if (query != null) {
         query = query.substr(0, 4);
       }
-      this.filterYears = this.years
-        .filter((option) => {
-          return option.label.toLowerCase().includes((query || '').toLowerCase());
-        });
+      this.filterYears = this.years.filter((option) => {
+        return option.label.toLowerCase().includes((query || "").toLowerCase());
+      });
     },
     onInputMarket(event) {
       const value = event.target.value;
@@ -167,15 +201,16 @@ export default {
       }
     },
     onSearchMarket(query) {
-      this.filterMarketCodes = this.marketCodes
-        .filter((option) => {
-          return option.label.toLowerCase().includes((query || '').toLowerCase());
-        });
+      this.filterMarketCodes = this.marketCodes.filter((option) => {
+        return option.label.toLowerCase().includes((query || "").toLowerCase());
+      });
     },
   },
   computed: {
     getMktFullName() {
-      return this.markets.find((mkt) => mkt.mktcode === this.market.label) || "";
+      return (
+        this.markets.find((mkt) => mkt.mktcode === this.market.label) || ""
+      );
     },
   },
 };
