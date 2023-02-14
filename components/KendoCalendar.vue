@@ -77,7 +77,7 @@ export default {
           const splitDate = data.holidaydate.split("-");
           obJectHolidays[Number(splitDate[1]) - 1].push({
             id: data.id,
-            date: Number(splitDate[2]),
+            date: Number(splitDate[0]),
             cantrade: data.cantrade,
             description: data.description,
           });
