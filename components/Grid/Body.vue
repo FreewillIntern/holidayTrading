@@ -158,6 +158,9 @@ export default {
                 method: 'POST',
                 body: JSON.parse(bodyData)
             });
+            this.store.holidays = await useFetch(() => this.url + `?mkt=${this.store.marketCode}&year=${this.store.year}`, {
+                method: 'GET'
+            });
             this.changes = true;
         },
         rowClick: function (e) {
