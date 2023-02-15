@@ -64,8 +64,8 @@ export default {
             expandedItems: [],
             loader: false,
             columns: [
-                { field: 'holidaydate', editable: false, title: 'Holiday Date'},
-                { field: 'cantrade', editable: false, title: 'Type' },
+                { field: 'holidaydate', editable: false, title: 'Holiday Date', width: "150px"},
+                { field: 'cantrade', editable: false, title: 'Type',width: "70px" },
                 { field: 'description', title: 'Description'},
                 { cell: 'myTemplate', width: '100px' },
             ],
@@ -216,7 +216,7 @@ export default {
     }
     .gridCustomStyle tbody tr:nth-child(odd) {
         transition: 1s;
-        background-color: #0000005e;
+        background-color: #272727c9;
         color: white;
     }
 
@@ -280,8 +280,8 @@ export default {
 
     div.k-grid-content::-webkit-scrollbar-thumb
     {
-        -webkit-box-shadow: inset 0 0 6px rgba(20, 20, 20, 0.582);
-        background-color: #000000e3;
+        -webkit-box-shadow: inset 0 0 6px rgba(20, 20, 20, 0.719);
+        background-color: #202020;
     }
 
     .gridCustomStyle .k-grid-content {
