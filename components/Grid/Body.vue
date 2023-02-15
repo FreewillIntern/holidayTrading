@@ -87,7 +87,7 @@ export default {
                 d.holidaydate = dDate;
             } )
 
-            this.gridData = orderBy(this.store.holidays, this.sort);
+            this.store.holidays = orderBy(this.store.holidays, this.sort);
 
             this.store.holidays.forEach(d => {
                 let year = d.holidaydate.slice(0,4);
@@ -284,5 +284,8 @@ export default {
         background-color: #000000e3;
     }
 
+    .gridCustomStyle .k-grid-content {
+        overflow: auto;
+    }
 
 </style>
