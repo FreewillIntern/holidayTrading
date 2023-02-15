@@ -1,6 +1,6 @@
 <template>
    <div class="flex flex-col justify-center items-center w-full h-screen bg-cover bg-[url('https://cdn.discordapp.com/attachments/1062212130885075066/1073107427622408222/cool-4k-pattern_bGduZWyUmZqaraWkpJRmbmdlrWZlbWU.png')]">
-    <div class="w-screen h-screen flex flex-col justify-center items-center bg-[rgba(50,50,50,0.8)]">
+    <div class="w-screen h-screen flex flex-col justify-center items-center bg-[rgba(50,50,50,0)]">
         <!--HEADER START-->
         <div class="flex w-[90%] h-[10%]">
             <!--SEARCH START-->
