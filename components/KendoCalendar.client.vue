@@ -1,7 +1,7 @@
 <template>
   <div class="grid justify-items-center overflow-auto items-center h-full">
     <div
-      class="holiday-description grid grid-cols-3 mb-10 bg-[rgba(32,32,32,0.95)] shadow-[_3px_3px_15px_rgba(0,0,0,0.8)] rounded-xl items-center text-white"
+      class="holiday-description w-[97%] flex justify-center mb-10 bg-[rgba(32,32,32,0.95)] shadow-[_3px_3px_15px_rgba(0,0,0,0.8)] rounded-xl items-center text-white"
     >
       <div class="flex justify-center items-center">
         <div class="flex m-2 w-[40px] h-[40px] justify-center items-center bg-[rgb(255,153,153)] text-black rounded-full">
