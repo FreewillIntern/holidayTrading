@@ -97,9 +97,6 @@
 <script>
 import { useMainStore } from "~~/stores/data";
 import { useWindowSize } from "@vueuse/core";
-import { ComboBox } from "@progress/kendo-vue-dropdowns";
-import { filterBy } from "@progress/kendo-data-query";
-import { fontSizeIcon, paddingTopIcon } from "@progress/kendo-svg-icons";
 
 export default {
   setup() {
