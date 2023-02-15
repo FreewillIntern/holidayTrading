@@ -20,7 +20,7 @@ export default {
         return {
             timeOne: '',
             timeTwo: moment().format('l'),
-            timeThree: moment().format('MMMM Do YYYY'),
+            timeThree: '',
             timeFour: moment().format('LT'), 
         }
         
@@ -28,7 +28,7 @@ export default {
     mounted: function() {
         setInterval(()=>{
             this.timeOne = moment().format('LTS')
-            this.timeThree = moment().format('MMMM Do YYYY')
+            this.timeThree = moment().format('D MMMM YYYY')
         },1000)
     }
 }
