@@ -5,8 +5,11 @@
              :edit-field="'inEdit'"
              @rowclick="rowClick"
              @cellclick="cellClick"
+             :sortable="true"
+             :sort="sort"
              :row-render="rowRender"
-             loading = true
+             @sortchange="sortChangeHandler"
+             :loader="loader"
              @itemchange="itemChange"
              :columns="columns">
              <template v-slot:myTemplate="{ props }">
@@ -31,6 +34,7 @@
 </template>
 <script>
 import { Grid, GridToolbar } from '@progress/kendo-vue-grid';
+import { orderBy } from '@progress/kendo-data-query';
 import { Button } from '@progress/kendo-vue-buttons';
 import { useMainStore } from "~~/stores/data";
 import CommandCell from './CommandCell';
@@ -49,6 +53,7 @@ export default {
     data: function () {
         return {
             editItem: undefined,
+            sort: [{ field: 'holidaydate', dir: 'asc' }],
             currentEdit: null,
             visible: false,
             changes: false,
@@ -57,6 +62,7 @@ export default {
             editField: undefined,
             group: [ { field: 'UnitsInStock' } ],
             expandedItems: [],
+            loader: false,
             columns: [
                 { field: 'holidaydate', editable: false, title: 'Holiday Date'},
                 { field: 'cantrade', editable: false, title: 'Type' },
@@ -69,11 +75,40 @@ export default {
     },
     computed:{
         setGridData(){
-            this.gridData = this.store.holidays
-            return this.gridData
+            this.store.holidays.forEach(d => {
+                let dateArr = d.holidaydate.split('/');
+
+                let year = dateArr[2];
+                let month = dateArr[1];
+                let day = dateArr[0];
+  
+                let dDate = `${year}${month}${day}`;
+
+                d.holidaydate = dDate;
+            } )
+
+            this.gridData = orderBy(this.store.holidays, this.sort);
+
+            this.gridData.forEach(d => {
+                console.log(d.holidaydate);
+                let year = d.holidaydate.slice(0,4);
+                let month = d.holidaydate.slice(4,6);
+                let date = d.holidaydate.slice(6,8);
+
+                d.holidaydate = `${date}/${month}/${year}`;
+            });
+
+            return this.gridData;
         }
     },
     methods: {
+        sortChangeHandler: function (e) {
+            this.loader = true;
+            setTimeout(() => {
+                this.loader = false;
+                this.sort = e.sort;
+            }, 200);
+        },
         setModalVisible(currentEdit){
             this.visible = !this.visible
             this.currentEdit = currentEdit
