@@ -233,21 +233,19 @@ export default {
     div.k-grid-content::-webkit-scrollbar-track
     {
         -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-        border-radius: 10px;
         background-color: #f5f5f500;
     }
 
     div.k-grid-content::-webkit-scrollbar
     {
-        width: 8px;
+        width: 5px;
         background-color: #f5f5f500;
     }
 
     div.k-grid-content::-webkit-scrollbar-thumb
     {
-        border-radius: 10px;
         -webkit-box-shadow: inset 0 0 6px rgba(20, 20, 20, 0.582);
-        background-color: #3a3a3ae3;
+        background-color: #000000e3;
     }
 
 
