@@ -1,33 +1,42 @@
 <template>
-  <div class="grid justify-items-center overflow-auto items-center h-full">
-    <div
-      class="holiday-description w-[97%] flex justify-center mb-10 bg-[rgba(32,32,32,0.95)] rounded-xl items-center text-white"
-    >
-      <div class="flex justify-center items-center">
-        <div class="flex m-2 w-[40px] h-[40px] justify-center items-center bg-[rgb(255,153,153)] text-black rounded-full">
-          <p >N</p>
-        </div>
-        <div>
-          <p>= No Trading and Settlement</p>
-        </div>
+  <div
+    class="holiday-description w-[97%] h-[10%] flex justify-evenly mx-auto bg-[rgba(32,32,32,0.95)] rounded-xl items-center text-white shadow-[rgba(0,0,0,0.45)_0px_25px_20px_-20px]"
+  >
+    <div class="flex justify-center items-center">
+      <div
+        class="flex m-2 w-[40px] h-[40px] justify-center items-center bg-[rgb(255,153,153)] text-black rounded-full"
+      >
+        <p>N</p>
       </div>
-      <div class="flex justify-center items-center">
-        <div class="flex m-2 w-[40px] h-[40px] justify-center items-center bg-[rgba(255,255,153)] text-black rounded-full">
-          <p >T</p>
-        </div>
-        <div>
-          <p>= Trade only ( No settlement )</p>
-        </div>
-      </div>
-      <div class="flex justify-center items-center">
-        <div class="flex m-2 w-[40px] h-[40px] justify-center items-center bg-[rgba(153,204,255)] text-black rounded-full">
-          <p >S</p>
-        </div>
-        <div>
-          <p>= Settlement only ( No Trading )</p>
-        </div>
+      <div>
+        <p>= No Trading and Settlement</p>
       </div>
     </div>
+    <div class="flex justify-center items-center">
+      <div
+        class="flex m-2 w-[40px] h-[40px] justify-center items-center bg-[rgba(255,255,153)] text-black rounded-full"
+      >
+        <p>T</p>
+      </div>
+      <div>
+        <p>= Trade only ( No settlement )</p>
+      </div>
+    </div>
+    <div class="flex justify-center items-center">
+      <div
+        class="flex m-2 w-[40px] h-[40px] justify-center items-center bg-[rgba(153,204,255)] text-black rounded-full"
+      >
+        <p>S</p>
+      </div>
+      <div>
+        <p>= Settlement only ( No Trading )</p>
+      </div>
+    </div>
+  </div>
+  <div class="h-[2%]"></div>
+  <div
+    class="main-calendar grid justify-items-center overflow-auto items-center h-[88%]"
+  >
     <div
       class="grid gap-4"
       :class="{
@@ -164,3 +173,19 @@ export default {
 };
 </script>
 
+<style>
+div.main-calendar::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #f5f5f500;
+}
+
+div.main-calendar::-webkit-scrollbar {
+  width: 5px;
+  background-color: #f5f5f500;
+}
+
+div.main-calendar::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: inset 0 0 6px rgba(20, 20, 20, 0.582);
+  background-color: #000000e3;
+}
+</style>
