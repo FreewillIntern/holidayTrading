@@ -62,13 +62,13 @@ export default {
     },
     cellStyle() {
       return {
-        backgroundColor: "rgb(228,228,228,0.3)",
+        backgroundColor: "rgba(228,228,228,0.3)",
         color: "black",
       };
     },
     cellStyleWeekEnd() {
       return {
-        backgroundColor: "rgb(255,255,153)",
+        backgroundColor: "rgba(215,215,215,1)",
         color: "black",
       };
     },
@@ -77,11 +77,11 @@ export default {
         color: "black",
       };
       if (this.cantrade === "N") {
-        style.backgroundColor = "rgb(255,153,153)";
+        style.backgroundColor = "rgba(255,153,153)"; //red "rgba(255,153,153)"
       } else if (this.cantrade === "T") {
-        style.backgroundColor = "rgb(188,255,110,0.7)";
+        style.backgroundColor = "rgba(255,255,153)"; //green "rgba(188,255,110,0.7)"
       } else if (this.cantrade === "S") {
-        style.backgroundColor = "rgb(153,204,255)";
+        style.backgroundColor = "rgba(153,204,255)"; // blue "rgba(153,204,255)"
       }
       return style;
     },
