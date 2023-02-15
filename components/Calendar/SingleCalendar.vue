@@ -7,9 +7,7 @@
     :max="maxDate"
   >
     <template v-slot:CustomHeaderTitle="{ props }">
-      <p
-        class="title-calendar ml-2 mt-2 pl-5 pr-5 pt-2 pb-2 bg-slate-800 text-white rounded"
-      >
+      <p class="title-calendar">
         {{ props.value }}
       </p>
     </template>
@@ -32,7 +30,7 @@
 
 <script>
 import { Calendar } from "@progress/kendo-vue-dateinputs";
-import Cell from "~~/components/Calendar/Cell.client.vue";
+import Cell from "~~/components/Calendar/Cell.vue"
 
 export default {
   components: {
@@ -102,23 +100,40 @@ export default {
 </script>
 
 <style>
+.title-calendar {
+  /* outline: solid blue; */
+  color: white;
+  font-size: 1.25rem;
+  margin: 0.15rem 0.31rem 0rem 0.62rem;
+}
+
 .k-calendar-nav {
   display: none !important;
 }
 
 .single-calendar {
-  width: 280px;
-  height: 320px;
+  /* outline: solid green; */
+  width: 23rem;
+  height: 22rem;
+  background-color: rgba(32,32,32,0.95);
+  border-radius: 1.25rem;
+  padding: 0.62rem 1.25rem;
 }
 
 .single-calendar table {
   border-collapse: separate !important;
-  border-spacing: 5px !important;
+  border-spacing: 0.31rem !important;
 }
 
 .single-calendar table td {
-  width: 30px;
+  width: 1.25rem;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.k-calendar-view {
+  background-color: white !important;
+  border-radius: 1.25rem;
+  padding: 0.62rem 1.25rem;
 }
 </style>
