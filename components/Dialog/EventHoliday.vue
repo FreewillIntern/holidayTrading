@@ -107,13 +107,13 @@ export default {
       let date = this.dataDateSelected.date.getDate();
       let month = this.dataDateSelected.date.getMonth() + 1;
       let year = this.dataDateSelected.date.getFullYear();
-      return `${year}-${("0" + month).slice(-2)}-${("0" + date).slice(-2)}`;
+      return `${year}/${("0" + month).slice(-2)}/${("0" + date).slice(-2)}`;
     },
     formatDDMMYY() {
       let date = this.dataDateSelected.date.getDate();
       let month = this.dataDateSelected.date.getMonth() + 1;
       let year = this.dataDateSelected.date.getFullYear();
-      return `${("0" + date).slice(-2)}-${("0" + month).slice(-2)}-${year}`;
+      return `${("0" + date).slice(-2)}/${("0" + month).slice(-2)}/${year}`;
     },
   },
 

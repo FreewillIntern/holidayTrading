@@ -1,6 +1,20 @@
 <template>
+  <div class="holiday-description grid grid-cols-3 w-full mb-10 bg-[rgba(32,32,32,0.95)] shadow-[_3px_3px_15px_rgba(0,0,0,0.8)] rounded-xl items-center text-white">
+    <div class="flex" id="holiday-N">
+      <p>N</p>
+      <p>= No Trading and Settlement</p>
+    </div>
+    <div class="flex" id="holiday-t">
+      <p>T</p>
+      <p>= Trade only ( No settlement )</p>
+    </div>
+    <div class="flex" id="holiday-S">
+      <p>S</p>
+      <p>= Settlement only ( No Trading )</p>
+    </div>
+  </div>
   <div
-    class="grid justify-items-center overflow-auto overflow-y-auto items-center w-full h-full pt-5"
+    class="grid justify-items-center overflow-auto overflow-y-auto items-center w-full h-full "
     :class="{
       'grid-cols-4': columns >= 4,
       'grid-cols-3': columns == 3,
@@ -92,7 +106,7 @@ export default {
       };
       if (this.store.getDataHolidays.length > 0) {
         for (const data of this.store.getDataHolidays) {
-          const splitDate = data.holidaydate.split("-");
+          const splitDate = data.holidaydate.split("/");
           obJectHolidays[Number(splitDate[1]) - 1].push({
             id: data.id,
             date: Number(splitDate[0]),
@@ -133,3 +147,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.holiday-description {
+  padding: 1rem;
+
+}
+</style>
