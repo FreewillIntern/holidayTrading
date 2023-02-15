@@ -3,17 +3,29 @@
     <div
       class="holiday-description grid grid-cols-3 mb-10 bg-[rgba(32,32,32,0.95)] shadow-[_3px_3px_15px_rgba(0,0,0,0.8)] rounded-xl items-center text-white"
     >
-      <div class="flex" id="holiday-N">
-        <p class="cantrade-code ct-n">N</p>
-        <p>= No Trading and Settlement</p>
+      <div class="flex justify-center items-center">
+        <div class="flex m-2 w-[40px] h-[40px] justify-center items-center bg-[rgb(255,153,153)] text-black rounded-full">
+          <p >N</p>
+        </div>
+        <div>
+          <p>= No Trading and Settlement</p>
+        </div>
       </div>
-      <div class="flex" id="holiday-t">
-        <p class="cantrade-code ct-t">T</p>
-        <p>= Trade only ( No settlement )</p>
+      <div class="flex justify-center items-center">
+        <div class="flex m-2 w-[40px] h-[40px] justify-center items-center bg-[rgba(255,255,153)] text-black rounded-full">
+          <p >T</p>
+        </div>
+        <div>
+          <p>= Trade only ( No settlement )</p>
+        </div>
       </div>
-      <div class="flex" id="holiday-S">
-        <p class="cantrade-code ct-s">S</p>
-        <p>= Settlement only ( No Trading )</p>
+      <div class="flex justify-center items-center">
+        <div class="flex m-2 w-[40px] h-[40px] justify-center items-center bg-[rgba(153,204,255)] text-black rounded-full">
+          <p >S</p>
+        </div>
+        <div>
+          <p>= Settlement only ( No Trading )</p>
+        </div>
       </div>
     </div>
     <div
@@ -152,18 +164,3 @@ export default {
 };
 </script>
 
-<style scoped>
-.holiday-description {
-  padding: 1rem;
-}
-
-.cantrade-code {
-  outline: solid red;
-  text-align: center;
-  width: 2rem;
-  height: 2rem;
-  padding: 1rem;
-  margin-right: 1rem;
-  
-}
-</style>
