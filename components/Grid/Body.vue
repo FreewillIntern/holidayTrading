@@ -87,16 +87,17 @@ export default {
                 d.holidaydate = dDate;
             } )
 
-            this.gridData = orderBy(this.store.holidays, this.sort);
+            this.store.holidays = orderBy(this.store.holidays, this.sort);
 
-            this.gridData.forEach(d => {
-                console.log(d.holidaydate);
+            this.store.holidays.forEach(d => {
                 let year = d.holidaydate.slice(0,4);
                 let month = d.holidaydate.slice(4,6);
                 let date = d.holidaydate.slice(6,8);
 
                 d.holidaydate = `${date}/${month}/${year}`;
             });
+
+            this.gridData = this.store.holidays;
 
             return this.gridData;
         }
@@ -283,5 +284,8 @@ export default {
         background-color: #000000e3;
     }
 
+    .gridCustomStyle .k-grid-content {
+        overflow: auto;
+    }
 
 </style>
