@@ -23,10 +23,10 @@
               placeholder="Please select a type"
             >
               <el-option
-                v-for="value in cantradeChoise"
-                :key="value"
+                v-for="(value, key) in cantradeChoise"
+                :key="key"
                 :label="value"
-                :value="value"
+                :value="key"
               />
             </el-select>
           </el-form-item>
@@ -63,10 +63,10 @@
               placeholder="Please select a type"
             >
               <el-option
-                v-for="value in cantradeChoise"
-                :key="value"
+                v-for="(value, key) in cantradeChoise"
+                :key="key"
                 :label="value"
-                :value="value"
+                :value="key"
               />
             </el-select>
           </el-form-item>
@@ -106,11 +106,18 @@ export default {
   data() {
     return {
       url: useRuntimeConfig().public.apiBase,
-      cantradeChoise: ["N", "T", "S"],
+      cantradeChoise: {
+        N: "No Trading and Settlement",
+        T: "Trade only ( No settlement )",
+        S: "Settlement only ( No Trading )",
+      },
       date: this.dataDateSelected.date,
       enteredDialog: {
         description: this.dataDateSelected.description,
-        cantrade: this.dataDateSelected.cantrade,
+        cantrade:
+          this.dataDateSelected.cantrade !== undefined
+            ? this.dataDateSelected.cantrade
+            : "N",
       },
     };
   },
@@ -145,14 +152,6 @@ export default {
       console.log(name);
       return name;
     },
-    // marketName() {
-    // const mktname = this.store.getAllMarket.find((value) => {
-    //   console.log(value.mktcode, "---", this.dataDateSelected.mktcode);
-    //   value.mktcode === this.dataDateSelected.mktcode;
-    // });
-    // console.log(mktname);
-    // return mktname;
-    // }
   },
 
   methods: {
