@@ -1,6 +1,6 @@
 <template>
   <td
-    :class="'custom-cell k-calendar-td'"
+    :class="'custom-cell'"
     :style="styleCss"
     @click.left="handleLeftClick()"
     @click.right="handleRightClick($event)"
@@ -14,12 +14,6 @@
 <script>
 export default {
   props: {
-    // idHoliday: {
-    //   type: Number,
-    //   require: false,
-    //   defualt: null,
-    // },
-    
     formattedValue: {
       type: String,
       require: true,
@@ -77,9 +71,9 @@ export default {
         color: "black",
       };
       if (this.cantrade === "N") {
-        style.backgroundColor = "rgba(255,153,153)"; //red "rgba(255,153,153)"
+        style.backgroundColor = "rgba(255,153,153)";
       } else if (this.cantrade === "T") {
-        style.backgroundColor = "rgba(255,255,153)"; //green "rgba(188,255,110,0.7)"
+        style.backgroundColor = "rgba(255,255,153)";
       } else if (this.cantrade === "S") {
         style.backgroundColor = "rgba(153,204,255)"; // blue "rgba(153,204,255)"
       }
@@ -116,12 +110,29 @@ export default {
 };
 </script>
 
-<style>
-.k-calendar-td {
-  width: 0px !important;
-  height: 30px !important;
-  margin: 30px !important;
-  border-collapse: separate !important;
-  border-spacing: 15px !important;
+<style scope>
+.custom-cell {
+  min-width: 1.9rem;
+  max-width: 1.9rem;
+  min-height: 1.9rem;
+  max-height: 1.9rem;
+  border-radius: 0.3rem;
 }
+
+table td {
+  min-width: 1.9rem;
+  max-width: 1.9rem;
+  height: 1.9rem;
+  font-size: 0.6rem !important;
+  justify-content: center;
+}
+
+table td span {
+  min-width: 1.9rem;
+  max-width: 1.9rem;
+  height: 1.9rem;
+  font-size: 0.6rem !important;
+  text-align: center;
+}
+
 </style>
