@@ -12,7 +12,6 @@
       </p>
     </template>
 
-    <!-- code send id of date to cell ==> :idHoliday="idHoliday(props.formattedValue)" -->
     <template v-slot:CustomCell="{ props }">
       <customCell
         :formatted-value="props.formattedValue"
@@ -30,7 +29,7 @@
 
 <script>
 import { Calendar } from "@progress/kendo-vue-dateinputs";
-import Cell from "~~/components/Calendar/Cell.vue"
+import Cell from "~~/components/Calendar/Cell.vue";
 
 export default {
   components: {
@@ -54,6 +53,7 @@ export default {
   },
 
   emits: ["click-left", "click-right"],
+
   computed: {
     minDate() {
       return new Date(this.year, this.month, 1);
@@ -64,14 +64,6 @@ export default {
   },
 
   methods: {
-    // idHoliday(date) {
-    //   try {
-    //     return this.monthlyLeave.find((value) => value.date == date).id;
-    //   } catch (error) {
-    //     return null;
-    //   }
-    // },
-
     isHoliday(date) {
       return (
         this.monthlyLeave.find((value) => value.date == date) !== undefined
@@ -104,7 +96,7 @@ export default {
   /* outline: solid blue; */
   color: white;
   font-size: 1.25rem;
-  margin: 0.15rem 0.31rem 0rem 0.62rem;
+  margin: 0rem;
 }
 
 .k-calendar-nav {
@@ -113,27 +105,28 @@ export default {
 
 .single-calendar {
   /* outline: solid green; */
-  width: 23rem;
+  width: 20rem;
   height: 22rem;
-  background-color: rgba(32,32,32,0.95);
+  -webkit-text-stroke: 0.3px;
+  background-color: rgba(32, 32, 32, 0.95);
   border-radius: 1.25rem;
   padding: 0.62rem 1.25rem;
 }
 
 .single-calendar table {
+  font-size: 0.6rem !important;
+  table-layout: fixed !important;
   border-collapse: separate !important;
-  border-spacing: 0.31rem !important;
+  border-spacing: 0.4rem !important;
 }
 
-.single-calendar table td {
-  width: 1.25rem;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.k-calendar-view {
-  background-color: white !important;
+.single-calendar .k-calendar-view {
+  background-color: white;
   border-radius: 1.25rem;
-  padding: 0.62rem 1.25rem;
+  padding: 0rem 1.25rem 1.2rem 1.25rem;
+  min-width: 15rem;
+  max-width: 15rem;
+  min-height: 15.9rem;
+  max-height: 15.9rem;
 }
 </style>
