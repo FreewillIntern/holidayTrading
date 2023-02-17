@@ -1,36 +1,38 @@
 <template>
-    <Grid ref="grid"
-            class="h-[78.4vh] rounded-lg gridCustomStyle"
-             :data-items="setGridData"
-             :edit-field="'inEdit'"
-             @rowclick="rowClick"
-             @cellclick="cellClick"
-             :sortable="true"
-             :sort="sort"
-             :row-render="rowRender"
-             @sortchange="sortChangeHandler"
-             :loader="loader"
-             @itemchange="itemChange"
-             :columns="columns">
-             <template v-slot:myTemplate="{ props }">
-                <custom
-                    :data-item="props.dataItem"
-                    @preRemove="setModalVisible"
-                />
-             </template>
-    </Grid>
-    <i-modal v-model="visible" size="lg" :showClose="false">
-        <template #header>
-            Delete
-        </template>
-        Please confirm your action.
-        <template #footer>
-            <div class="w-full h-full flex justify-end items-end">
-                <i-button color="danger" @click="remove(this.currentEdit)" class="mr-4">Delete</i-button>
-                <i-button color="dark" @click="visible=false" >Cancle</i-button>
-            </div>
-        </template>
-    </i-modal>
+    <div class="h-full">
+        <Grid ref="grid"
+                class="h-full rounded-lg gridCustomStyle"
+                :data-items="setGridData"
+                :edit-field="'inEdit'"
+                @rowclick="rowClick"
+                @cellclick="cellClick"
+                :sortable="true"
+                :sort="sort"
+                :row-render="rowRender"
+                @sortchange="sortChangeHandler"
+                :loader="loader"
+                @itemchange="itemChange"
+                :columns="columns">
+                <template v-slot:myTemplate="{ props }">
+                    <custom
+                        :data-item="props.dataItem"
+                        @preRemove="setModalVisible"
+                    />
+                </template>
+        </Grid>
+        <i-modal v-model="visible" size="lg" :showClose="false">
+            <template #header>
+                Delete
+            </template>
+            Please confirm your action.
+            <template #footer>
+                <div class="w-full h-full flex justify-end items-end">
+                    <i-button color="danger" @click="remove(this.currentEdit)" class="mr-4">Delete</i-button>
+                    <i-button color="dark" @click="visible=false" >Cancle</i-button>
+                </div>
+            </template>
+        </i-modal>
+    </div>
 </template>
 <script>
 import { Grid, GridToolbar } from '@progress/kendo-vue-grid';
@@ -65,7 +67,7 @@ export default {
             loader: false,
             columns: [
                 { field: 'holidaydate', editable: false, title: 'Holiday Date', width: "150px"},
-                { field: 'cantrade', editable: false, title: 'Type',width: "70px" },
+                { field: 'cantrade', editable: false, title: 'Type'},
                 { field: 'description', title: 'Description'},
                 { cell: 'myTemplate', width: '100px' },
             ],
