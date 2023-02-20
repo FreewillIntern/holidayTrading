@@ -34,8 +34,8 @@ import CellDate from "~~/components/Calendar/CellDate.vue";
 export default {
   components: {
     customCalendar: Calendar,
-    CellDate
-},
+    CellDate,
+  },
 
   props: {
     month: {
@@ -108,14 +108,13 @@ export default {
   background-color: rgba(32, 32, 32, 0.95);
   border-radius: 1.25rem;
   padding: 0.62rem 1.25rem;
-  outline: solid green;
+  margin: 1rem auto;
 }
 
 .single-calendar table {
   width: 90%;
   height: 80%;
   padding: 0rem;
-  margin: 0rem;
   table-layout: fixed;
   border-collapse: separate;
   border-spacing: 0.3rem;
@@ -123,6 +122,7 @@ export default {
 
 .single-calendar table thead {
   padding: 0rem;
+  margin: 0rem;
   justify-content: center;
 }
 
@@ -134,8 +134,6 @@ export default {
   margin: 0rem;
   min-width: 14%;
   max-width: 14%;
-  /* min-height: 14%;
-  max-height: 14%; */
 }
 
 .single-calendar table td {
@@ -147,13 +145,11 @@ export default {
   margin: 0rem;
   min-width: 14%;
   max-width: 14%;
-  /* min-height: 14%;
-  max-height: 14%; */
 }
-
 
 .single-calendar .k-calendar-view {
   background-color: white;
+  margin: auto;
   border-radius: 1.25rem;
   padding: 0rem;
   min-width: 100%;

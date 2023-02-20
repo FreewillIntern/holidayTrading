@@ -1,6 +1,6 @@
 <template>
   <div
-    class="grid grid-cols-3 holiday-description w-[100%] h-[10%] flex justify-evenly mx-auto bg-[rgba(32,32,32,0.95)] rounded-xl items-center text-white shadow-[rgba(0,0,0,0.45)_0px_25px_20px_-20px]"
+    class="holiday-description grid grid-cols-3 w-[100%] h-[8%] flex justify-evenly mx-auto bg-[rgba(32,32,32,0.95)] rounded-xl items-center text-white shadow-[rgba(0,0,0,0.45)_0px_25px_20px_-20px]"
   >
     <div class="cantrade-des ct-n flex justify-center items-center">
       <div
@@ -37,7 +37,7 @@
     </div>
   </div>
   <div class="h-[2%]"></div>
-  <div class="main-calendar overflow-auto h-[88%] ">
+  <div class="main-calendar overflow-auto h-[83%]">
     <div
       class="grid w-[100%]"
       :class="{
@@ -84,8 +84,7 @@ import { useWindowSize } from "@vueuse/core";
 export default {
   setup() {
     const store = useMainStore();
-    const { updateHolidays } = useMainStore();
-    return { store, updateHolidays };
+    return { store };
   },
 
   data() {
@@ -183,11 +182,6 @@ div.main-calendar::-webkit-scrollbar-thumb {
   background-color: #000000e3;
 }
 
-.main-calendar {
-  outline: solid red;
-  /* justify-content: center !important; */
-}
-
 .cantrade-des-header {
   display: flex;
   border-radius: 50%;
@@ -205,12 +199,9 @@ div.main-calendar::-webkit-scrollbar-thumb {
   margin-left: -0.1rem;
 }
 
-@media (max-width: 1500px) {
+@media (max-width: 93.75rem) {
   .cantrade-des {
     max-height: 80% !important;
-    /* border-radius: 0.75rem; */
-    /* background-color: white; */
-    /* outline: solid; */
     display: grid;
     align-self: center;
     justify-self: center;
@@ -237,6 +228,15 @@ div.main-calendar::-webkit-scrollbar-thumb {
 
   .equal-symbol {
     display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .holiday-description {
+    height: 20% !important;
+  }
+  .cantrade-des {
+    font-size: 0.65rem !important;
   }
 }
 </style>
