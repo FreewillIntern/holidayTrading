@@ -36,7 +36,6 @@
             </i-modal>
         </div>
     </div>
-    
 </template>
 <script>
 import { Grid, GridToolbar } from '@progress/kendo-vue-grid';
@@ -71,7 +70,7 @@ export default {
             loader: false,
             columns: [
                 { field: 'holidaydate', editable: false, title: 'Holiday Date', width: "150px"},
-                { field: 'cantrade', editable: false, title: 'Type',width: "70px" },
+                { field: 'cantrade', editable: false, title: 'Type'},
                 { field: 'description', title: 'Description'},
                 { cell: 'myTemplate', width: '100px' },
             ],

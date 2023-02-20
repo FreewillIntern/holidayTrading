@@ -29,7 +29,7 @@
 
         <div class="w-[90%] h-[35%]">
             <!--HOLIDAYS LIST START-->
-            <div class="m-2">
+            <div class="h-full m-2">
                 <slot name="bodyRight"></slot>
             </div>
             <!--HOLIDAYS LIST END-->
