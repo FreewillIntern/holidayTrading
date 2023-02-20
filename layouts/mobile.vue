@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col justify-center items-center w-full h-screen">
+    <div class="flex flex-col justify-center items-center w-full h-screen bg-[rgba(60,60,60,1)]">
         <!--HEADER START-->
         <div class="flex w-[90%] h-[10%]">
             <!--SEARCH START-->
