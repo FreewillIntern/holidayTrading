@@ -1,7 +1,8 @@
 <template>
   <div
     class="w-full h-full bg-[rgba(32,32,32,0.95)] shadow-[_3px_3px_15px_rgba(0,0,0,0.8)] rounded-xl overflow-auto flex items-center text-white">
-    <div class="w-full flex">
+    <div v-show="!loading"><h1>hi</h1></div>
+    <div v-show="loading" class="w-full flex">
       <!-- Pc -->
       <div class="h-full w-full flex justify-evenly" v-show="window.width >= 550">
         <div class="flex items-center">
@@ -75,6 +76,7 @@ export default {
       market: "",
       filterYears: [],
       filterMarketCodes: [],
+      loading: false,
     };
   },
   mounted() {
@@ -114,6 +116,8 @@ export default {
     }
 
     this.store.year = new Date().getFullYear().toString();
+
+    this.loading = true;
   },
   methods: {
     search() {
