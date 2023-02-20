@@ -1,6 +1,10 @@
 <template>
     <div>
-        <div v-show="!loading" class="w-full h-full rounded-xl flex flex-col justify-center items-center text-white"><h1>Loading ...</h1></div>
+        <div v-show="!loading" class="w-full h-full flex flex-col justify-center items-center">
+            <div class="ring">Loading
+                <span></span>
+            </div>
+        </div>
         <div v-show="loading">
             <Grid ref="grid"
                 class="h-[78.4vh] rounded-lg gridCustomStyle"
@@ -294,6 +298,88 @@ export default {
 
     .gridCustomStyle .k-grid-content {
         overflow: auto;
+    }
+
+    .ring
+    {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:150px;
+    height:150px;
+    background:transparent;
+    border:3px solid #ffffff00;
+    border-radius:50%;
+    text-align:center;
+    line-height:150px;
+    font-family:sans-serif;
+    font-size:20px;
+    color:#050303bb;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    text-shadow:0 0 10px #050303bb;
+    box-shadow:0 0 20px rgba(248, 91, 91, 0.5);
+    }
+    .ring:before
+    {
+    content:'';
+    position:absolute;
+    top:-3px;
+    left:-3px;
+    width:100%;
+    height:100%;
+    border:3px solid transparent;
+    border-top:3px solid #050303bb;
+    border-right:3px solid #050303bb;
+    border-radius:50%;
+    animation:animateC 2s linear infinite;
+    }
+    .ring span
+    {
+    display:block;
+    position:absolute;
+    top:calc(50% - 2px);
+    left:50%;
+    width:50%;
+    height:4px;
+    background:transparent;
+    transform-origin:left;
+    animation:animate 2s linear infinite;
+    }
+    .ring span:before
+    {
+    content:'';
+    position:absolute;
+    width:16px;
+    height:16px;
+    border-radius:50%;
+    background:#200000;
+    top:-6px;
+    right:-8px;
+    box-shadow:0 0 20px #050303bb;
+    }
+    @keyframes animateC
+    {
+    0%
+    {
+        transform:rotate(0deg);
+    }
+    100%
+    {
+        transform:rotate(360deg);
+    }
+    }
+    @keyframes animate
+    {
+    0%
+    {
+        transform:rotate(45deg);
+    }
+    100%
+    {
+        transform:rotate(405deg);
+    }
     }
 
 </style>
