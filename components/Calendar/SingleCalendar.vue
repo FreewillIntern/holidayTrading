@@ -106,7 +106,7 @@ export default {
   width: 18rem;
   height: 18rem;
   background-color: rgba(32, 32, 32, 0.95);
-  border-radius: 1.25rem;
+  border-radius: 0.7rem;
   padding: 0.62rem 1.25rem;
   margin: 1rem auto;
 }
@@ -140,7 +140,7 @@ export default {
   justify-content: center;
   text-align: center;
   font-size: 0.75rem;
-  border-radius: 0.3rem;
+  border-radius: 0.4rem;
   padding: 0rem;
   margin: 0rem;
   min-width: 14%;
@@ -150,9 +150,9 @@ export default {
 .single-calendar .k-calendar-view {
   background-color: white;
   margin: auto;
-  border-radius: 1.25rem;
+  border-radius: 0.7rem;
   padding: 0rem;
-  min-width: 100%;
+  width: 100%;
   max-width: 100%;
   min-height: 80%;
   max-height: 80%;
