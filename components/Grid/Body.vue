@@ -1,36 +1,46 @@
 <template>
-    <Grid ref="grid"
-            class="h-[78.4vh] rounded-lg gridCustomStyle"
-             :data-items="setGridData"
-             :edit-field="'inEdit'"
-             @rowclick="rowClick"
-             @cellclick="cellClick"
-             :sortable="true"
-             :sort="sort"
-             :row-render="rowRender"
-             @sortchange="sortChangeHandler"
-             :loader="loader"
-             @itemchange="itemChange"
-             :columns="columns">
-             <template v-slot:myTemplate="{ props }">
-                <custom
-                    :data-item="props.dataItem"
-                    @preRemove="setModalVisible"
-                />
-             </template>
-    </Grid>
-    <i-modal v-model="visible" size="lg" :showClose="false">
-        <template #header>
-            Delete
-        </template>
-        Please confirm your action.
-        <template #footer>
-            <div class="w-full h-full flex justify-end items-end">
-                <i-button color="danger" @click="remove(this.currentEdit)" class="mr-4">Delete</i-button>
-                <i-button color="dark" @click="visible=false" >Cancle</i-button>
+    <div>
+        <!-- <div v-show="!loading" class="w-full h-full flex flex-col justify-center items-center">
+            <div class="ring">Loading
+                <span></span>
             </div>
-        </template>
-    </i-modal>
+        </div> -->
+        <div v-show="!loading" class="w-full h-full bg-[rgba(32,32,32,0.95)] shadow-[_3px_3px_15px_rgba(0,0,0,0.8)] rounded-xl"></div>
+        <div v-show="loading">
+            <Grid ref="grid"
+                class="h-[78.4vh] rounded-lg gridCustomStyle"
+                :data-items="setGridData"
+                :edit-field="'inEdit'"
+                @rowclick="rowClick"
+                @cellclick="cellClick"
+                :sortable="true"
+                :sort="sort"
+                :row-render="rowRender"
+                @sortchange="sortChangeHandler"
+                :loader="loader"
+                @itemchange="itemChange"
+                :columns="columns">
+                <template v-slot:myTemplate="{ props }">
+                    <custom
+                        :data-item="props.dataItem"
+                        @preRemove="setModalVisible"
+                    />
+                </template>
+            </Grid>
+            <i-modal v-model="visible" size="lg" :showClose="false">
+                <template #header>
+                    Delete
+                </template>
+                Please confirm your action.
+                <template #footer>
+                    <div class="w-full h-full flex justify-end items-end">
+                        <i-button color="danger" @click="remove(this.currentEdit)" class="mr-4">Delete</i-button>
+                        <i-button color="dark" @click="visible=false" >Cancle</i-button>
+                    </div>
+                </template>
+            </i-modal>
+        </div>
+    </div>
 </template>
 <script>
 import { Grid, GridToolbar } from '@progress/kendo-vue-grid';
@@ -65,12 +75,13 @@ export default {
             loader: false,
             columns: [
                 { field: 'holidaydate', editable: false, title: 'Holiday Date', width: "150px"},
-                { field: 'cantrade', editable: false, title: 'Type',width: "70px" },
+                { field: 'cantrade', editable: false, title: 'Type'},
                 { field: 'description', title: 'Description'},
                 { cell: 'myTemplate', width: '100px' },
             ],
             gridData: [],
-            url: useRuntimeConfig().public.apiBase
+            url: useRuntimeConfig().public.apiBase,
+            loading: false,
         };
     },
     computed:{
@@ -98,6 +109,8 @@ export default {
             });
 
             this.gridData = this.store.holidays;
+
+            this.loading = true;
 
             return this.gridData;
         }
@@ -286,6 +299,88 @@ export default {
 
     .gridCustomStyle .k-grid-content {
         overflow: auto;
+    }
+
+    .ring
+    {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:150px;
+    height:150px;
+    background:transparent;
+    border:3px solid #ffffff00;
+    border-radius:50%;
+    text-align:center;
+    line-height:150px;
+    font-family:sans-serif;
+    font-size:20px;
+    color:#050303bb;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    text-shadow:0 0 10px #050303bb;
+    box-shadow:0 0 20px rgba(248, 91, 91, 0.5);
+    }
+    .ring:before
+    {
+    content:'';
+    position:absolute;
+    top:-3px;
+    left:-3px;
+    width:100%;
+    height:100%;
+    border:3px solid transparent;
+    border-top:3px solid #050303bb;
+    border-right:3px solid #050303bb;
+    border-radius:50%;
+    animation:animateC 2s linear infinite;
+    }
+    .ring span
+    {
+    display:block;
+    position:absolute;
+    top:calc(50% - 2px);
+    left:50%;
+    width:50%;
+    height:4px;
+    background:transparent;
+    transform-origin:left;
+    animation:animate 2s linear infinite;
+    }
+    .ring span:before
+    {
+    content:'';
+    position:absolute;
+    width:16px;
+    height:16px;
+    border-radius:50%;
+    background:#200000;
+    top:-6px;
+    right:-8px;
+    box-shadow:0 0 20px #050303bb;
+    }
+    @keyframes animateC
+    {
+    0%
+    {
+        transform:rotate(0deg);
+    }
+    100%
+    {
+        transform:rotate(360deg);
+    }
+    }
+    @keyframes animate
+    {
+    0%
+    {
+        transform:rotate(45deg);
+    }
+    100%
+    {
+        transform:rotate(405deg);
+    }
     }
 
 </style>

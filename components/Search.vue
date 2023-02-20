@@ -1,56 +1,59 @@
 <template>
-  <div
-    class="w-full h-full bg-[rgba(32,32,32,0.95)] shadow-[_3px_3px_15px_rgba(0,0,0,0.8)] rounded-xl overflow-auto flex items-center text-white">
-    <div class="w-full flex">
-      <!-- Pc -->
-      <div class="h-full w-full flex justify-evenly" v-show="window.width >= 550">
-        <div class="flex items-center">
-          <p class="min-w-fit">Year :</p>
-          <i-select v-model="year" :options="filterYears" autocomplete placeholder="20XX" @search="onSearchYear"
-            @input="onInputYear" />
-        </div>
+  <div class="w-full h-full">
+    <div v-show="!loading" class="w-full h-full bg-[rgba(32,32,32,0.95)] shadow-[_3px_3px_15px_rgba(0,0,0,0.8)] rounded-xl"></div>
+    <div
+      v-show="loading" class="w-full h-full bg-[rgba(32,32,32,0.95)] shadow-[_3px_3px_15px_rgba(0,0,0,0.8)] rounded-xl overflow-auto flex items-center text-white"> 
+      <div class="w-full flex">
+        <!-- Pc -->
+        <div class="h-full w-full flex justify-evenly" v-show="window.width >= 550">
+          <div class="flex items-center">
+            <p class="min-w-fit">Year :</p>
+            <i-select v-model="year" :options="filterYears" autocomplete placeholder="20XX" @search="onSearchYear"
+              @input="onInputYear" />
+          </div>
 
-        <div class="flex items-center">
-          <p class="min-w-fit">Market :</p>
-          <i-select class="mr-2" v-model="market" :options="filterMarketCodes" autocomplete placeholder="Code"
-            @search="onSearchMarket" @input="onInputMarket" />
-          <p v-if="window.width > 1200">:</p>
-          <p class="ml-2 w-[200px] h-[26px] min-w-fit border-b-2 border-[rgb(84,84,84)]" v-if="window.width > 1200">
-            {{ getMktFullName.mktname }}
-          </p>
-        </div>
+          <div class="flex items-center">
+            <p class="min-w-fit">Market :</p>
+            <i-select class="mr-2" v-model="market" :options="filterMarketCodes" autocomplete placeholder="Code"
+              @search="onSearchMarket" @input="onInputMarket" />
+            <p v-if="window.width > 1200">:</p>
+            <p class="ml-2 w-[200px] h-[26px] min-w-fit border-b-2 border-[rgb(84,84,84)]" v-if="window.width > 1200">
+              {{ getMktFullName.mktname }}
+            </p>
+          </div>
 
-        <div class="flex items-center">
-          <p @click="search"
-            class="px-[15px] py-[4px] bg-[rgba(221,226,228,1)] hover:bg-[rgba(255,255,255,1)] text-black shadow-[0_0_10px_rgba(0,0,0,0.3)] hover:shadow-[0_0_15px_rgba(0,0,0,0.5)] cursor-pointer rounded-3xl">
-            Search
-          </p>
+          <div class="flex items-center">
+            <p @click="search"
+              class="px-[15px] py-[4px] bg-[rgba(221,226,228,1)] hover:bg-[rgba(255,255,255,1)] text-black shadow-[0_0_10px_rgba(0,0,0,0.3)] hover:shadow-[0_0_15px_rgba(0,0,0,0.5)] cursor-pointer rounded-3xl">
+              Search
+            </p>
+          </div>
         </div>
+        <!-- Pc -->
+
+        <!-- Mobile -->
+        <div class="h-full w-full flex justify-evenly items-center" v-show="window.width < 550">
+          <div class="flex-col">
+            <p class="text-[14px]">Year :</p>
+            <i-select class="w-[100]" v-model="year" :options="filterYears" autocomplete placeholder="20XX"
+              @search="onSearchYear" @input="onInputYear" />
+          </div>
+
+          <div class="flex-col">
+            <p class="text-[14px]">Market :</p>
+            <i-select class="mr-2" v-model="market" :options="filterMarketCodes" autocomplete placeholder="Code"
+              @search="onSearchMarket" @input="onInputMarket" />
+          </div>
+
+          <div class="flex">
+            <p @click="search"
+              class="px-[15px] py-[4px] bg-[rgba(221,226,228,1)] hover:bg-[rgba(255,255,255,1)] text-black shadow-[0_0_10px_rgba(0,0,0,0.3)] hover:shadow-[0_0_15px_rgba(0,0,0,0.5)] cursor-pointer rounded-3xl">
+              Search
+            </p>
+          </div>
+        </div>
+        <!-- Mobile -->
       </div>
-      <!-- Pc -->
-
-      <!-- Mobile -->
-      <div class="h-full w-full flex justify-evenly items-center" v-show="window.width < 550">
-        <div class="flex-col">
-          <p class="text-[14px]">Year :</p>
-          <i-select class="w-[100]" v-model="year" :options="filterYears" autocomplete placeholder="20XX"
-            @search="onSearchYear" @input="onInputYear" />
-        </div>
-
-        <div class="flex-col">
-          <p class="text-[14px]">Market :</p>
-          <i-select class="mr-2" v-model="market" :options="filterMarketCodes" autocomplete placeholder="Code"
-            @search="onSearchMarket" @input="onInputMarket" />
-        </div>
-
-        <div class="flex">
-          <p @click="search"
-            class="px-[15px] py-[4px] bg-[rgba(221,226,228,1)] hover:bg-[rgba(255,255,255,1)] text-black shadow-[0_0_10px_rgba(0,0,0,0.3)] hover:shadow-[0_0_15px_rgba(0,0,0,0.5)] cursor-pointer rounded-3xl">
-            Search
-          </p>
-        </div>
-      </div>
-      <!-- Mobile -->
     </div>
   </div>
 </template>
@@ -75,6 +78,7 @@ export default {
       market: "",
       filterYears: [],
       filterMarketCodes: [],
+      loading: false,
     };
   },
   mounted() {
@@ -114,6 +118,8 @@ export default {
     }
 
     this.store.year = new Date().getFullYear().toString();
+
+    this.loading = true;
   },
   methods: {
     search() {
