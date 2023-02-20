@@ -48,7 +48,7 @@
       }"
     >
       <!-- Calendar 12 month -->
-      <calendar
+      <CalendarSingleCalendar
         v-for="month in months"
         :monthlyLeave="monthlyLeave[month]"
         :month="month"
@@ -56,7 +56,7 @@
         :key="month"
         @click-left="clickShowCell"
         @click-right="clickEventCell"
-      ></calendar>
+      ></CalendarSingleCalendar>
 
       <!-- Dialog Information -->
       <DialogDateInformation
@@ -67,7 +67,7 @@
       />
 
       <!-- Dialog Event -->
-      <EventDialog
+      <DialogEventHoliday
         v-if="eventDialogVisible"
         :dialogVisible="eventDialogVisible"
         :dataDateSelected="dataDateSelected"
@@ -78,17 +78,10 @@
 </template>
 
 <script>
-import singleCalendarClient from "~~/components/Calendar/SingleCalendar.vue";
-import DialogEventHoliday from "~~/components/Dialog/EventHoliday.vue";
 import { useMainStore } from "~~/stores/data";
 import { useWindowSize } from "@vueuse/core";
 
 export default {
-  components: {
-    calendar: singleCalendarClient,
-    EventDialog: DialogEventHoliday,
-  },
-
   setup() {
     const store = useMainStore();
     const { updateHolidays } = useMainStore();

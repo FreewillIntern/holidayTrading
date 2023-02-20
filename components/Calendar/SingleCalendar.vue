@@ -13,7 +13,7 @@
     </template>
 
     <template v-slot:CustomCell="{ props }">
-      <customCell
+      <CellDate
         :formatted-value="props.formattedValue"
         :is-weekend="props.isWeekend"
         :isHoliday="isHoliday(props.formattedValue)"
@@ -22,20 +22,20 @@
         :description="desHoliday(props.formattedValue)"
         @click-left-cell="handleLeftClick"
         @click-right-cell="handleRightClick"
-      ></customCell>
+      ></CellDate>
     </template>
   </customCalendar>
 </template>
 
 <script>
 import { Calendar } from "@progress/kendo-vue-dateinputs";
-import Cell from "~~/components/Calendar/Cell.vue";
+import CellDate from "~~/components/Calendar/CellDate.vue";
 
 export default {
   components: {
     customCalendar: Calendar,
-    customCell: Cell,
-  },
+    CellDate
+},
 
   props: {
     month: {
