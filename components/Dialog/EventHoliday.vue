@@ -142,14 +142,12 @@ export default {
       return `${("0" + date).slice(-2)}/${("0" + month).slice(-2)}/${year}`;
     },
     marketName() {
-      let name = "eiei";
+      let name = "";
       this.store.getAllMarket.forEach((d) => {
-        console.log(d.mktcode, "---", this.dataDateSelected.mktcode);
         if (d.mktcode === this.dataDateSelected.mktcode) {
           name = d.mktname;
         }
       });
-      console.log(name);
       return name;
     },
   },
