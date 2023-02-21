@@ -173,6 +173,7 @@ div.main-calendar::-webkit-scrollbar-track {
 }
 
 div.main-calendar::-webkit-scrollbar {
+  display: none;
   width: 5px;
   background-color: #f5f5f500;
 }
@@ -180,6 +181,7 @@ div.main-calendar::-webkit-scrollbar {
 div.main-calendar::-webkit-scrollbar-thumb {
   -webkit-box-shadow: inset 0 0 6px rgba(20, 20, 20, 0.582);
   background-color: #000000e3;
+  border-radius: 1rem;
 }
 
 .cantrade-des-header {
@@ -231,13 +233,20 @@ div.main-calendar::-webkit-scrollbar-thumb {
   }
 }
 
+.main-calendar {
+  box-shadow: inset 0 0 10px #000000;
+  border-radius: 0.7rem;
+}
+
 @media (max-width: 900px) {
   .holiday-description {
     height: 15% !important;
   }
+
   .main-calendar {
     height: 85% !important;
-  },
+  }
+
   .cantrade-des {
     font-size: 0.65rem !important;
   }
