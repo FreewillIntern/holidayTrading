@@ -109,30 +109,3 @@ export default {
   },
 };
 </script>
-
-<style scope>
-.custom-cell {
-  min-width: 1.9rem;
-  max-width: 1.9rem;
-  min-height: 1.9rem;
-  max-height: 1.9rem;
-  border-radius: 0.3rem;
-}
-
-table td {
-  min-width: 1.9rem;
-  max-width: 1.9rem;
-  height: 1.9rem;
-  font-size: 0.6rem !important;
-  justify-content: center;
-}
-
-table td span {
-  min-width: 1.9rem;
-  max-width: 1.9rem;
-  height: 1.9rem;
-  font-size: 0.6rem !important;
-  text-align: center;
-}
-
-</style>
