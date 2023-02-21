@@ -103,7 +103,7 @@ export default {
 }
 
 .single-calendar {
-  width: 18rem;
+  width: 17rem;
   height: 18rem;
   background-color: rgba(32, 32, 32, 0.95);
   border-radius: 0.7rem;
