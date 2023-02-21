@@ -77,8 +77,8 @@ export default {
           title: "Holiday Date",
           width: "150px",
         },
-        { field: "cantrade", editable: false, title: "Type" },
-        { field: "description", title: "Description" },
+        { field: "cantrade", editable: false, title: "Type", width: "80px"},
+        { field: "description", title: "Description", width:"186px"},
         { cell: "myTemplate", width: "100px" },
       ],
       gridData: [],
@@ -302,7 +302,7 @@ div.k-grid-content::-webkit-scrollbar-track {
 }
 
 div.k-grid-content::-webkit-scrollbar {
-  width: 5px;
+  width: 0px;
   background-color: #f5f5f500;
 }
 
