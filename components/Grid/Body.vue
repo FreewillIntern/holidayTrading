@@ -1,23 +1,13 @@
 <template>
   <div class="h-full">
-    <div v-show="!loading" class="z-[999] fixed top-0 left-0 w-full h-screen flex flex-col justify-center items-center bg-zinc-700">
+    <div v-show="!loading"
+      class="z-[999] fixed top-0 left-0 w-full h-screen flex flex-col justify-center items-center bg-zinc-700">
       <UILoader />
     </div>
     <div v-show="loading" class="h-full">
-      <Grid
-        ref="grid"
-        class="h-full rounded-lg gridCustomStyle"
-        :data-items="setGridData"
-        :edit-field="'inEdit'"
-        @rowclick="rowClick"
-        @cellclick="cellClick"
-        :sortable="true"
-        :sort="sort"
-        :row-render="rowRender"
-        @sortchange="sortChangeHandler"
-        @itemchange="itemChange"
-        :columns="columns"
-      >
+      <Grid ref="grid" class="h-full rounded-lg gridCustomStyle" :data-items="setGridData" :edit-field="'inEdit'"
+        @rowclick="rowClick" @cellclick="cellClick" :sortable="true" :sort="sort" :row-render="rowRender"
+        @sortchange="sortChangeHandler" @itemchange="itemChange" :columns="columns">
         <template v-slot:myTemplate="{ props }">
           <custom :data-item="props.dataItem" @preRemove="setModalVisible" />
         </template>
@@ -27,12 +17,7 @@
         Please confirm your action.
         <template #footer>
           <div class="w-full h-full flex justify-end items-end">
-            <i-button
-              color="danger"
-              @click="remove(this.currentEdit)"
-              class="mr-4"
-              >Delete</i-button
-            >
+            <i-button color="danger" @click="remove(this.currentEdit)" class="mr-4">Delete</i-button>
             <i-button color="dark" @click="visible = false">Cancle</i-button>
           </div>
         </template>
@@ -77,9 +62,9 @@ export default {
           title: "Holiday Date",
           width: "150px",
         },
-        { field: "cantrade", editable: false, title: "Type", width: "80px"},
-        { field: "description", title: "Description", width:"186px"},
-        { cell: "myTemplate", width: "100px" },
+        { field: "cantrade", editable: false, title: "Type" },
+        { field: "description", title: "Description" },
+        { cell: "myTemplate" },
       ],
       gridData: [],
       url: useRuntimeConfig().public.apiBase,
@@ -244,10 +229,15 @@ export default {
   border-radius: 10px;
   border: 0px;
 }
+
 .gridCustomStyle tbody tr:nth-child(odd) {
   transition: 1s;
   background-color: #272727c9;
   color: white;
+}
+
+.gridCustomStyle table colgroup col{
+  min-width: 100px;
 }
 
 .gridCustomStyle tbody tr:nth-child(even) {
@@ -314,6 +304,4 @@ div.k-grid-content::-webkit-scrollbar-thumb {
 .gridCustomStyle .k-grid-content {
   overflow: auto;
 }
-
-
 </style>
