@@ -37,7 +37,7 @@
     </div>
   </div>
   <div class="h-[2%]"></div>
-  <div class="main-calendar overflow-auto h-[83%]">
+  <div class="main-calendar overflow-auto h-[90%]">
     <div
       class="grid w-[100%]"
       :class="{
@@ -233,8 +233,11 @@ div.main-calendar::-webkit-scrollbar-thumb {
 
 @media (max-width: 900px) {
   .holiday-description {
-    height: 20% !important;
+    height: 15% !important;
   }
+  .main-calendar {
+    height: 85% !important;
+  },
   .cantrade-des {
     font-size: 0.65rem !important;
   }
