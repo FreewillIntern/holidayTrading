@@ -1,6 +1,6 @@
 <template>
   <customCalendar
-    :class-name="'single-calendar rounded mb-5'"
+    :class-name="'single-calendar mb-5'"
     :cell="'CustomCell'"
     :header-title="'CustomHeaderTitle'"
     :min="minDate"
@@ -13,7 +13,7 @@
     </template>
 
     <template v-slot:CustomCell="{ props }">
-      <customCell
+      <CellDate
         :formatted-value="props.formattedValue"
         :is-weekend="props.isWeekend"
         :isHoliday="isHoliday(props.formattedValue)"
@@ -22,19 +22,19 @@
         :description="desHoliday(props.formattedValue)"
         @click-left-cell="handleLeftClick"
         @click-right-cell="handleRightClick"
-      ></customCell>
+      ></CellDate>
     </template>
   </customCalendar>
 </template>
 
 <script>
 import { Calendar } from "@progress/kendo-vue-dateinputs";
-import Cell from "~~/components/Calendar/Cell.vue";
+import CellDate from "~~/components/Calendar/CellDate.vue";
 
 export default {
   components: {
     customCalendar: Calendar,
-    customCell: Cell,
+    CellDate,
   },
 
   props: {
@@ -91,42 +91,70 @@ export default {
 };
 </script>
 
-<style>
-.title-calendar {
-  /* outline: solid blue; */
+<style scope>
+.single-calendar .title-calendar {
   color: white;
   font-size: 1.25rem;
   margin: 0rem;
 }
 
-.k-calendar-nav {
+.single-calendar .k-calendar-nav {
   display: none !important;
 }
 
 .single-calendar {
-  /* outline: solid green; */
-  width: 20rem;
-  height: 22rem;
-  -webkit-text-stroke: 0.3px;
+  width: 17rem;
+  height: 18rem;
   background-color: rgba(32, 32, 32, 0.95);
-  border-radius: 1.25rem;
+  border-radius: 0.7rem;
   padding: 0.62rem 1.25rem;
+  margin: 1rem auto;
 }
 
 .single-calendar table {
-  font-size: 0.6rem !important;
-  table-layout: fixed !important;
-  border-collapse: separate !important;
-  border-spacing: 0.4rem !important;
+  width: 90%;
+  height: 80%;
+  padding: 0rem;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0.3rem;
+}
+
+.single-calendar table thead {
+  padding: 0rem;
+  margin: 0rem;
+  justify-content: center;
+}
+
+.single-calendar table thead th {
+  text-align: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  padding: 0rem;
+  margin: 0rem;
+  min-width: 14%;
+  max-width: 14%;
+}
+
+.single-calendar table td {
+  justify-content: center;
+  text-align: center;
+  font-size: 0.75rem;
+  border-radius: 0.4rem;
+  padding: 0rem;
+  margin: 0rem;
+  min-width: 14%;
+  max-width: 14%;
 }
 
 .single-calendar .k-calendar-view {
   background-color: white;
-  border-radius: 1.25rem;
-  padding: 0rem 1.25rem 1.2rem 1.25rem;
-  min-width: 15rem;
-  max-width: 15rem;
-  min-height: 15.9rem;
-  max-height: 15.9rem;
+  margin: auto;
+  border-radius: 0.7rem;
+  padding: 0rem;
+  width: 100%;
+  max-width: 100%;
+  min-height: 80%;
+  max-height: 80%;
 }
 </style>

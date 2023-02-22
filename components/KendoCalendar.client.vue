@@ -1,44 +1,45 @@
 <template>
   <div
-    class="holiday-description w-[97%] h-[10%] flex justify-evenly mx-auto bg-[rgba(32,32,32,0.95)] rounded-xl items-center text-white shadow-[rgba(0,0,0,0.45)_0px_25px_20px_-20px]"
+    class="holiday-description grid grid-cols-3 w-[100%] h-[8%] flex justify-evenly mx-auto bg-[rgba(32,32,32,0.95)] rounded-xl items-center text-white shadow-[rgba(0,0,0,0.45)_0px_25px_20px_-20px]"
   >
-    <div class="flex justify-center items-center">
+    <div class="cantrade-des ct-n flex justify-center items-center">
       <div
-        class="flex m-2 w-[40px] h-[40px] justify-center items-center bg-[rgb(255,153,153)] text-black rounded-full"
+        class="cantrade-des-header m-2 justify-center items-center bg-[rgb(255,153,153)] text-black"
       >
         <p>N</p>
       </div>
-      <div>
-        <p>= No Trading and Settlement</p>
+      <div class="cantrade-des-body">
+        <p class="equal-symbol">=</p>
+        <p>No Trading and Settlement</p>
       </div>
     </div>
-    <div class="flex justify-center items-center">
+    <div class="cantrade-des ct-t flex justify-center items-center">
       <div
-        class="flex m-2 w-[40px] h-[40px] justify-center items-center bg-[rgba(255,255,153)] text-black rounded-full"
+        class="cantrade-des-header m-2 justify-center items-center bg-[rgba(255,255,153)] text-black"
       >
         <p>T</p>
       </div>
-      <div>
-        <p>= Trade only ( No settlement )</p>
+      <div class="cantrade-des-body">
+        <p class="equal-symbol">=</p>
+        <p>Trade only ( No settlement )</p>
       </div>
     </div>
-    <div class="flex justify-center items-center">
+    <div class="cantrade-des ct-s flex justify-center items-center">
       <div
-        class="flex m-2 w-[40px] h-[40px] justify-center items-center bg-[rgba(153,204,255)] text-black rounded-full"
+        class="cantrade-des-header m-2 justify-center items-center bg-[rgba(153,204,255)] text-black"
       >
         <p>S</p>
       </div>
-      <div>
-        <p>= Settlement only ( No Trading )</p>
+      <div class="cantrade-des-body">
+        <p class="equal-symbol">=</p>
+        <p>Settlement only ( No Trading )</p>
       </div>
     </div>
   </div>
   <div class="h-[2%]"></div>
-  <div
-    class="main-calendar grid justify-items-center overflow-auto items-center h-[88%]"
-  >
+  <div class="main-calendar overflow-auto h-[90%]">
     <div
-      class="grid gap-4"
+      class="grid w-[100%]"
       :class="{
         'grid-cols-4': columns >= 4,
         'grid-cols-3': columns == 3,
@@ -47,7 +48,7 @@
       }"
     >
       <!-- Calendar 12 month -->
-      <calendar
+      <CalendarSingleCalendar
         v-for="month in months"
         :monthlyLeave="monthlyLeave[month]"
         :month="month"
@@ -55,7 +56,7 @@
         :key="month"
         @click-left="clickShowCell"
         @click-right="clickEventCell"
-      ></calendar>
+      ></CalendarSingleCalendar>
 
       <!-- Dialog Information -->
       <DialogDateInformation
@@ -66,7 +67,7 @@
       />
 
       <!-- Dialog Event -->
-      <EventDialog
+      <DialogEventHoliday
         v-if="eventDialogVisible"
         :dialogVisible="eventDialogVisible"
         :dataDateSelected="dataDateSelected"
@@ -77,21 +78,13 @@
 </template>
 
 <script>
-import singleCalendarClient from "~~/components/Calendar/SingleCalendar.vue";
-import DialogEventHoliday from "~~/components/Dialog/EventHoliday.vue";
 import { useMainStore } from "~~/stores/data";
 import { useWindowSize } from "@vueuse/core";
 
 export default {
-  components: {
-    calendar: singleCalendarClient,
-    EventDialog: DialogEventHoliday,
-  },
-
   setup() {
     const store = useMainStore();
-    const { updateHolidays } = useMainStore();
-    return { store, updateHolidays };
+    return { store };
   },
 
   data() {
@@ -106,8 +99,8 @@ export default {
 
   computed: {
     columns() {
-      let widthWindow = this.window.width * 0.6;
-      let widthCalendar = 325;
+      let widthWindow = this.window.width * 0.63;
+      let widthCalendar = 300;
       let cols =
         Math.floor(widthWindow / widthCalendar) < 1
           ? 1
@@ -180,6 +173,7 @@ div.main-calendar::-webkit-scrollbar-track {
 }
 
 div.main-calendar::-webkit-scrollbar {
+  display: none;
   width: 5px;
   background-color: #f5f5f500;
 }
@@ -187,5 +181,74 @@ div.main-calendar::-webkit-scrollbar {
 div.main-calendar::-webkit-scrollbar-thumb {
   -webkit-box-shadow: inset 0 0 6px rgba(20, 20, 20, 0.582);
   background-color: #000000e3;
+  border-radius: 1rem;
+}
+
+.cantrade-des-header {
+  display: flex;
+  border-radius: 50%;
+  min-width: 2rem;
+  max-width: 2rem;
+  min-height: 2rem;
+  max-height: 2rem;
+}
+
+.cantrade-des-body {
+  display: flex;
+}
+.equal-symbol {
+  margin-right: 0.35rem;
+  margin-left: -0.1rem;
+}
+
+@media (max-width: 93.75rem) {
+  .cantrade-des {
+    max-height: 80% !important;
+    display: grid;
+    align-self: center;
+    justify-self: center;
+    justify-content: center;
+    font-size: 1vw;
+  }
+
+  .cantrade-des-header {
+    margin: 0rem;
+    align-self: center;
+    justify-self: center;
+    border-radius: 50%;
+    min-width: 1.4rem;
+    max-width: 1.4rem;
+    min-height: 1.4rem;
+    max-height: 1.4rem;
+  }
+
+  .cantrade-des-body {
+    align-self: center;
+    justify-self: center;
+    padding: 0.1rem;
+  }
+
+  .equal-symbol {
+    display: none;
+  }
+}
+
+.main-calendar {
+  box-shadow: inset 0 0 10px #000000;
+  border-radius: 0.7rem;
+}
+
+@media (max-width: 900px) {
+  .holiday-description {
+    height: 15% !important;
+  }
+
+  .main-calendar {
+    height: 85% !important;
+  }
+
+  .cantrade-des {
+    font-size: 0.65rem !important;
+  }
 }
 </style>
