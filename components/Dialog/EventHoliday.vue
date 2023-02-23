@@ -113,11 +113,16 @@ export default {
       },
       date: this.dataDateSelected.date,
       enteredDialog: {
-        description: this.dataDateSelected.description,
+        description:
+          this.dataDateSelected.description == undefined ||
+          this.dataDateSelected.description == null
+            ? ""
+            : this.dataDateSelected.description,
         cantrade:
-          this.dataDateSelected.cantrade !== undefined
-            ? this.dataDateSelected.cantrade
-            : "N",
+          this.dataDateSelected.cantrade == undefined ||
+          this.dataDateSelected.cantrade == null
+            ? "N"
+            : this.dataDateSelected.cantrade,
       },
     };
   },
