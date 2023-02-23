@@ -8,6 +8,8 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@nuxt/types": "^2.16.0",
+    "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/tailwindcss": "^6.3.0",
     "nuxt": "^3.1.0"
   },
@@ -15,6 +17,7 @@
     "@element-plus/nuxt": "^1.0.3",
     "@inkline/inkline": "^3.2.2",
     "@inkline/nuxt": "^3.1.4",
+    "@nuxt/typescript-runtime": "^2.1.0",
     "@nuxtjs/moment": "^1.6.1",
     "@nuxtjs/tailwindcss": "^6.3.0",
     "@pinia/nuxt": "^0.4.6",
