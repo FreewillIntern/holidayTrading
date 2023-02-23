@@ -1,8 +1,9 @@
 <template>
   <div class="w-full h-full">
-    <div v-show="!loading" class="w-full h-full bg-[rgba(32,32,32,0.95)] shadow-[_3px_3px_15px_rgba(0,0,0,0.8)] rounded-xl"></div>
-    <div
-      v-show="loading" class="w-full h-full bg-[rgba(32,32,32,0.95)] shadow-[_3px_3px_15px_rgba(0,0,0,0.8)] rounded-xl overflow-auto flex items-center text-white"> 
+    <div v-show="!loading"
+      class="w-full h-full bg-[rgba(32,32,32,0.95)] shadow-[_3px_3px_15px_rgba(0,0,0,0.8)] rounded-xl"></div>
+    <div v-show="loading"
+      class="w-full h-full bg-[rgba(32,32,32,0.95)] shadow-[_3px_3px_15px_rgba(0,0,0,0.8)] rounded-xl overflow-auto flex items-center text-white">
       <div class="w-full flex">
         <!-- Pc -->
         <div class="h-full w-full flex justify-evenly" v-show="window.width >= 550">
@@ -18,7 +19,7 @@
               @search="onSearchMarket" @input="onInputMarket" />
             <p v-if="window.width > 1200">:</p>
             <p class="ml-2 w-[200px] h-[26px] min-w-fit border-b-2 border-[rgb(84,84,84)]" v-if="window.width > 1200">
-              {{ getMktFullName.mktname }}
+              {{ getMktFullName?.mktname }}
             </p>
           </div>
 
@@ -58,24 +59,51 @@
   </div>
 </template>
 
-<script>
-import { useMainStore } from "~~/stores/data";
+<script lang="ts">
+import { useMainStore } from "../stores/data";
 import { useWindowSize } from "@vueuse/core";
+import { defineComponent } from "vue";
 
-export default {
+interface DataType {
+  url: string;
+  window: {
+    width: globalThis.Ref<number>;
+    height: globalThis.Ref<number>;
+  }
+  years: Inkline[];
+  markets: Markets[];
+  marketCodes: Inkline[];
+  year: Inkline;
+  market: Inkline;
+  filterYears: object[];
+  filterMarketCodes: object[];
+  loading: boolean;
+}
+
+interface Markets {
+  mktcode: string;
+  mktname: string;
+}
+
+interface Inkline {
+  id: number;
+  label: string;
+}
+
+export default defineComponent({
   setup() {
     const store = useMainStore();
     return { store };
   },
-  data() {
+  data(): DataType {
     return {
       url: useRuntimeConfig().public.apiBase,
       window: useWindowSize(),
       years: [],
       markets: [],
       marketCodes: [],
-      year: "",
-      market: "",
+      year: { id: 0, label: "" },
+      market: { id: 0, label: "" },
       filterYears: [],
       filterMarketCodes: [],
       loading: false,
@@ -123,7 +151,6 @@ export default {
   },
   methods: {
     search() {
-      console.log("Search");
       if (this.year != null && this.market != null) {
         fetch(
           `${this.url}holiday?mkt=${this.market.label}&year=${this.year.label}`
@@ -133,39 +160,50 @@ export default {
 
         this.store.year = this.year.label;
         this.store.marketCode = this.market.label;
-        this.store.marketName = this.markets.find(
+
+        const res = this.markets.find(
           (mkt) => mkt.mktcode === this.market.label
-        ).mktname;
+        )?.mktname;
+
+        if (res != undefined) {
+          this.store.marketName = res;
+        }
 
         gtag("event", "search", {
-          search_term:
+          search_year_market:
             "Year: " + this.year.label + ", Market Code: " + this.market.label,
         });
       }
     },
-    onInputYear(event) {
-      const value = event.target.value;
-      event.target.value = value.replace(/[^0-9]/g, "");
-      if (value.length >= 4) {
-        event.target.value = value.substr(0, 4);
+    onInputYear(event: InputEvent) {
+      if (event.target != null) {
+        const value = (event.target as HTMLInputElement).value;
+
+        (event.target as HTMLInputElement).value = value.replace(/\D/g, "");
+        if (value.length >= 4) {
+          (event.target as HTMLInputElement).value = value.slice(0, 4);
+        }
       }
     },
-    onSearchYear(query) {
+    onSearchYear(query: string) {
       if (query != null) {
-        query = query.substr(0, 4);
+        query = query.slice(0, 4);
       }
       this.filterYears = this.years.filter((option) => {
         return option.label.toLowerCase().includes((query || "").toLowerCase());
       });
     },
-    onInputMarket(event) {
-      const value = event.target.value;
-      event.target.value = value.toUpperCase();
-      if (value.length >= 20) {
-        event.target.value = value.substr(0, 20);
+    onInputMarket(event: InputEvent) {
+      if (event.target != null) {
+        const value = (event.target as HTMLInputElement).value;
+
+        (event.target as HTMLInputElement).value = value.toUpperCase();
+        if (value.length >= 20) {
+          (event.target as HTMLInputElement).value = value.slice(0, 20);
+        }
       }
     },
-    onSearchMarket(query) {
+    onSearchMarket(query: string) {
       this.filterMarketCodes = this.marketCodes.filter((option) => {
         return option.label.toLowerCase().includes((query || "").toLowerCase());
       });
@@ -174,11 +212,11 @@ export default {
   computed: {
     getMktFullName() {
       return (
-        this.markets.find((mkt) => mkt.mktcode === this.market.label) || ""
+        this.markets.find((mkt) => mkt.mktcode === this.market.label)
       );
     },
   },
-};
+});
 </script>
 
 <style>
@@ -234,7 +272,7 @@ export default {
   .input input {
     padding-left: 6px !important;
     padding-right: 6px !important;
-  } 
+  }
 
   .input-suffix {
     padding-left: 4px !important;
