@@ -49,9 +49,9 @@
     >
       <!-- Calendar 12 month -->
       <CalendarSingleCalendar
-        v-for="month in months"
+        v-for="(month, index) in months"
         :monthlyLeave="monthlyLeave[month]"
-        :month="month"
+        :month="index"
         :year="year"
         :key="month"
         @click-left="clickShowCellDate"
@@ -129,7 +129,7 @@ export default defineComponent({
   },
 
   computed: {
-    columns() {
+    columns(): number {
       let widthWindow = this.window.width * 0.63;
       let widthCalendar = 300;
       let cols =
@@ -174,7 +174,7 @@ export default defineComponent({
       }
       return objectHolidays;
     },
-    year() {
+    year(): number {
       if (this.store.year === "") {
         return new Date().getFullYear();
       } else {
