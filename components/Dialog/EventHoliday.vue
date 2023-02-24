@@ -166,10 +166,12 @@ export default {
       let urlGetHolidays = `${this.url}holiday?mkt=${
         this.dataDateSelected.mktcode
       }&year=${this.date.getFullYear()}`;
+
       await useFetch(() => `${this.url}holiday/insert`, {
         method: "POST",
         body: JSON.parse(bodyData),
       });
+
       await fetch(urlGetHolidays)
         .then((response) => response.json())
         .then((result) => this.store.updateHolidays(result.data))
@@ -177,10 +179,13 @@ export default {
           console.log(error);
           this.store.updateHolidays([]);
         });
+
+      gtag("event", "event_date", {
+        event_date_add: bodyData,
+      });
     },
     async fetchEditAPI() {
       const bodyData = `{"mktcode": "${this.dataDateSelected.mktcode}","holidaydate": "${this.formatDDMMYY}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
-      // let urlGetHolidays = `${this.url}holiday?mkt=${this.dataDateSelected.mktcode}&year=${this.date.getFullYear()}`;
 
       await useFetch(() => `${this.url}holiday/edit`, {
         method: "POST",
@@ -198,6 +203,10 @@ export default {
           console.log(error);
           this.store.updateHolidays([]);
         });
+
+      gtag("event", "event_date", {
+        event_date_edit: bodyData,
+      });
     },
     async addHoliday() {
       if (this.enteredDialog.cantrade === undefined) {
