@@ -32,8 +32,6 @@ import { defineComponent } from "vue";
 import { Calendar } from "@progress/kendo-vue-dateinputs";
 import CellDate from "./CellDate.vue";
 
-type StringNull = string | undefined | null;
-
 export default defineComponent({
   components: {
     Calendar,
