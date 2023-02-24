@@ -21,7 +21,7 @@
       </div>
       <div class="cantrade-des-body">
         <p class="equal-symbol">=</p>
-        <p>Trade only ( No settlement )</p>
+        <p>Trade only (No settlement)</p>
       </div>
     </div>
     <div class="cantrade-des ct-s flex justify-center items-center">
@@ -32,7 +32,7 @@
       </div>
       <div class="cantrade-des-body">
         <p class="equal-symbol">=</p>
-        <p>Settlement only ( No Trading )</p>
+        <p>Settlement only (No Trading)</p>
       </div>
     </div>
   </div>
@@ -54,8 +54,8 @@
         :month="month"
         :year="year"
         :key="month"
-        @click-left="clickShowCell"
-        @click-right="clickEventCell"
+        @click-left="clickShowCellDate"
+        @click-right="clickEventCellDate"
       ></CalendarSingleCalendar>
 
       <!-- Dialog Information -->
@@ -77,11 +77,29 @@
   </div>
 </template>
 
-<script>
-import { useMainStore } from "~~/stores/data";
+<script lang="ts">
+import { defineComponent } from "vue";
+import { useMainStore } from "../stores/data";
 import { useWindowSize } from "@vueuse/core";
 
-export default {
+interface DateInformation {
+  date: number;
+  cantrade: string;
+  description: string;
+}
+
+interface DataHoliday {
+  mktcode: string;
+  cantrade: string;
+  description: string;
+  holidaydate: string;
+}
+
+interface ObjectHolidays {
+  [key: string]: DateInformation[];
+}
+
+export default defineComponent({
   setup() {
     const store = useMainStore();
     return { store };
@@ -89,7 +107,20 @@ export default {
 
   data() {
     return {
-      months: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      months: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
       window: useWindowSize(),
       dataDateSelected: {},
       eventDialogVisible: false,
@@ -107,33 +138,41 @@ export default {
           : Math.floor(widthWindow / widthCalendar);
       return cols;
     },
-    monthlyLeave() {
-      const obJectHolidays = {
-        0: [],
-        1: [],
-        2: [],
-        3: [],
-        4: [],
-        5: [],
-        6: [],
-        7: [],
-        8: [],
-        9: [],
-        10: [],
-        11: [],
+    monthlyLeave(): ObjectHolidays {
+      const objectHolidays: ObjectHolidays = {
+        January: [],
+        February: [],
+        March: [],
+        April: [],
+        May: [],
+        June: [],
+        July: [],
+        August: [],
+        September: [],
+        October: [],
+        November: [],
+        December: [],
       };
-      if (this.store.getDataHolidays.length > 0) {
-        for (const data of this.store.getDataHolidays) {
-          const splitDate = data.holidaydate.split("/");
-          obJectHolidays[Number(splitDate[1]) - 1].push({
-            id: data.id,
+
+      const dataHolidays: DataHoliday[] = this.store.getDataHolidays;
+
+      if (dataHolidays.length > 0) {
+        dataHolidays.forEach((element) => {
+          let splitDate: string[] = element.holidaydate.split("/");
+          let splitDateNum: number[] = [];
+          splitDate.forEach((n: string) => splitDateNum.push(+n));
+          let dateInformation = {
             date: Number(splitDate[0]),
-            cantrade: data.cantrade,
-            description: data.description,
-          });
-        }
+            cantrade: element.cantrade,
+            description: element.description,
+          };
+          console.log("dateInformation", dateInformation);
+          objectHolidays[this.months[splitDateNum[1] - 1]].push(
+            dateInformation
+          );
+        });
       }
-      return obJectHolidays;
+      return objectHolidays;
     },
     year() {
       if (this.store.year === "") {
@@ -145,12 +184,14 @@ export default {
   },
 
   methods: {
-    clickEventCell(data) {
+    clickEventCellDate(data: object) {
+      console.log("clickEventCellDate: ", data);
       this.dataDateSelected = data;
       this.dataDateSelected.mktcode = this.store.getMarketCode;
       this.eventDialogVisible = true;
     },
-    clickShowCell(data) {
+    clickShowCellDate(data: object) {
+      console.log("clickShowCellDate: ", data);
       this.dataDateSelected = data;
       this.informationDialogVisible = true;
     },
@@ -162,8 +203,21 @@ export default {
       this.eventDialogVisible = false;
       this.dataDateSelected = {};
     },
+    // sayHiFucntion() {
+    //   function sayHi(): string;
+    //   function sayHi(name: string): string;
+    //   function sayHi(name?: unknown): unknown {
+    //     if (!name) {
+    //       return "hi";
+    //     }
+    //     if (typeof name == "string") {
+    //       return "hi" + name;
+    //     }
+    //     throw new Error("Error type name");
+    //   }
+    // },
   },
-};
+});
 </script>
 
 <style>

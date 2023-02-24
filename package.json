@@ -12,12 +12,14 @@
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/tailwindcss": "^6.3.0",
     "@types/gtag.js": "^0.0.12",
+    "@types/node": "^18.14.0",
     "nuxt": "^3.1.0"
   },
   "dependencies": {
     "@element-plus/nuxt": "^1.0.3",
     "@inkline/inkline": "^3.2.2",
     "@inkline/nuxt": "^3.1.4",
+    "@nuxt/typescript-runtime": "^2.1.0",
     "@nuxtjs/moment": "^1.6.1",
     "@nuxtjs/tailwindcss": "^6.3.0",
     "@pinia/nuxt": "^0.4.6",
@@ -38,7 +40,7 @@
     "@vueuse/nuxt": "^9.12.0",
     "maska": "^2.1.6",
     "moment": "^2.29.4",
-    "pinia": "^2.0.29",
+    "pinia": "^2.0.32",
     "sass": "^1.58.0",
     "vue-gtag-next": "^1.14.0"
   }

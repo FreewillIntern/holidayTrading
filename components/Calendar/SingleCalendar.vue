@@ -1,5 +1,5 @@
 <template>
-  <customCalendar
+  <Calendar
     :class-name="'single-calendar mb-5'"
     :cell="'CustomCell'"
     :header-title="'CustomHeaderTitle'"
@@ -24,16 +24,17 @@
         @click-right-cell="handleRightClick"
       ></CellDate>
     </template>
-  </customCalendar>
+  </Calendar>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from "vue";
 import { Calendar } from "@progress/kendo-vue-dateinputs";
-import CellDate from "~~/components/Calendar/CellDate.vue";
+import CellDate from "./CellDate.vue";
 
-export default {
+export default defineComponent({
   components: {
-    customCalendar: Calendar,
+    Calendar,
     CellDate,
   },
 
@@ -41,14 +42,17 @@ export default {
     month: {
       type: Number,
       required: true,
+      readonly: true,
     },
     year: {
       type: Number,
       required: true,
+      readonly: true,
     },
     monthlyLeave: {
       type: Array,
       required: true,
+      readonly: true,
     },
   },
 
@@ -64,31 +68,35 @@ export default {
   },
 
   methods: {
-    isHoliday(date) {
+    isHoliday(date: Date) {
       return (
-        this.monthlyLeave.find((value) => value.date == date) !== undefined
+        this.monthlyLeave.find((value: any) => value.date == date) !== undefined
       );
     },
-    cantradeHoliday(date) {
-      const arr = this.monthlyLeave.find((value) => value.date == date);
+    cantradeHoliday(date: Date): any {
+      const arr: any = this.monthlyLeave.find(
+        (value: any): any => value.date == date
+      );
       if (arr !== undefined) {
         return arr.cantrade;
       } else return null;
     },
-    desHoliday(date) {
-      const arr = this.monthlyLeave.find((value) => value.date == date);
+    desHoliday(date: Date): any {
+      const arr: any = this.monthlyLeave.find(
+        (value: any) => value.date == date
+      );
       if (arr !== undefined) {
         return arr.description;
       } else return null;
     },
-    handleLeftClick(data) {
+    handleLeftClick(data: Date): void {
       this.$emit("click-left", data);
     },
-    handleRightClick(data) {
+    handleRightClick(data: Date): void {
       this.$emit("click-right", data);
     },
   },
-};
+});
 </script>
 
 <style scope>

@@ -5,11 +5,7 @@
     "target": "ES2018",
     "module": "ESNext",
     "moduleResolution": "Node",
-    "lib": [
-      "ESNext",
-      "ESNext.AsyncIterable",
-      "DOM"
-    ],
+    "lib": ["ESNext", "ESNext.AsyncIterable", "DOM"],
     "esModuleInterop": true,
     "allowJs": true,
     "sourceMap": true,
@@ -17,20 +13,10 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": [
-        "./*"
-      ],
-      "@/*": [
-        "./*"
-      ]
+      "~/*": ["./*"],
+      "@/*": ["./*"]
     },
-    "types": [
-      "@types/node",
-      "@nuxt/types",
-      "@types/gtag.js"
-    ]
+    "types": ["@types/node", "@nuxt/types"],
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }
