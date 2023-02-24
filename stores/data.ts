@@ -1,7 +1,27 @@
 import { defineStore } from "pinia";
 
+interface StateType {
+  holidays: Holiday[];
+  markets: Market[];
+  marketCode: string;
+  marketName: string;
+  year: string;
+}
+
+interface Holiday{
+  mktcode: string,
+  cantrade: string,
+  description: string,
+  holidaydate: string
+}
+
+interface Market {
+  mktcode: string;
+  mktname: string;
+}
+
 export const useMainStore = defineStore("main", {
-  state: () => ({
+  state: ():StateType => ({
     holidays: [],
     markets: [],
     marketCode: "",
@@ -28,7 +48,7 @@ export const useMainStore = defineStore("main", {
   },
 
   actions: {
-    updateHolidays(holidays) {
+    updateHolidays(holidays: Holiday[]) {
       if (holidays !== undefined) {
         this.holidays = holidays;
       } else {
