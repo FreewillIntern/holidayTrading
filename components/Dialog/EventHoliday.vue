@@ -180,8 +180,8 @@ export default {
           this.store.updateHolidays([]);
         });
 
-      gtag("event", "event_date", {
-        event_date_add: bodyData,
+      gtag("event", "dialog_date", {
+        add_date: bodyData,
       });
     },
     async fetchEditAPI() {
@@ -204,8 +204,8 @@ export default {
           this.store.updateHolidays([]);
         });
 
-      gtag("event", "event_date", {
-        event_date_edit: bodyData,
+      gtag("event", "dialog_date", {
+        edit_date: bodyData,
       });
     },
     async addHoliday() {

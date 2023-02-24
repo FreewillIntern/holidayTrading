@@ -166,7 +166,6 @@ export default defineComponent({
             cantrade: element.cantrade,
             description: element.description,
           };
-          console.log("dateInformation", dateInformation);
           objectHolidays[this.months[splitDateNum[1] - 1]].push(
             dateInformation
           );
@@ -185,13 +184,14 @@ export default defineComponent({
 
   methods: {
     clickEventCellDate(data: object) {
-      console.log("clickEventCellDate: ", data);
       this.dataDateSelected = data;
       this.dataDateSelected.mktcode = this.store.getMarketCode;
+      gtag("event", "dialog_date", {
+        show_date: JSON.stringify(data),
+      });
       this.eventDialogVisible = true;
     },
     clickShowCellDate(data: object) {
-      console.log("clickShowCellDate: ", data);
       this.dataDateSelected = data;
       this.informationDialogVisible = true;
     },
