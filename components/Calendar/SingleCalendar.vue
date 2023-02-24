@@ -44,14 +44,17 @@ export default defineComponent({
     month: {
       type: Number,
       required: true,
+      readonly: true,
     },
     year: {
       type: Number,
       required: true,
+      readonly: true,
     },
     monthlyLeave: {
       type: Array,
       required: true,
+      readonly: true,
     },
   },
 

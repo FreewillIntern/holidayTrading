@@ -35,28 +35,34 @@ export default defineComponent({
     formattedValue: {
       type: String,
       require: true,
+      readonly: true,
     },
     isWeekend: {
       type: Boolean,
       require: true,
+      readonly: true,
     },
     isHoliday: {
       type: Boolean,
       require: true,
+      readonly: true,
     },
     value: {
       type: Date,
       require: true,
+      readonly: true,
     },
     cantrade: {
       type: String,
       require: false,
       defualt: null,
+      readonly: true,
     },
     description: {
       type: String,
       require: false,
       defualt: null,
+      readonly: true,
     },
   },
 
