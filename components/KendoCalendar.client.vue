@@ -82,19 +82,31 @@ import { defineComponent } from "vue";
 import { useMainStore } from "../stores/data";
 import { useWindowSize } from "@vueuse/core";
 
+interface DataShowDate {
+  date: Date;
+  isWeekend: boolean;
+  isHoliday: boolean;
+  cantrade?: string;
+  description?: string;
+}
+interface DataEventDate {
+  date: Date;
+  isHoliday: boolean;
+  cantrade?: string;
+  description?: string;
+  mktcode?: string;
+}
 interface DateInformation {
   date: number;
   cantrade: string;
   description: string;
 }
-
 interface DataHoliday {
   mktcode: string;
   cantrade: string;
   description: string;
   holidaydate: string;
 }
-
 interface ObjectHolidays {
   [key: string]: DateInformation[];
 }
@@ -183,15 +195,16 @@ export default defineComponent({
   },
 
   methods: {
-    clickEventCellDate(data: object) {
-      this.dataDateSelected = data;
-      this.dataDateSelected.mktcode = this.store.getMarketCode;
-      gtag("event", "dialog_date", {
-        show_date: "show_date",
-      });
+    clickEventCellDate(data: DataEventDate) {
+      let dataFromCell: DataEventDate = data;
+      dataFromCell.mktcode = this.store.getMarketCode;
+      this.dataDateSelected = dataFromCell;
       this.eventDialogVisible = true;
     },
-    clickShowCellDate(data: object) {
+    clickShowCellDate(data: DataShowDate) {
+      gtag("event", "dialog_date", {
+        show_date: data.date,
+      });
       this.dataDateSelected = data;
       this.informationDialogVisible = true;
     },
@@ -203,19 +216,6 @@ export default defineComponent({
       this.eventDialogVisible = false;
       this.dataDateSelected = {};
     },
-    // sayHiFucntion() {
-    //   function sayHi(): string;
-    //   function sayHi(name: string): string;
-    //   function sayHi(name?: unknown): unknown {
-    //     if (!name) {
-    //       return "hi";
-    //     }
-    //     if (typeof name == "string") {
-    //       return "hi" + name;
-    //     }
-    //     throw new Error("Error type name");
-    //   }
-    // },
   },
 });
 </script>
