@@ -48,7 +48,7 @@
       }"
     >
       <!-- Calendar 12 month -->
-      <CalendarSingleCalendar
+      <CalendarSingleMonth
         v-for="(month, index) in months"
         :monthlyLeave="monthlyLeave[month]"
         :month="index"
@@ -56,7 +56,7 @@
         :key="month"
         @click-left="clickShowCellDate"
         @click-right="clickEventCellDate"
-      ></CalendarSingleCalendar>
+      ></CalendarSingleMonth>
 
       <!-- Dialog Information -->
       <DialogDateInformation
@@ -187,7 +187,7 @@ export default defineComponent({
       this.dataDateSelected = data;
       this.dataDateSelected.mktcode = this.store.getMarketCode;
       gtag("event", "dialog_date", {
-        show_date: JSON.stringify(data),
+        show_date: "show_date",
       });
       this.eventDialogVisible = true;
     },
