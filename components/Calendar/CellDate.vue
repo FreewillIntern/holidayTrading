@@ -14,20 +14,18 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-type StringNull = string | undefined | null;
-
 interface DataShowDate {
-  date: Date | undefined;
+  date: Date;
   isWeekend: boolean;
   isHoliday: boolean;
-  cantrade?: StringNull;
-  description?: StringNull;
+  cantrade?: string;
+  description?: string;
 }
 interface DataEventDate {
-  date: Date | undefined;
+  date: Date;
   isHoliday: boolean;
-  cantrade?: StringNull;
-  description?: StringNull;
+  cantrade?: string;
+  description?: string;
 }
 
 export default defineComponent({
@@ -109,7 +107,7 @@ export default defineComponent({
   methods: {
     handleLeftClick(): void {
       const data: DataShowDate = {
-        date: this.value,
+        date: <Date>this.value,
         isWeekend: this.isWeekend,
         isHoliday: this.isHoliday,
       };
@@ -122,7 +120,7 @@ export default defineComponent({
     handleRightClick(event: Event): void {
       event.preventDefault();
       const data: DataEventDate = {
-        date: this.value,
+        date: <Date>this.value,
         isHoliday: this.isHoliday,
       };
       if (this.isHoliday) {
