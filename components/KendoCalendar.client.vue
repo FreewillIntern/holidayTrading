@@ -59,7 +59,7 @@
       ></CalendarSingleMonth>
 
       <!-- Dialog Information -->
-      <DialogDateInformation
+      <DialogInformationDate
         v-if="informationDialogVisible"
         :dialogVisible="informationDialogVisible"
         :dataDateSelected="dataDateSelected"
@@ -67,7 +67,7 @@
       />
 
       <!-- Dialog Event -->
-      <DialogEventHoliday
+      <DialogEventDate
         v-if="eventDialogVisible"
         :dialogVisible="eventDialogVisible"
         :dataDateSelected="dataDateSelected"
