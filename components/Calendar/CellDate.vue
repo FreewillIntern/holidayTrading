@@ -52,8 +52,7 @@ export default defineComponent({
     },
     cantrade: {
       type: String,
-      require: false,
-      defualt: null,
+      require: true,
       readonly: true,
     },
     description: {

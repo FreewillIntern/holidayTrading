@@ -87,13 +87,13 @@ import { defineComponent, PropType } from "vue";
 import { useMainStore } from "../../stores/data";
 
 type DateNull = Date | null | undefined;
-type StringNull = String | null | undefined;
+type StringNull = string | null | undefined;
 interface DataEventDate {
   date: Date;
   isHoliday: boolean;
   cantrade?: string;
   description?: string;
-  mktcode: string;
+  mktcode?: string;
 }
 
 export default defineComponent({

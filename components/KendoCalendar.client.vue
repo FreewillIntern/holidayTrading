@@ -62,7 +62,7 @@
       <DialogInformationDate
         v-if="informationDialogVisible"
         :dialogVisible="informationDialogVisible"
-        :dataDateSelected="dataDateSelected"
+        :dataDateSelected="dataSentInfoDialog"
         @state-information-dialog="updateInformationDialogState"
       />
 
@@ -70,7 +70,7 @@
       <DialogEventDate
         v-if="eventDialogVisible"
         :dialogVisible="eventDialogVisible"
-        :dataDateSelected="dataDateSelected"
+        :dataDateSelected="dataSentEventDialog"
         @state-event-dialog="updateEventDialogState"
       />
     </div>
@@ -82,13 +82,6 @@ import { defineComponent } from "vue";
 import { useMainStore } from "../stores/data";
 import { useWindowSize } from "@vueuse/core";
 
-interface DataShowDate {
-  date: Date;
-  isWeekend: boolean;
-  isHoliday: boolean;
-  cantrade?: string;
-  description?: string;
-}
 interface DataEventDate {
   date: Date;
   isHoliday: boolean;
@@ -96,12 +89,15 @@ interface DataEventDate {
   description?: string;
   mktcode?: string;
 }
+interface DataShowDate extends DataEventDate {
+  isWeekend: boolean;
+}
 interface DateInformation {
   date: number;
   cantrade: string;
   description: string;
 }
-interface DataHoliday {
+interface DataHolidayFromAPI {
   mktcode: string;
   cantrade: string;
   description: string;
@@ -134,7 +130,8 @@ export default defineComponent({
         "December",
       ],
       window: useWindowSize(),
-      dataDateSelected: {},
+      dataSentInfoDialog: {} as DataShowDate,
+      dataSentEventDialog: {} as DataEventDate,
       eventDialogVisible: false,
       informationDialogVisible: false,
     };
@@ -165,9 +162,7 @@ export default defineComponent({
         November: [],
         December: [],
       };
-
-      const dataHolidays: DataHoliday[] = this.store.getDataHolidays;
-
+      const dataHolidays: DataHolidayFromAPI[] = this.store.getDataHolidays;
       if (dataHolidays.length > 0) {
         dataHolidays.forEach((element) => {
           let splitDate: string[] = element.holidaydate.split("/");
@@ -195,26 +190,26 @@ export default defineComponent({
   },
 
   methods: {
-    clickEventCellDate(data: DataEventDate) {
+    clickEventCellDate(data: DataEventDate): void {
       let dataFromCell: DataEventDate = data;
       dataFromCell.mktcode = this.store.getMarketCode;
-      this.dataDateSelected = dataFromCell;
+      this.dataSentEventDialog = dataFromCell;
       this.eventDialogVisible = true;
     },
-    clickShowCellDate(data: DataShowDate) {
+    clickShowCellDate(data: DataShowDate): void {
       gtag("event", "dialog_date", {
         show_date: data.date,
       });
-      this.dataDateSelected = data;
+      this.dataSentInfoDialog = data;
       this.informationDialogVisible = true;
     },
-    updateInformationDialogState() {
+    updateInformationDialogState(): void {
       this.informationDialogVisible = false;
-      this.dataDateSelected = {};
+      this.dataSentInfoDialog = {} as DataShowDate;
     },
-    updateEventDialogState() {
+    updateEventDialogState(): void {
       this.eventDialogVisible = false;
-      this.dataDateSelected = {};
+      this.dataSentEventDialog = {} as DataEventDate;
     },
   },
 });
