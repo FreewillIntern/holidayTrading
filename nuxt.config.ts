@@ -7,7 +7,6 @@ export default defineNuxtConfig({
     "@element-plus/nuxt",
     "@inkline/nuxt",
   ],
-  buildModules: ["@nuxt/typescript-build"],
   runtimeConfig: {
     public: {
       apiBase: process.env.API_BASE_URL,
