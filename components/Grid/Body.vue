@@ -96,7 +96,7 @@ import { orderBy } from "@progress/kendo-data-query";
 import { Button } from "@progress/kendo-vue-buttons";
 
 //PIANIA STORE IMPORT
-import { useMainStore } from "~~/stores/data";
+import { useMainStore } from "@/stores/data";
 
 //TPYE INTERFACE IMPORT
 import { Holiday, Data } from "@/types/Mytype.interfaces";
