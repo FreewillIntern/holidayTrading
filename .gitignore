@@ -9,3 +9,6 @@ dist
 package-lock.json
 .scannerwork
 sonar-project.properties
+Dockerfile
+.dockerignore
+settings.json

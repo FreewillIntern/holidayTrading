@@ -20,7 +20,7 @@
       </template>
       <template #bodyRight>
         <!-- BODY RIGHT -->
-        <GridMyCustom />
+        <GridBody />
       </template>
     </NuxtLayout>
   </div>
@@ -39,10 +39,9 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Mali:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Prompt&display=swap');
 
 body {
-  font-family: 'Mali', cursive;
+  font-family: 'Prompt', sans-serif;
 }
-
 </style>

@@ -1,6 +1,6 @@
 <template>
   <td
-    :class="'custom-cell k-calendar-td'"
+    :class="'custom-cell'"
     :style="styleCss"
     @click.left="handleLeftClick()"
     @click.right="handleRightClick($event)"
@@ -11,47 +11,57 @@
   </td>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from "vue";
+
+interface DataEventDate {
+  date: Date;
+  isHoliday: boolean;
+  cantrade?: string;
+  description?: string;
+}
+interface DataShowDate extends DataEventDate {
+  isWeekend: boolean;
+}
+
+export default defineComponent({
   props: {
-    // idHoliday: {
-    //   type: Number,
-    //   require: false,
-    //   defualt: null,
-    // },
-    
     formattedValue: {
       type: String,
       require: true,
+      readonly: true,
     },
     isWeekend: {
       type: Boolean,
       require: true,
+      readonly: true,
     },
     isHoliday: {
       type: Boolean,
       require: true,
+      readonly: true,
     },
     value: {
       type: Date,
       require: true,
+      readonly: true,
     },
     cantrade: {
       type: String,
-      require: false,
-      defualt: null,
+      require: true,
+      readonly: true,
     },
     description: {
       type: String,
-      require: false,
-      defualt: null,
+      require: true,
+      readonly: true,
     },
   },
 
   emits: ["click-left-cell", "click-right-cell"],
 
   computed: {
-    styleCss() {
+    styleCss(): object {
       if (this.isHoliday) {
         return this.cellStyleHolidays;
       } else if (this.isWeekend) {
@@ -60,37 +70,38 @@ export default {
         return this.cellStyle;
       }
     },
-    cellStyle() {
+    cellStyle(): object {
       return {
-        backgroundColor: "white",
+        backgroundColor: "rgba(228,228,228,0.3)",
         color: "black",
       };
     },
-    cellStyleWeekEnd() {
+    cellStyleWeekEnd(): object {
       return {
-        backgroundColor: "rgb(255,255,153)",
+        backgroundColor: "rgba(215,215,215,1)",
         color: "black",
       };
     },
-    cellStyleHolidays() {
+    cellStyleHolidays(): object {
       const style = {
         color: "black",
+        backgroundColor: "",
       };
       if (this.cantrade === "N") {
-        style.backgroundColor = "rgb(255,153,153)";
+        style.backgroundColor = "rgba(255,153,153)";
       } else if (this.cantrade === "T") {
-        style.backgroundColor = "rgb(188,255,110,0.7)";
+        style.backgroundColor = "rgba(255,255,153)";
       } else if (this.cantrade === "S") {
-        style.backgroundColor = "rgb(153,204,255)";
+        style.backgroundColor = "rgba(153,204,255)";
       }
       return style;
     },
   },
 
   methods: {
-    handleLeftClick() {
-      const data = {
-        date: this.value,
+    handleLeftClick(): void {
+      const data: DataShowDate = {
+        date: <Date>this.value,
         isWeekend: this.isWeekend,
         isHoliday: this.isHoliday,
       };
@@ -100,10 +111,10 @@ export default {
       }
       this.$emit("click-left-cell", data);
     },
-    handleRightClick(event) {
+    handleRightClick(event: Event): void {
       event.preventDefault();
-      const data = {
-        date: this.value,
+      const data: DataEventDate = {
+        date: <Date>this.value,
         isHoliday: this.isHoliday,
       };
       if (this.isHoliday) {
@@ -113,15 +124,5 @@ export default {
       this.$emit("click-right-cell", data);
     },
   },
-};
+});
 </script>
-
-<style>
-.k-calendar-td {
-  width: 0px !important;
-  height: 30px !important;
-  margin: 30px !important;
-  border-collapse: separate !important;
-  border-spacing: 15px !important;
-}
-</style>
