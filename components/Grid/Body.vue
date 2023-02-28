@@ -96,7 +96,7 @@ import { orderBy } from "@progress/kendo-data-query";
 import { Button } from "@progress/kendo-vue-buttons";
 
 //PIANIA STORE IMPORT
-import { useMainStore } from "~~/stores/data";
+import { useMainStore } from "@/stores/data";
 
 //TPYE INTERFACE IMPORT
 import { Holiday, Data } from "@/types/Mytype.interfaces";
@@ -149,7 +149,7 @@ export default defineComponent({
   computed: {
     setGridData() {
       let store = this.store.holidays;
-      store.forEach((d: Holiday) => {
+      store.forEach((d) => {
         let dateArr = d.holidaydate.split("/");
 
         let year = dateArr[2];
@@ -163,7 +163,7 @@ export default defineComponent({
 
       this.store.holidays = orderBy(this.store.holidays, this.sort);
 
-      this.store.holidays.forEach((d: Holiday) => {
+      this.store.holidays.forEach((d) => {
         let year = d.holidaydate.slice(0, 4);
         let month = d.holidaydate.slice(4, 6);
         let date = d.holidaydate.slice(6, 8);

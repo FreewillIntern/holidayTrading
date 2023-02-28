@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, StyleValue } from "vue";
 
 interface DataEventDate {
   date: Date;
@@ -61,7 +61,7 @@ export default defineComponent({
   emits: ["click-left-cell", "click-right-cell"],
 
   computed: {
-    styleCss(): object {
+    styleCss(): StyleValue {
       if (this.isHoliday) {
         return this.cellStyleHolidays;
       } else if (this.isWeekend) {
@@ -70,19 +70,19 @@ export default defineComponent({
         return this.cellStyle;
       }
     },
-    cellStyle(): object {
+    cellStyle(): StyleValue {
       return {
         backgroundColor: "rgba(228,228,228,0.3)",
         color: "black",
       };
     },
-    cellStyleWeekEnd(): object {
+    cellStyleWeekEnd(): StyleValue {
       return {
         backgroundColor: "rgba(215,215,215,1)",
         color: "black",
       };
     },
-    cellStyleHolidays(): object {
+    cellStyleHolidays(): StyleValue {
       const style = {
         color: "black",
         backgroundColor: "",
@@ -97,7 +97,7 @@ export default defineComponent({
       return style;
     },
   },
-
+  
   methods: {
     handleLeftClick(): void {
       const data: DataShowDate = {

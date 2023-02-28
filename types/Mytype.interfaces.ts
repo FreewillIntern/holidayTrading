@@ -9,11 +9,11 @@ interface Column {
 };
 
 export interface Holiday{
-    mktcode:string,
-    holidaydate: string,
-    cantradedate: string,
+    mktcode: string,
+    cantrade: string,
     description: string,
-    inEdit?: any | undefined
+    holidaydate: string
+    inEdit?: any
 };
 
 export interface StoreState {
