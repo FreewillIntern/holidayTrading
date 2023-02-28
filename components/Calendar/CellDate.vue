@@ -97,7 +97,7 @@ export default defineComponent({
       return style;
     },
   },
-
+  
   methods: {
     handleLeftClick(): void {
       const data: DataShowDate = {
