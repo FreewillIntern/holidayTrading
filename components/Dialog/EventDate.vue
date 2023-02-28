@@ -156,13 +156,13 @@ export default defineComponent({
         this.dialogVisible && (this.dataDateSelected?.isHoliday as boolean)
       );
     },
-    formatYYMMDD() {
+    formatYYMMDD(): string {
       let date = this.dataDateSelected?.date.getDate();
       let month = (this.dataDateSelected?.date.getMonth() as number) + 1;
       let year = this.dataDateSelected?.date.getFullYear();
       return `${year}/${("0" + month).slice(-2)}/${("0" + date).slice(-2)}`;
     },
-    formatDDMMYY() {
+    formatDDMMYY(): string {
       let date = this.dataDateSelected?.date.getDate();
       let month = (this.dataDateSelected?.date.getMonth() as number) + 1;
       let year = this.dataDateSelected?.date.getFullYear();
@@ -180,10 +180,10 @@ export default defineComponent({
   },
 
   methods: {
-    closeDialog() {
+    closeDialog(): void {
       this.$emit("stateEventDialog");
     },
-    async fetchaddAPI() {
+    async fetchaddAPI(): Promise<void> {
       const bodyData = `{"mktcode": "${this.marketcode}","holidaydate": "${this.formatDDMMYY}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
       let urlGetHolidays = `${this.url}holiday?mkt=${
         this.marketcode
@@ -206,7 +206,7 @@ export default defineComponent({
         add_date: bodyData,
       });
     },
-    async fetchEditAPI() {
+    async fetchEditAPI(): Promise<void> {
       const bodyData = `{"mktcode": "${this.marketcode}","holidaydate": "${this.formatDDMMYY}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
 
       await useFetch(() => `${this.url}holiday/edit`, {
@@ -230,7 +230,7 @@ export default defineComponent({
         edit_date: bodyData,
       });
     },
-    async addHoliday() {
+    async addHoliday(): Promise<void> {
       if (this.enteredDialog.cantrade === undefined) {
         alert("Plase select holiday type");
       } else {
@@ -244,7 +244,7 @@ export default defineComponent({
         this.closeDialog();
       }
     },
-    async editHoliday() {
+    async editHoliday(): Promise<void> {
       if (
         this.enteredDialog.description === undefined ||
         this.enteredDialog.description === null

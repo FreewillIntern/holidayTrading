@@ -14,18 +14,14 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-interface DataShowDate {
-  date: Date;
-  isWeekend: boolean;
-  isHoliday: boolean;
-  cantrade?: string;
-  description?: string;
-}
 interface DataEventDate {
   date: Date;
   isHoliday: boolean;
   cantrade?: string;
   description?: string;
+}
+interface DataShowDate extends DataEventDate {
+  isWeekend: boolean;
 }
 
 export default defineComponent({
@@ -57,8 +53,7 @@ export default defineComponent({
     },
     description: {
       type: String,
-      require: false,
-      defualt: null,
+      require: true,
       readonly: true,
     },
   },
@@ -66,7 +61,7 @@ export default defineComponent({
   emits: ["click-left-cell", "click-right-cell"],
 
   computed: {
-    styleCss(): any {
+    styleCss(): object {
       if (this.isHoliday) {
         return this.cellStyleHolidays;
       } else if (this.isWeekend) {

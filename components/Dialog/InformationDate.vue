@@ -90,7 +90,7 @@ export default {
   },
 
   methods: {
-    closeDialog() {
+    closeDialog(): void {
       this.$emit("stateInformationDialog");
     },
   },
