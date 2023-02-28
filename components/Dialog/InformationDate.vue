@@ -10,10 +10,10 @@
 
     <template #default v-if="isHoliday">
       <p>Date: {{ formatDDMMYY }}</p>
-      <p>Weekend: {{ dataDateSelected.isWeekend ? "Yes" : "No" }}</p>
-      <p>Holiday: {{ dataDateSelected.isHoliday ? "Yes" : "No" }}</p>
+      <p>Weekend: {{ dataDateSelected?.isWeekend ? "Yes" : "No" }}</p>
+      <p>Holiday: {{ dataDateSelected?.isHoliday ? "Yes" : "No" }}</p>
       <p>Trade type: {{ cantradeDescription }}</p>
-      <p>Description: {{ dataDateSelected.description }}</p>
+      <p>Description: {{ dataDateSelected?.description }}</p>
     </template>
     <template #default v-else>
       <p>Date: {{ formatDDMMYY }}</p>
@@ -29,7 +29,19 @@
   </i-modal>
 </template>
 
-<script>
+<script lang="ts">
+interface DataShowDate {
+  date: Date;
+  isWeekend: boolean;
+  isHoliday: boolean;
+  cantrade?: string;
+  description?: string;
+}
+
+interface ObjectCantrade {
+  [key: string]: string;
+}
+
 export default {
   props: {
     dialogVisible: {
@@ -37,7 +49,7 @@ export default {
       require: true,
     },
     dataDateSelected: {
-      type: Object,
+      type: Object as PropType<DataShowDate>,
       require: true,
     },
   },
@@ -45,25 +57,25 @@ export default {
   emits: ["stateInformationDialog"],
 
   computed: {
-    isHoliday() {
-      return this.dataDateSelected.isHoliday;
+    isHoliday(): boolean {
+      return <boolean>this.dataDateSelected?.isHoliday;
     },
-    formatDDMMYY() {
-      let date = this.dataDateSelected.date.getDate();
-      let month = this.dataDateSelected.date.getMonth() + 1;
-      let year = this.dataDateSelected.date.getFullYear();
+    formatDDMMYY(): string {
+      let date = (this.dataDateSelected?.date as Date).getDate();
+      let month = (this.dataDateSelected?.date.getMonth() as number) + 1;
+      let year = this.dataDateSelected?.date.getFullYear();
       return `${("0" + date).slice(-2)}/${("0" + month).slice(-2)}/${year}`;
     },
-    cantradeDescription() {
+    cantradeDescription(): string {
       let des = "";
-      let cantradeChoise = {
+      let cantradeChoise: ObjectCantrade = {
         N: "No Trading and Settlement",
         T: "Trade only ( No settlement )",
         S: "Settlement only ( No Trading )",
       };
       const arr = Object.keys(cantradeChoise);
       arr.forEach((type) => {
-        if (type === this.dataDateSelected.cantrade) {
+        if (type === this.dataDateSelected?.cantrade) {
           des = cantradeChoise[type];
         }
       });
@@ -78,7 +90,7 @@ export default {
   },
 
   methods: {
-    closeDialog() {
+    closeDialog(): void {
       this.$emit("stateInformationDialog");
     },
   },

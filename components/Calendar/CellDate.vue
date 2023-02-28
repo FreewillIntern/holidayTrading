@@ -14,20 +14,14 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-type StringNull = string | undefined | null;
-
-interface DataShowDate {
-  date: Date | undefined;
-  isWeekend: boolean;
-  isHoliday: boolean;
-  cantrade?: StringNull;
-  description?: StringNull;
-}
 interface DataEventDate {
-  date: Date | undefined;
+  date: Date;
   isHoliday: boolean;
-  cantrade?: StringNull;
-  description?: StringNull;
+  cantrade?: string;
+  description?: string;
+}
+interface DataShowDate extends DataEventDate {
+  isWeekend: boolean;
 }
 
 export default defineComponent({
@@ -54,14 +48,12 @@ export default defineComponent({
     },
     cantrade: {
       type: String,
-      require: false,
-      defualt: null,
+      require: true,
       readonly: true,
     },
     description: {
       type: String,
-      require: false,
-      defualt: null,
+      require: true,
       readonly: true,
     },
   },
@@ -69,7 +61,7 @@ export default defineComponent({
   emits: ["click-left-cell", "click-right-cell"],
 
   computed: {
-    styleCss(): any {
+    styleCss(): object {
       if (this.isHoliday) {
         return this.cellStyleHolidays;
       } else if (this.isWeekend) {
@@ -109,7 +101,7 @@ export default defineComponent({
   methods: {
     handleLeftClick(): void {
       const data: DataShowDate = {
-        date: this.value,
+        date: <Date>this.value,
         isWeekend: this.isWeekend,
         isHoliday: this.isHoliday,
       };
@@ -122,7 +114,7 @@ export default defineComponent({
     handleRightClick(event: Event): void {
       event.preventDefault();
       const data: DataEventDate = {
-        date: this.value,
+        date: <Date>this.value,
         isHoliday: this.isHoliday,
       };
       if (this.isHoliday) {

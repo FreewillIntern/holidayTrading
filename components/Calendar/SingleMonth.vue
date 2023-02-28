@@ -22,7 +22,7 @@
         :description="desHoliday(props.formattedValue)"
         @click-left-cell="handleLeftClick"
         @click-right-cell="handleRightClick"
-      ></CellDate>
+      />
     </template>
   </Calendar>
 </template>
@@ -31,6 +31,8 @@
 import { defineComponent } from "vue";
 import { Calendar } from "@progress/kendo-vue-dateinputs";
 import CellDate from "./CellDate.vue";
+
+type StringNull = string | undefined;
 
 export default defineComponent({
   components: {
@@ -59,35 +61,35 @@ export default defineComponent({
   emits: ["click-left", "click-right"],
 
   computed: {
-    minDate() {
+    minDate(): Date {
       return new Date(this.year, this.month, 1);
     },
-    maxDate() {
+    maxDate(): Date {
       return new Date(this.year, this.month + 1, 0);
     },
   },
 
   methods: {
-    isHoliday(date: Date) {
+    isHoliday(date: Date): boolean {
       return (
         this.monthlyLeave.find((value: any) => value.date == date) !== undefined
       );
     },
-    cantradeHoliday(date: Date): any {
+    cantradeHoliday(date: Date): StringNull {
       const arr: any = this.monthlyLeave.find(
         (value: any): any => value.date == date
       );
       if (arr !== undefined) {
         return arr.cantrade;
-      } else return null;
+      } else return undefined;
     },
-    desHoliday(date: Date): any {
+    desHoliday(date: Date): StringNull {
       const arr: any = this.monthlyLeave.find(
         (value: any) => value.date == date
       );
       if (arr !== undefined) {
         return arr.description;
-      } else return null;
+      } else return undefined;
     },
     handleLeftClick(data: Date): void {
       this.$emit("click-left", data);

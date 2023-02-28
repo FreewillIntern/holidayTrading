@@ -3,7 +3,7 @@
         <i-button color="danger" link size="sm" @click="removeHandler">Remove</i-button>
     </td>
 </template>
-<script>
+<script lang="ts">
 import { Button } from '@progress/kendo-vue-buttons';
 export default {
     components: {

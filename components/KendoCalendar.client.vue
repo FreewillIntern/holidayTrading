@@ -48,29 +48,29 @@
       }"
     >
       <!-- Calendar 12 month -->
-      <CalendarSingleCalendar
-        v-for="month in months"
+      <CalendarSingleMonth
+        v-for="(month, index) in months"
         :monthlyLeave="monthlyLeave[month]"
-        :month="month"
+        :month="index"
         :year="year"
         :key="month"
         @click-left="clickShowCellDate"
         @click-right="clickEventCellDate"
-      ></CalendarSingleCalendar>
+      ></CalendarSingleMonth>
 
       <!-- Dialog Information -->
-      <DialogDateInformation
+      <DialogInformationDate
         v-if="informationDialogVisible"
         :dialogVisible="informationDialogVisible"
-        :dataDateSelected="dataDateSelected"
+        :dataDateSelected="dataSentInfoDialog"
         @state-information-dialog="updateInformationDialogState"
       />
 
       <!-- Dialog Event -->
-      <DialogEventHoliday
+      <DialogEventDate
         v-if="eventDialogVisible"
         :dialogVisible="eventDialogVisible"
-        :dataDateSelected="dataDateSelected"
+        :dataDateSelected="dataSentEventDialog"
         @state-event-dialog="updateEventDialogState"
       />
     </div>
@@ -82,19 +82,27 @@ import { defineComponent } from "vue";
 import { useMainStore } from "../stores/data";
 import { useWindowSize } from "@vueuse/core";
 
+interface DataEventDate {
+  date: Date;
+  isHoliday: boolean;
+  cantrade?: string;
+  description?: string;
+  mktcode?: string;
+}
+interface DataShowDate extends DataEventDate {
+  isWeekend: boolean;
+}
 interface DateInformation {
   date: number;
   cantrade: string;
   description: string;
 }
-
-interface DataHoliday {
+interface DataHolidayFromAPI {
   mktcode: string;
   cantrade: string;
   description: string;
   holidaydate: string;
 }
-
 interface ObjectHolidays {
   [key: string]: DateInformation[];
 }
@@ -122,14 +130,15 @@ export default defineComponent({
         "December",
       ],
       window: useWindowSize(),
-      dataDateSelected: {},
+      dataSentInfoDialog: {} as DataShowDate,
+      dataSentEventDialog: {} as DataEventDate,
       eventDialogVisible: false,
       informationDialogVisible: false,
     };
   },
 
   computed: {
-    columns() {
+    columns(): number {
       let widthWindow = this.window.width * 0.63;
       let widthCalendar = 300;
       let cols =
@@ -153,9 +162,7 @@ export default defineComponent({
         November: [],
         December: [],
       };
-
-      const dataHolidays: DataHoliday[] = this.store.getDataHolidays;
-
+      const dataHolidays: DataHolidayFromAPI[] = this.store.getDataHolidays;
       if (dataHolidays.length > 0) {
         dataHolidays.forEach((element) => {
           let splitDate: string[] = element.holidaydate.split("/");
@@ -166,7 +173,6 @@ export default defineComponent({
             cantrade: element.cantrade,
             description: element.description,
           };
-          console.log("dateInformation", dateInformation);
           objectHolidays[this.months[splitDateNum[1] - 1]].push(
             dateInformation
           );
@@ -174,7 +180,7 @@ export default defineComponent({
       }
       return objectHolidays;
     },
-    year() {
+    year(): number {
       if (this.store.year === "") {
         return new Date().getFullYear();
       } else {
@@ -184,38 +190,27 @@ export default defineComponent({
   },
 
   methods: {
-    clickEventCellDate(data: object) {
-      console.log("clickEventCellDate: ", data);
-      this.dataDateSelected = data;
-      this.dataDateSelected.mktcode = this.store.getMarketCode;
+    clickEventCellDate(data: DataEventDate): void {
+      let dataFromCell: DataEventDate = data;
+      dataFromCell.mktcode = this.store.getMarketCode;
+      this.dataSentEventDialog = dataFromCell;
       this.eventDialogVisible = true;
     },
-    clickShowCellDate(data: object) {
-      console.log("clickShowCellDate: ", data);
-      this.dataDateSelected = data;
+    clickShowCellDate(data: DataShowDate): void {
+      gtag("event", "dialog_date", {
+        show_date: data.date,
+      });
+      this.dataSentInfoDialog = data;
       this.informationDialogVisible = true;
     },
-    updateInformationDialogState() {
+    updateInformationDialogState(): void {
       this.informationDialogVisible = false;
-      this.dataDateSelected = {};
+      this.dataSentInfoDialog = {} as DataShowDate;
     },
-    updateEventDialogState() {
+    updateEventDialogState(): void {
       this.eventDialogVisible = false;
-      this.dataDateSelected = {};
+      this.dataSentEventDialog = {} as DataEventDate;
     },
-    // sayHiFucntion() {
-    //   function sayHi(): string;
-    //   function sayHi(name: string): string;
-    //   function sayHi(name?: unknown): unknown {
-    //     if (!name) {
-    //       return "hi";
-    //     }
-    //     if (typeof name == "string") {
-    //       return "hi" + name;
-    //     }
-    //     throw new Error("Error type name");
-    //   }
-    // },
   },
 });
 </script>

@@ -11,7 +11,7 @@
       <template #header> Add holiday date </template>
       <template #default>
         <p class="pb-5">Date: {{ formatDDMMYY }}</p>
-        <p class="pb-5">Market Code: {{ dataDateSelected.mktcode }}</p>
+        <p class="pb-5">Market Code: {{ marketcode }}</p>
         <p class="pb-5">Market Name: {{ marketName }}</p>
         <el-form :model="enteredDialog">
           <el-form-item label="Description">
@@ -51,7 +51,7 @@
       <template #header> Edit holiday date </template>
       <template #default>
         <p class="pb-5">Date: {{ formatDDMMYY }}</p>
-        <p class="pb-5">Market Code: {{ dataDateSelected.mktcode }}</p>
+        <p class="pb-5">Market Code: {{ marketcode }}</p>
         <p class="pb-5">Market Name: {{ marketName }}</p>
         <el-form :model="enteredDialog">
           <el-form-item label="Description">
@@ -82,9 +82,21 @@
   </div>
 </template>
 
-<script>
-import { useMainStore } from "~~/stores/data";
-export default {
+<script lang="ts">
+import { defineComponent, PropType } from "vue";
+import { useMainStore } from "../../stores/data";
+
+type DateNull = Date | null | undefined;
+type StringNull = string | null | undefined;
+interface DataEventDate {
+  date: Date;
+  isHoliday: boolean;
+  cantrade?: string;
+  description?: string;
+  mktcode?: string;
+}
+
+export default defineComponent({
   setup() {
     const store = useMainStore();
     return { store };
@@ -96,7 +108,7 @@ export default {
       require: true,
     },
     dataDateSelected: {
-      type: Object,
+      type: Object as PropType<DataEventDate>,
       require: true,
     },
   },
@@ -111,46 +123,56 @@ export default {
         T: "Trade only ( No settlement )",
         S: "Settlement only ( No Trading )",
       },
-      date: this.dataDateSelected.date,
+      date: null as DateNull,
+      marketcode: null as StringNull,
       enteredDialog: {
-        description:
-          this.dataDateSelected.description == undefined ||
-          this.dataDateSelected.description == null
-            ? ""
-            : this.dataDateSelected.description,
-        cantrade:
-          this.dataDateSelected.cantrade == undefined ||
-          this.dataDateSelected.cantrade == null
-            ? "N"
-            : this.dataDateSelected.cantrade,
+        description: "",
+        cantrade: "",
       },
     };
   },
 
+  mounted() {
+    this.date = this.dataDateSelected?.date;
+    this.marketcode = this.dataDateSelected?.mktcode;
+    this.enteredDialog.description =
+      this.dataDateSelected?.description === undefined
+        ? ""
+        : this.dataDateSelected?.description;
+    this.enteredDialog.cantrade =
+      this.dataDateSelected?.cantrade === undefined
+        ? "N"
+        : this.dataDateSelected?.cantrade;
+  },
+
   computed: {
-    addCell() {
-      return this.dialogVisible && !this.dataDateSelected.isHoliday;
+    addCell(): boolean {
+      return (
+        this.dialogVisible && !(this.dataDateSelected?.isHoliday as boolean)
+      );
     },
-    editCell() {
-      return this.dialogVisible && this.dataDateSelected.isHoliday;
+    editCell(): boolean {
+      return (
+        this.dialogVisible && (this.dataDateSelected?.isHoliday as boolean)
+      );
     },
-    formatYYMMDD() {
-      let date = this.dataDateSelected.date.getDate();
-      let month = this.dataDateSelected.date.getMonth() + 1;
-      let year = this.dataDateSelected.date.getFullYear();
+    formatYYMMDD(): string {
+      let date = this.dataDateSelected?.date.getDate();
+      let month = (this.dataDateSelected?.date.getMonth() as number) + 1;
+      let year = this.dataDateSelected?.date.getFullYear();
       return `${year}/${("0" + month).slice(-2)}/${("0" + date).slice(-2)}`;
     },
-    formatDDMMYY() {
-      let date = this.dataDateSelected.date.getDate();
-      let month = this.dataDateSelected.date.getMonth() + 1;
-      let year = this.dataDateSelected.date.getFullYear();
+    formatDDMMYY(): string {
+      let date = this.dataDateSelected?.date.getDate();
+      let month = (this.dataDateSelected?.date.getMonth() as number) + 1;
+      let year = this.dataDateSelected?.date.getFullYear();
       return `${("0" + date).slice(-2)}/${("0" + month).slice(-2)}/${year}`;
     },
     marketName() {
       let name = "";
-      this.store.getAllMarket.forEach((d) => {
-        if (d.mktcode === this.dataDateSelected.mktcode) {
-          name = d.mktname;
+      this.store.getAllMarket.forEach((element) => {
+        if (element.mktcode === this.dataDateSelected?.mktcode) {
+          name = element.mktname;
         }
       });
       return name;
@@ -158,18 +180,20 @@ export default {
   },
 
   methods: {
-    closeDialog() {
+    closeDialog(): void {
       this.$emit("stateEventDialog");
     },
-    async fetchaddAPI() {
-      const bodyData = `{"mktcode": "${this.dataDateSelected.mktcode}","holidaydate": "${this.formatDDMMYY}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
+    async fetchaddAPI(): Promise<void> {
+      const bodyData = `{"mktcode": "${this.marketcode}","holidaydate": "${this.formatDDMMYY}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
       let urlGetHolidays = `${this.url}holiday?mkt=${
-        this.dataDateSelected.mktcode
-      }&year=${this.date.getFullYear()}`;
+        this.marketcode
+      }&year=${this.date?.getFullYear()}`;
+
       await useFetch(() => `${this.url}holiday/insert`, {
         method: "POST",
         body: JSON.parse(bodyData),
       });
+
       await fetch(urlGetHolidays)
         .then((response) => response.json())
         .then((result) => this.store.updateHolidays(result.data))
@@ -177,10 +201,13 @@ export default {
           console.log(error);
           this.store.updateHolidays([]);
         });
+
+      gtag("event", "dialog_date", {
+        add_date: bodyData,
+      });
     },
-    async fetchEditAPI() {
-      const bodyData = `{"mktcode": "${this.dataDateSelected.mktcode}","holidaydate": "${this.formatDDMMYY}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
-      // let urlGetHolidays = `${this.url}holiday?mkt=${this.dataDateSelected.mktcode}&year=${this.date.getFullYear()}`;
+    async fetchEditAPI(): Promise<void> {
+      const bodyData = `{"mktcode": "${this.marketcode}","holidaydate": "${this.formatDDMMYY}","description": "${this.enteredDialog.description}","cantrade": "${this.enteredDialog.cantrade}"}`;
 
       await useFetch(() => `${this.url}holiday/edit`, {
         method: "POST",
@@ -189,8 +216,8 @@ export default {
 
       await fetch(
         `${this.url}holiday?mkt=${
-          this.dataDateSelected.mktcode
-        }&year=${this.date.getFullYear()}`
+          this.marketcode
+        }&year=${this.date?.getFullYear()}`
       )
         .then((response) => response.json())
         .then((result) => this.store.updateHolidays(result.data))
@@ -198,8 +225,12 @@ export default {
           console.log(error);
           this.store.updateHolidays([]);
         });
+
+      gtag("event", "dialog_date", {
+        edit_date: bodyData,
+      });
     },
-    async addHoliday() {
+    async addHoliday(): Promise<void> {
       if (this.enteredDialog.cantrade === undefined) {
         alert("Plase select holiday type");
       } else {
@@ -213,7 +244,7 @@ export default {
         this.closeDialog();
       }
     },
-    async editHoliday() {
+    async editHoliday(): Promise<void> {
       if (
         this.enteredDialog.description === undefined ||
         this.enteredDialog.description === null
@@ -224,5 +255,5 @@ export default {
       this.closeDialog();
     },
   },
-};
+});
 </script>
