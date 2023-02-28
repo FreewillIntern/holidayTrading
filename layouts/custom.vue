@@ -1,5 +1,6 @@
 <template>
-   <div class="flex flex-col justify-center items-center w-full h-screen">
+   <div class="flex flex-col justify-center items-center w-full h-screen bg-cover bg-[rgba(60,60,60,1)]">
+    <div class="w-screen h-screen flex flex-col justify-center items-center">
         <!--HEADER START-->
         <div class="flex w-[90%] h-[10%]">
             <!--SEARCH START-->
@@ -31,5 +32,7 @@
             <!--HOLIDAYS LIST END-->
         </div>
         <!--BODY END-->
+    </div>
+        
   </div>
 </template>

@@ -1,31 +1,44 @@
 <template>
-    <div class="shadow-[inset_0_0_10px_rgba(0,0,0,0.3)] bg-slate-50 rounded-lg flex flex-col items-center h-[100%]">
-        <div class="flex justify-center items-center h-[100%]">
-            <h1>{{ timeThree }} | {{ timeOne }}</h1>
+    <div class="w-full h-full">
+        <div v-show="!loading" class="w-full h-full bg-[rgba(32,32,32,0.95)] shadow-[_3px_3px_15px_rgba(0,0,0,0.8)] rounded-xl flex justify-center items-center">
+            <h1>Loading ...</h1>
+        </div>
+        <div
+            v-show="loading" class="w-full h-full bg-[rgba(32,32,32,0.95)] shadow-[_3px_3px_15px_rgba(0,0,0,0.8)] rounded-xl flex flex-col items-center text-white">
+            <div class="flex flex-col justify-center items-center h-[100%]">
+                <p>{{ timeThree }} | {{ timeOne }}</p>
+                <!-- <p> {{ store.marketCode }} | {{ store.marketName }} </p> -->
+            </div>
         </div>
     </div>
 </template> 
 
-<script>
+<script lang="ts">
 import moment from "moment"
+import { useMainStore } from "../stores/data";
+import { defineComponent } from "vue";
 
-export default {
-    data(){
-        return {
-            timeOne: moment().format('LTS'),
-            timeTwo: moment().format('l'),
-            timeThree: moment().format('MMMM Do YY'),
-            timeFour: moment().format('LT'), 
-        }
-        
+export default defineComponent({
+    setup() {
+        const store = useMainStore();
+        return { store };
     },
-    mounted: function() {
-        setInterval(()=>{
+    data() {
+        return {
+            timeOne: '',
+            timeTwo: moment().format('l'),
+            timeThree: '',
+            timeFour: moment().format('LT'),
+            loading: false,
+        }
+
+    },
+    mounted: function () {
+        setInterval(() => {
             this.timeOne = moment().format('LTS')
-            this.timeThree = moment().format('MMMM Do YY')
-        },1000)
+            this.timeThree = moment().format('D MMMM YYYY')
+            this.loading = true;
+        }, 0)
     }
-}
+})
 </script>
-
-
