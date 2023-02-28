@@ -21,7 +21,7 @@
       </div>
       <div class="cantrade-des-body">
         <p class="equal-symbol">=</p>
-        <p>Trade only ( No settlement )</p>
+        <p>Trade only (No settlement)</p>
       </div>
     </div>
     <div class="cantrade-des ct-s flex justify-center items-center">
@@ -32,7 +32,7 @@
       </div>
       <div class="cantrade-des-body">
         <p class="equal-symbol">=</p>
-        <p>Settlement only ( No Trading )</p>
+        <p>Settlement only (No Trading)</p>
       </div>
     </div>
   </div>
@@ -48,40 +48,66 @@
       }"
     >
       <!-- Calendar 12 month -->
-      <CalendarSingleCalendar
-        v-for="month in months"
+      <CalendarSingleMonth
+        v-for="(month, index) in months"
         :monthlyLeave="monthlyLeave[month]"
-        :month="month"
+        :month="index"
         :year="year"
         :key="month"
-        @click-left="clickShowCell"
-        @click-right="clickEventCell"
-      ></CalendarSingleCalendar>
+        @click-left="clickShowCellDate"
+        @click-right="clickEventCellDate"
+      ></CalendarSingleMonth>
 
       <!-- Dialog Information -->
-      <DialogDateInformation
+      <DialogInformationDate
         v-if="informationDialogVisible"
         :dialogVisible="informationDialogVisible"
-        :dataDateSelected="dataDateSelected"
+        :dataDateSelected="dataSentInfoDialog"
         @state-information-dialog="updateInformationDialogState"
       />
 
       <!-- Dialog Event -->
-      <DialogEventHoliday
+      <DialogEventDate
         v-if="eventDialogVisible"
         :dialogVisible="eventDialogVisible"
-        :dataDateSelected="dataDateSelected"
+        :dataDateSelected="dataSentEventDialog"
         @state-event-dialog="updateEventDialogState"
       />
     </div>
   </div>
 </template>
 
-<script>
-import { useMainStore } from "~~/stores/data";
+<script lang="ts">
+import { defineComponent } from "vue";
+import { useMainStore } from "../stores/data";
 import { useWindowSize } from "@vueuse/core";
 
-export default {
+interface DataEventDate {
+  date: Date;
+  isHoliday: boolean;
+  cantrade?: string;
+  description?: string;
+  mktcode?: string;
+}
+interface DataShowDate extends DataEventDate {
+  isWeekend: boolean;
+}
+interface DateInformation {
+  date: number;
+  cantrade: string;
+  description: string;
+}
+interface DataHolidayFromAPI {
+  mktcode: string;
+  cantrade: string;
+  description: string;
+  holidaydate: string;
+}
+interface ObjectHolidays {
+  [key: string]: DateInformation[];
+}
+
+export default defineComponent({
   setup() {
     const store = useMainStore();
     return { store };
@@ -89,16 +115,30 @@ export default {
 
   data() {
     return {
-      months: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      months: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ],
       window: useWindowSize(),
-      dataDateSelected: {},
+      dataSentInfoDialog: {} as DataShowDate,
+      dataSentEventDialog: {} as DataEventDate,
       eventDialogVisible: false,
       informationDialogVisible: false,
     };
   },
 
   computed: {
-    columns() {
+    columns(): number {
       let widthWindow = this.window.width * 0.63;
       let widthCalendar = 300;
       let cols =
@@ -107,35 +147,40 @@ export default {
           : Math.floor(widthWindow / widthCalendar);
       return cols;
     },
-    monthlyLeave() {
-      const obJectHolidays = {
-        0: [],
-        1: [],
-        2: [],
-        3: [],
-        4: [],
-        5: [],
-        6: [],
-        7: [],
-        8: [],
-        9: [],
-        10: [],
-        11: [],
+    monthlyLeave(): ObjectHolidays {
+      const objectHolidays: ObjectHolidays = {
+        January: [],
+        February: [],
+        March: [],
+        April: [],
+        May: [],
+        June: [],
+        July: [],
+        August: [],
+        September: [],
+        October: [],
+        November: [],
+        December: [],
       };
-      if (this.store.getDataHolidays.length > 0) {
-        for (const data of this.store.getDataHolidays) {
-          const splitDate = data.holidaydate.split("/");
-          obJectHolidays[Number(splitDate[1]) - 1].push({
-            id: data.id,
+      const dataHolidays: DataHolidayFromAPI[] = this.store.getDataHolidays;
+      if (dataHolidays.length > 0) {
+        dataHolidays.forEach((element) => {
+          let splitDate: string[] = element.holidaydate.split("/");
+          let splitDateNum: number[] = [];
+          splitDate.forEach((n: string) => splitDateNum.push(+n));
+          let dateInformation = {
             date: Number(splitDate[0]),
-            cantrade: data.cantrade,
-            description: data.description,
-          });
-        }
+            cantrade: element.cantrade,
+            description: element.description,
+          };
+          objectHolidays[this.months[splitDateNum[1] - 1]].push(
+            dateInformation
+          );
+        });
       }
-      return obJectHolidays;
+      return objectHolidays;
     },
-    year() {
+    year(): number {
       if (this.store.year === "") {
         return new Date().getFullYear();
       } else {
@@ -145,25 +190,29 @@ export default {
   },
 
   methods: {
-    clickEventCell(data) {
-      this.dataDateSelected = data;
-      this.dataDateSelected.mktcode = this.store.getMarketCode;
+    clickEventCellDate(data: DataEventDate): void {
+      let dataFromCell: DataEventDate = data;
+      dataFromCell.mktcode = this.store.getMarketCode;
+      this.dataSentEventDialog = dataFromCell;
       this.eventDialogVisible = true;
     },
-    clickShowCell(data) {
-      this.dataDateSelected = data;
+    clickShowCellDate(data: DataShowDate): void {
+      gtag("event", "dialog_date", {
+        show_date: data.date,
+      });
+      this.dataSentInfoDialog = data;
       this.informationDialogVisible = true;
     },
-    updateInformationDialogState() {
+    updateInformationDialogState(): void {
       this.informationDialogVisible = false;
-      this.dataDateSelected = {};
+      this.dataSentInfoDialog = {} as DataShowDate;
     },
-    updateEventDialogState() {
+    updateEventDialogState(): void {
       this.eventDialogVisible = false;
-      this.dataDateSelected = {};
+      this.dataSentEventDialog = {} as DataEventDate;
     },
   },
-};
+});
 </script>
 
 <style>

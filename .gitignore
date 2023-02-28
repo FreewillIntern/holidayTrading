@@ -11,3 +11,4 @@ package-lock.json
 sonar-project.properties
 Dockerfile
 .dockerignore
+settings.json
