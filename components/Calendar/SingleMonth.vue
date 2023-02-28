@@ -5,7 +5,7 @@
     :header-title="'CustomHeaderTitle'"
     :min="minDate"
     :max="maxDate"
-    :views="month"
+    :views="1"
   >
     <template v-slot:CustomHeaderTitle="{ props }">
       <p class="title-calendar">
